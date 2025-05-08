@@ -13,12 +13,12 @@ export default function TabLayout() {
         },
         tabBarActiveTintColor: "#000000",
         tabBarStyle: {
-          backgroundColor: '#DFF7E2',
+          backgroundColor: '#ffffff',
           height: 80,
           position: "absolute",
           bottom: 0,
-          borderTopLeftRadius: 50,
-          borderTopRightRadius: 50,
+          borderTopLeftRadius: 30,
+          borderTopRightRadius: 30,
         },
       }}
     >
