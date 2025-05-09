@@ -1,15 +1,12 @@
 import { Stack } from "expo-router";
-import { StatusBar, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { View } from "react-native";
 import "./global.css";
 
 export default function RootLayout() {
   return (
     <View className="flex-1">
-      <StatusBar
-        translucent
-        backgroundColor="transparent"
-        barStyle="light-content"
-      />
+      <StatusBar backgroundColor="black" />
       <Stack>
         <Stack.Screen
           name="(tabs)"
