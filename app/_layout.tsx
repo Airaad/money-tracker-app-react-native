@@ -1,11 +1,11 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { View } from "react-native";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import "./global.css";
 
 export default function RootLayout() {
   return (
-    <View className="flex-1">
+    <GestureHandlerRootView className="flex-1">
       <StatusBar backgroundColor="black" />
       <Stack>
         <Stack.Screen
@@ -14,7 +14,14 @@ export default function RootLayout() {
             headerShown: false,
           }}
         />
+        
+        <Stack.Screen
+          name="(create)"
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack>
-    </View>
+    </GestureHandlerRootView>
   );
 }

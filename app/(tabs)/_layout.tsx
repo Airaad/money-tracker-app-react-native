@@ -2,10 +2,11 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Octicons from "@expo/vector-icons/Octicons";
-import { Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
 import { Pressable, View } from "react-native";
 
 export default function TabLayout() {
+  const router = useRouter()
   return (
     <View className="flex-1">
       <Tabs
@@ -77,7 +78,9 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-      <Pressable className="bg-black absolute bottom-24 right-6 h-14 w-14 justify-center items-center border-2 border-black rounded-full">
+      <Pressable
+      onPress={()=>router.push('/add')} 
+      className="bg-black absolute bottom-24 right-6 h-14 w-14 justify-center items-center border-2 border-black rounded-full">
         <FontAwesome6 name="plus" size={30} color="#3299FF" />
       </Pressable>
     </View>

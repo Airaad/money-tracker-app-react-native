@@ -1,13 +1,13 @@
 import Header from "@/components/Header";
-import SliderMenu from "@/components/SliderMenu";
+import SliderList from "@/components/SliderList";
 import { ScrollView } from "react-native";
 
-export default function Index() {
+export default function Home() {
   return (
     <>
-      <ScrollView className="flex-1 py-20 bg-black">
+      <ScrollView className="flex-1 pt-20 bg-black">
         <Header />
-        <SliderMenu />
+        <SliderList />
       </ScrollView>
     </>
   );

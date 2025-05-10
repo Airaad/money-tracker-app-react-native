@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-const analysis = () => {
+const Analysis = () => {
   return (
     <View>
       <Text>analysis</Text>
@@ -9,4 +9,4 @@ const analysis = () => {
   )
 }
 
-export default analysis
+export default Analysis

@@ -3,7 +3,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import React from "react";
 import { Text, View } from "react-native";
 
-const SliderMenu = () => {
+const SliderList = () => {
   return (
     <View className="bg-white flex-1 mt-32 rounded-t-[2.5rem]">
       <View className="flex-row p-6 my-10 mx-5 rounded-full justify-around bg-gray-200">
@@ -38,4 +38,4 @@ const SliderMenu = () => {
   );
 };
 
-export default SliderMenu;
+export default SliderList;
