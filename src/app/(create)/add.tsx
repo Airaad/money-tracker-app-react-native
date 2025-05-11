@@ -1,9 +1,9 @@
-import AddExpenseForm from '@/components/AddExpenseForm'
-import AddExpenseHeader from '@/components/AddExpenseHeader'
+import AddExpenseForm from '@/src/components/AddExpenseForm'
+import AddExpenseHeader from '@/src/components/AddExpenseHeader'
 import React from 'react'
 import { View } from 'react-native'
 
-const AddItem = () => {
+const Page = () => {
   return (
     <View className='flex-1 pt-20 bg-black'>
       <AddExpenseHeader />
@@ -12,4 +12,4 @@ const AddItem = () => {
   )
 }
 
-export default AddItem
+export default Page

@@ -1,5 +1,5 @@
-import Header from "@/components/Header";
-import SliderList from "@/components/SliderList";
+import Header from "@/src/components/Header";
+import SliderList from "@/src/components/SliderList";
 import { ScrollView } from "react-native";
 
 export default function Home() {

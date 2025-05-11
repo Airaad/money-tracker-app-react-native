@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-const Analysis = () => {
+const Page = () => {
   return (
     <View>
       <Text>analysis</Text>
@@ -9,4 +9,4 @@ const Analysis = () => {
   )
 }
 
-export default Analysis
+export default Page

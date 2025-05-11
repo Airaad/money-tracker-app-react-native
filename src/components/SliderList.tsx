@@ -1,4 +1,4 @@
-import dailyExpenses from "@/data/constants";
+import dailyExpenses from "@/src/data/constants";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import React from "react";
 import { Text, View } from "react-native";

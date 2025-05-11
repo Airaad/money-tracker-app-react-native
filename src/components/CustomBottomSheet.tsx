@@ -2,7 +2,8 @@ import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/botto
 import React, { useCallback, useMemo, useRef } from "react";
 import { Button, Text, View } from "react-native";
 
-const AddExpenseForm = () => {
+
+const CustomBottomSheet = () => {
   const snapPoints = useMemo(()=>['75%'],[])
   const bottomSheetRef = useRef<BottomSheet>(null);
   const handleClose = () => bottomSheetRef.current?.close()
@@ -35,6 +36,6 @@ const AddExpenseForm = () => {
     </BottomSheet>
     </View>
   );
-};
+}
 
-export default AddExpenseForm;
+export default CustomBottomSheet
