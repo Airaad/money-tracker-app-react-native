@@ -1,29 +1,37 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Alert, Button, View } from "react-native";
-import * as yup from "yup";
+import { z } from "zod";
 import CustomInputController from "./CustomInputController";
 
-const formSchema = yup.object({
-  description: yup.string().max(50),
-  amount: yup.string().required("Amount is required").max(10),
+const formSchema = z.object({
+  description: z.string().max(50),
+  amount: z.string()
+    .min(1, "Amount is required")
+    .max(10, "Amount must contain at most 10 digits"),
 });
+
+type FormData = z.infer<typeof formSchema>;
 
 const AddExpenseForm = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(formSchema),
+    resetField,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
   });
 
   // console.log(JSON.stringify(errors,null,1));
  
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     Alert.alert(JSON.stringify(data));
     console.log(JSON.stringify(data));
+    resetField("amount")
+    resetField("description")
   };
   return (
     <View className="bg-white flex-1 mt-32 rounded-t-[2.5rem]">
@@ -44,11 +52,11 @@ const AddExpenseForm = () => {
           errors={errors}
           props={{
             keyboardType: "number-pad",
-            maxLength: 10
+            maxLength:10
           }}
         />
       </View>
-      <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+      <Button disabled={isSubmitting} title={isSubmitting ? "Submitting" : "Submit"} onPress={handleSubmit(onSubmit)} />
     </View>
   );
 };

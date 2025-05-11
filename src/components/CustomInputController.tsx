@@ -1,24 +1,24 @@
 import React from "react";
-import { Control, Controller, FieldErrors, FieldValues } from "react-hook-form";
+import { Control, Controller, FieldErrors, FieldValues, Path } from "react-hook-form";
 import { Text, TextInput, TextInputProps, View } from "react-native";
 
-interface CustomInputControllerProps {
+interface CustomInputControllerProps<T extends FieldValues> {
   label: string;
   placeholder: string;
-  name: string;
-  control: Control<FieldValues>;
-  errors?: FieldErrors<FieldValues>;
+  name: Path<T>;
+  control: Control<T>;
+  errors?: FieldErrors<T>;
   props?: TextInputProps;
 }
 
-const CustomInputController = ({
+const CustomInputController = <T extends FieldValues> ({
   label,
   placeholder,
   name,
   control,
   errors,
   props
-}: CustomInputControllerProps) => {
+}: CustomInputControllerProps<T>) => {
   return (
     <View className="w-[78%] relative">
       <Text className="absolute top-2 left-3 font-semibold text-lg text-white z-10">
@@ -40,7 +40,7 @@ const CustomInputController = ({
         )}
         name={name}
       />
-      {errors && errors[name] && <Text className="text-red-500">{errors[name]?.message}</Text>}
+      {errors && errors[name] && <Text className="text-red-500">{errors[name]?.message as string}</Text>}
     </View>
   );
 };
