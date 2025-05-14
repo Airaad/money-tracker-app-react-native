@@ -4,12 +4,15 @@ import { useForm } from "react-hook-form";
 import { Alert, Button, View } from "react-native";
 import { z } from "zod";
 import CustomInputController from "./CustomInputController";
+import CustomPickerSelect from "./CustomPickerSelect";
 
 const formSchema = z.object({
   description: z.string().max(50),
-  amount: z.string()
+  amount: z
+    .string()
     .min(1, "Amount is required")
     .max(10, "Amount must contain at most 10 digits"),
+  category: z.string(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -25,24 +28,32 @@ const AddExpenseForm = () => {
   });
 
   // console.log(JSON.stringify(errors,null,1));
- 
+
   const onSubmit = async (data: any) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
     Alert.alert(JSON.stringify(data));
     console.log(JSON.stringify(data));
-    resetField("amount")
-    resetField("description")
+    resetField("amount");
+    resetField("description");
+    resetField("category");
   };
   return (
     <View className="bg-white flex-1 mt-32 rounded-t-[2.5rem]">
       <View className="flex-1 justify-center items-center">
+        <CustomPickerSelect
+          labelText="Select a Category"
+          placeholder="Ex. Shopping"
+          control={control}
+          errors={errors}
+          name="category"
+        />
         <CustomInputController
           label="Description"
           placeholder="Ex. Weekly groceries"
           name="description"
           control={control}
           errors={errors}
-          props={{maxLength:50}}
+          props={{ maxLength: 50 }}
         />
         <CustomInputController
           label="Amount"
@@ -52,11 +63,15 @@ const AddExpenseForm = () => {
           errors={errors}
           props={{
             keyboardType: "number-pad",
-            maxLength:10
+            maxLength: 10,
           }}
         />
       </View>
-      <Button disabled={isSubmitting} title={isSubmitting ? "Submitting" : "Submit"} onPress={handleSubmit(onSubmit)} />
+      <Button
+        disabled={isSubmitting}
+        title={isSubmitting ? "Submitting" : "Submit"}
+        onPress={handleSubmit(onSubmit)}
+      />
     </View>
   );
 };

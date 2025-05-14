@@ -2,6 +2,9 @@ import React from "react";
 import { Control, Controller, FieldErrors, FieldValues, Path } from "react-hook-form";
 import { Text, TextInput, TextInputProps, View } from "react-native";
 
+// <T extends FieldValues> means T must be an object where keys are strings (like a form field), but it can also have its own specific structure.
+// Without extends FieldValues, T could be anything (number, string, etc.), but forms must be objects.
+// We can define your own form shape, but TypeScript ensures it’s still a valid form object.
 interface CustomInputControllerProps<T extends FieldValues> {
   label: string;
   placeholder: string;
