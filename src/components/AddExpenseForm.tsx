@@ -1,10 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Alert, Button, View } from "react-native";
+import { Alert, Pressable, Text, View } from "react-native";
 import { z } from "zod";
 import CustomInputController from "./CustomInputController";
 import CustomPickerSelect from "./CustomPickerSelect";
+
+interface ExpenseProps {
+  isExpense: boolean;
+  updateExpense: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const formSchema = z.object({
   description: z.string().max(50),
@@ -17,7 +23,8 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const AddExpenseForm = () => {
+const AddExpenseForm = ({ isExpense, updateExpense }: ExpenseProps) => {
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -38,18 +45,21 @@ const AddExpenseForm = () => {
     resetField("category");
   };
   return (
-    <View className="bg-white flex-1 mt-32 rounded-t-[2.5rem]">
-      <View className="flex-1 justify-center items-center">
+    <View className="bg-white flex-1 mt-14 rounded-t-[2.5rem]">
+      <View className="flex-1 mt-10 items-center">
         <CustomPickerSelect
+          isExpense={isExpense}
           labelText="Select a Category"
-          placeholder="Ex. Shopping"
+          placeholder={isExpense ? "Ex. Shopping" : "Ex. Card"}
           control={control}
           errors={errors}
           name="category"
         />
         <CustomInputController
           label="Description"
-          placeholder="Ex. Weekly groceries"
+          placeholder={
+            isExpense ? "Ex. Weekly groceries" : "Ex. Monthly Salary"
+          }
           name="description"
           control={control}
           errors={errors}
@@ -57,7 +67,7 @@ const AddExpenseForm = () => {
         />
         <CustomInputController
           label="Amount"
-          placeholder="Ex. $78"
+          placeholder="Ex. $789"
           name="amount"
           control={control}
           errors={errors}
@@ -66,12 +76,29 @@ const AddExpenseForm = () => {
             maxLength: 10,
           }}
         />
+
+        <View className="flex-row gap-8 mt-5">
+          <Pressable
+            disabled={isSubmitting}
+            onPress={() => router.back()}
+            className="bg-blue-600 items-center w-[150px] py-3 rounded-full"
+          >
+            <Text className="text-white text-xl font-semibold tracking-widest">
+              Cancel
+            </Text>
+          </Pressable>
+
+          <Pressable
+            disabled={isSubmitting}
+            onPress={handleSubmit(onSubmit)}
+            className="bg-blue-600 items-center w-[150px] py-3 rounded-full"
+          >
+            <Text className="text-white text-xl font-semibold tracking-widest">
+              {isSubmitting ? "Saving..." : "Save"}
+            </Text>
+          </Pressable>
+        </View>
       </View>
-      <Button
-        disabled={isSubmitting}
-        title={isSubmitting ? "Submitting" : "Submit"}
-        onPress={handleSubmit(onSubmit)}
-      />
     </View>
   );
 };

@@ -1,15 +1,16 @@
-import AddExpenseForm from '@/src/components/AddExpenseForm'
-import AddExpenseHeader from '@/src/components/AddExpenseHeader'
-import React from 'react'
-import { View } from 'react-native'
+import AddExpenseForm from "@/src/components/AddExpenseForm";
+import AddExpenseHeader from "@/src/components/AddExpenseHeader";
+import React, { useState } from "react";
+import { View } from "react-native";
 
 const Page = () => {
+  const [isExpense, setIsExpense] = useState<boolean>(true);
   return (
-    <View className='flex-1 pt-20 bg-black'>
-      <AddExpenseHeader />
-      <AddExpenseForm />
+    <View className="flex-1 pt-20 bg-black">
+      <AddExpenseHeader isExpense={isExpense} updateExpense={setIsExpense} />
+      <AddExpenseForm isExpense={isExpense} updateExpense={setIsExpense} />
     </View>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
