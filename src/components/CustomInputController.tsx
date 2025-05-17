@@ -34,12 +34,12 @@ const CustomInputController = <T extends FieldValues>({
         <Text className="absolute top-2 left-3 font-semibold text-lg text-blue-400 z-10">
           {label}
         </Text>
-        <View className="w-[95%] h-[2px] bg-gray-500 absolute bottom-8 left-2 z-10" />
+        <View className="w-[95%] h-[2px] bg-gray-500 absolute bottom-7 left-2 z-10" />
         <Controller
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              className="text-lg text-white h-[105px] rounded-2xl pt-7 mb-2 pl-3 bg-black shadow-md elevation-lg"
+              className="text-lg text-white h-[90px] rounded-2xl pt-7 mb-2 pl-3 bg-black shadow-md elevation-lg"
               placeholder={placeholder}
               placeholderTextColor="gray"
               onBlur={onBlur}

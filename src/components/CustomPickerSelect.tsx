@@ -42,7 +42,7 @@ const CustomPickerSelect = <T extends FieldValues>({
           {labelText}
         </Text>
         <View
-          className="w-[95%] h-[2px] bg-gray-500 absolute bottom-8 left-2"
+          className="w-[95%] h-[2px] bg-gray-500 absolute bottom-7 left-2"
           style={{ zIndex: 1001 }}
         />
         <Controller
@@ -52,10 +52,10 @@ const CustomPickerSelect = <T extends FieldValues>({
               style={{
                 backgroundColor: "black",
                 zIndex: 1000,
-                height: 105,
+                height: 90,
                 borderRadius: 16,
                 paddingTop: 28,
-                marginBottom: 9,
+                marginBottom: 10,
                 paddingLeft: 10,
               }}
               containerStyle={{ zIndex: 999 }}

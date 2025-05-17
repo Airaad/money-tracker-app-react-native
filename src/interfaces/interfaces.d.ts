@@ -1,8 +1,15 @@
+interface ExpenseItem {
+  id: number;
+  category: string;
+  icon: string;
+  amount: string;
+  description: string;
+}
+
 interface Items {
   id: number;
-  name: string;
-  amount: string;
-  icon: string;
+  createdDate: string;
+  item: ExpenseItem[]
 }
 
 interface CategoryItems {

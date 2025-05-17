@@ -13,12 +13,12 @@ interface ExpenseProps {
 }
 
 const formSchema = z.object({
-  description: z.string().max(50),
+  description: z.string().max(50).optional(),
   amount: z
-    .string()
+    .string({required_error: "Please enter some amount"})
     .min(1, "Amount is required")
     .max(10, "Amount must contain at most 10 digits"),
-  category: z.string(),
+  category: z.string({required_error: "Please select the category"}),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -45,7 +45,7 @@ const AddExpenseForm = ({ isExpense, updateExpense }: ExpenseProps) => {
     resetField("category");
   };
   return (
-    <View className="bg-white flex-1 mt-14 rounded-t-[2.5rem]">
+    <View className="bg-white flex-1 mt-14 rounded-t-[1.5rem]">
       <View className="flex-1 mt-10 items-center">
         <CustomPickerSelect
           isExpense={isExpense}
