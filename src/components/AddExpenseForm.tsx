@@ -9,7 +9,7 @@ import CustomPickerSelect from "./CustomPickerSelect";
 
 interface ExpenseProps {
   isExpense: boolean;
-  updateExpense: React.Dispatch<React.SetStateAction<boolean>>;
+  updateExpense?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const formSchema = z.object({
@@ -23,7 +23,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const AddExpenseForm = ({ isExpense, updateExpense }: ExpenseProps) => {
+const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
   const router = useRouter();
   const {
     control,
@@ -40,6 +40,7 @@ const AddExpenseForm = ({ isExpense, updateExpense }: ExpenseProps) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
     Alert.alert(JSON.stringify(data));
     console.log(JSON.stringify(data));
+    console.log(Number(data.amount));
     resetField("amount");
     resetField("description");
     resetField("category");
@@ -67,7 +68,7 @@ const AddExpenseForm = ({ isExpense, updateExpense }: ExpenseProps) => {
         />
         <CustomInputController
           label="Amount"
-          placeholder="Ex. $789"
+          placeholder="Ex. 789"
           name="amount"
           control={control}
           errors={errors}

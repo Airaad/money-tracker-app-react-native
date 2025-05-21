@@ -2,8 +2,11 @@ import dailyExpenses from "@/src/data/constants";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import React from "react";
 import { FlatList, Text, View } from "react-native";
-
+import { useBudget } from "../context/BudgetContext";
 const SliderList = () => {
+  const {items} = useBudget()
+  console.log(items);
+  
   return (
     <View className="bg-white flex-1 mt-12 rounded-t-[1.8rem]">
       <View className="flex-1 mb-[75px]">
