@@ -26,6 +26,11 @@ const SliderList = () => {
   return (
     <View className="bg-white flex-1 mt-12 rounded-t-[1.8rem]">
       <View className="flex-1 mb-[75px]">
+        {groupedArray.length === 0 && (
+          <Text className="text-xl text-gray-500 absolute top-[300px] left-32">
+            Start Tracking Your Money
+          </Text>
+        )}
         <FlatList
           showsVerticalScrollIndicator={false}
           data={groupedArray}
@@ -68,8 +73,8 @@ const SliderList = () => {
                     </View>
                   </View>
                   <View>
-                    <Text className="text-xl text-[#0068FF] font-semibold tracking-wider">
-                      {item.amount}
+                    <Text className={`text-xl ${item.category.type === "expense" ? "text-red-400" : "text-green-400"} font-semibold tracking-wider`}>
+                      {`${item.category.type === "expense" ? "-$"+item.amount : "+$"+item.amount}`}
                     </Text>
                   </View>
                 </View>

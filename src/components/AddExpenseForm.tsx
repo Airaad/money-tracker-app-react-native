@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { Pressable, Text, View } from "react-native";
 import { z } from "zod";
 import { useBudget } from "../context/BudgetContext";
+import CustomDatePicker from "./CustomDatePicker";
 import CustomInputController from "./CustomInputController";
 import CustomPickerSelect from "./CustomPickerSelect";
 
@@ -20,6 +21,7 @@ const formSchema = z.object({
     .min(1, "Amount is required")
     .max(7, "Amount must contain at most 10 digits"),
   category: z.string({ required_error: "Please select the category" }),
+  dateOfCreation: z.string().optional(),
   // icon: z.string(),
 });
 
@@ -51,12 +53,11 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
     // await new Promise((resolve) => setTimeout(resolve, 2000));
     // Alert.alert(JSON.stringify(data));
     // console.log(JSON.stringify(data));
-    // console.log(Number(data.amount));
     const expense = {
       amount: Number(data.amount),
       description: data.description,
       categoryId: 0, //Temporary will be updated in function
-      createdDate: formatted,
+      createdDate: data.dateOfCreation ? data.dateOfCreation : formatted,
     };
     const category = {
       name: data.category,
@@ -67,6 +68,7 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
     resetField("amount");
     resetField("description");
     resetField("category");
+    resetField("dateOfCreation");
   };
   return (
     <View className="bg-white flex-1 mt-14 rounded-t-[1.5rem]">
@@ -99,6 +101,12 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
             keyboardType: "number-pad",
             maxLength: 10,
           }}
+        />
+        <CustomDatePicker
+          labelText="Select a Date"
+          control={control}
+          errors={errors}
+          name="dateOfCreation"
         />
 
         <View className="flex-row gap-8 mt-5">
