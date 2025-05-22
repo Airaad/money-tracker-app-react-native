@@ -26,7 +26,7 @@ const AddExpenseHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
 
         <View className="flex-row items-center mt-14 mx-auto w-[90%]">
           <Pressable
-            onPress={() => updateExpense((prev) => !prev)}
+            onPress={() => updateExpense(true)}
             className={`${
               isExpense ? "bg-blue-500" : "bg-white"
             } px-12 py-1 rounded-l-full`}
@@ -41,7 +41,7 @@ const AddExpenseHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
           </Pressable>
 
           <Pressable
-            onPress={() => updateExpense((prev) => !prev)}
+            onPress={() => updateExpense(false)}
             className={`${
               !isExpense ? "bg-blue-500" : "bg-white"
             } px-12 py-1 rounded-r-full`}
