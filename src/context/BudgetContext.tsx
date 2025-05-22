@@ -1,5 +1,6 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { createContext, useContext, useEffect, useState } from "react";
+import { Alert } from "react-native";
 import { db } from "../db/dbConfig";
 import {
   categories,
@@ -50,6 +51,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         })
         .from(expenses)
         .leftJoin(categories, eq(expenses.categoryId, categories.id))
+        .orderBy(desc(expenses.createdDate))
         .execute();
       setItemsList(result);
     } catch (err) {
@@ -90,6 +92,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         await tx.insert(expenses).values(expense).run();
       });
       await fetchData();
+      Alert.alert("Entry successfully entered");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to insert data");
     } finally {

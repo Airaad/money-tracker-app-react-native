@@ -1,9 +1,9 @@
 const incomeItems: CategoryItems[] = [
-  { label: "Salary", value: "salary" },
-  { label: "Passive", value: "passive" },
-  { label: "Investment", value: "investment" },
-  { label: "Grants", value: "grants" },
-  { label: "Awards & Gifts", value: "awards" },
+  { label: "Salary", value: "Salary" },
+  { label: "Passive", value: "Passive" },
+  { label: "Investment", value: "Investment" },
+  { label: "Grants", value: "Grants" },
+  { label: "Awards & Gifts", value: "Awards" },
 ];
 
 export default incomeItems;
