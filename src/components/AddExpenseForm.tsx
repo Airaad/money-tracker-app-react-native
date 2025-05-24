@@ -61,7 +61,7 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
     // console.log(JSON.stringify(data));
     const expense = {
       amount: Number(data.amount),
-      description: data.description,
+      description: data.description ? data.description : "",
       categoryId: 0, //Temporary will be updated in function
       createdDate: data.dateOfCreation ? data.dateOfCreation : defaultDate,
     };

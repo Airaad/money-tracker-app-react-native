@@ -9,7 +9,7 @@ import {
   expenses,
 } from "../db/schema";
 
-type ItemType = ExpenseItemType & { category: CategoryType };
+export type ItemType = ExpenseItemType & { category: CategoryType };
 
 interface BudgetContextType {
   items: ItemType[];

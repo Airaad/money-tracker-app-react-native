@@ -62,7 +62,6 @@ const CustomDatePicker = <T extends FieldValues>({
                     month: "long",
                     weekday: "long",
                   }).formatToParts(date);
-                  console.log(parts);
 
                   const day = parts.find((p) => p.type === "day")?.value;
                   const month = parts.find((p) => p.type === "month")?.value;

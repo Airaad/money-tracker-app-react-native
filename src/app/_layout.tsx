@@ -20,8 +20,8 @@ export default function RootLayout() {
   //   return <Text>Loading database...</Text>;
   // }
   return (
-    <BudgetProvider>
-      <GestureHandlerRootView className="flex-1">
+    <GestureHandlerRootView className="flex-1">
+      <BudgetProvider>
         <StatusBar />
         <Stack>
           <Stack.Screen
@@ -38,7 +38,7 @@ export default function RootLayout() {
             }}
           />
         </Stack>
-      </GestureHandlerRootView>
-    </BudgetProvider>
+      </BudgetProvider>
+    </GestureHandlerRootView>
   );
 }

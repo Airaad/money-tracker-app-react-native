@@ -21,26 +21,26 @@ const Header = () => {
       <View className="flex-row mt-10 justify-between">
         <View className="flex">
           <View className="flex-row items-center gap-1">
-            <MaterialIcons name="account-balance" size={16} color="white" />
-            <Text className="text-lg text-white tracking-widest font-medium">
+            <MaterialIcons name="account-balance" size={20} color="white" />
+            <Text className="text-xl text-white tracking-widest font-medium">
               Total Balance
             </Text>
           </View>
-          <Text className="text-2xl text-blue-500">$778.30</Text>
+          <Text className="text-2xl text-green-500">$778.30</Text>
         </View>
         <View className="w-[1px] h-10 bg-gray-700" />
         <View>
           <View className="flex-row items-center gap-1">
             <MaterialIcons
               name="account-balance-wallet"
-              size={16}
+              size={20}
               color="white"
             />
-            <Text className="text-lg text-white tracking-widest font-medium">
+            <Text className="text-xl text-white tracking-widest font-medium">
               Total Expense
             </Text>
           </View>
-          <Text className="text-2xl text-blue-500">-$778.30</Text>
+          <Text className="text-2xl text-red-500">-$778.30</Text>
         </View>
       </View>
     </View>

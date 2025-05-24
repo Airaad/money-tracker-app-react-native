@@ -1,9 +1,13 @@
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import React, { useMemo } from "react";
+import BottomSheet from "@gorhom/bottom-sheet";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { FlatList, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
+import CustomBottomSheet from "./CustomBottomSheet";
+import ItemComponent from "./ItemComponent";
+
 const SliderList = () => {
-  const { items } = useBudget();
+  const [bottomSheetItems, setBottomSheetItems] = useState<any>(null);
+  const { items, loading, error } = useBudget();
   const groupedArray = useMemo(() => {
     // Groups the item by their creation date
     const groupedByDate = items.reduce((acc, item) => {
@@ -22,6 +26,13 @@ const SliderList = () => {
     }));
   }, [items]);
   // console.log(JSON.stringify(groupedArray, null, 2));
+
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  // const handleClose = () => bottomSheetRef.current?.close();
+  const handleOpen = useCallback((item: any) => {
+    setBottomSheetItems(item);
+    bottomSheetRef.current?.expand();
+  }, []);
 
   return (
     <View className="bg-white flex-1 mt-12 rounded-t-[1.8rem]">
@@ -51,38 +62,27 @@ const SliderList = () => {
                 <View className="h-[1px] bg-gray-400 w-full" />
               </View>
               {item.data.map((item) => (
-                <View
+                <ItemComponent
                   key={item.id}
-                  className="flex-row justify-between items-center my-2"
-                >
-                  <View className="flex-row gap-4 items-center ">
-                    <View className="w-14 h-14 justify-center rounded-full items-center bg-black">
-                      <FontAwesome5
-                        name={item.category.icon}
-                        size={25}
-                        color="#6DB6FE"
-                      />
-                    </View>
-                    <View>
-                      <Text className="text-xl font-semibold tracking-wider">
-                        {item.category.name}
-                      </Text>
-                      <Text className="font-semibold text-gray-500">
-                        {item.description}
-                      </Text>
-                    </View>
-                  </View>
-                  <View>
-                    <Text className={`text-xl ${item.category.type === "expense" ? "text-red-400" : "text-green-400"} font-semibold tracking-wider`}>
-                      {`${item.category.type === "expense" ? "-$"+item.amount : "+$"+item.amount}`}
-                    </Text>
-                  </View>
-                </View>
+                  category={item.category.type}
+                  icon={item.category.icon}
+                  name={item.category.name}
+                  description={item.description}
+                  amount={item.amount}
+                  handleClick={handleOpen}
+                />
               ))}
             </View>
           )}
         />
       </View>
+      <CustomBottomSheet
+        ref={bottomSheetRef}
+        title={bottomSheetItems?.name}
+        icon={bottomSheetItems?.icon}
+        description={bottomSheetItems?.description}
+        amount={bottomSheetItems?.amount}
+      />
     </View>
   );
 };
