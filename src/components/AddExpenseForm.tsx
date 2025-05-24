@@ -29,11 +29,17 @@ type FormData = z.infer<typeof formSchema>;
 
 const today = new Date();
 
-const formatted = new Intl.DateTimeFormat("en-GB", {
+const parts = new Intl.DateTimeFormat("en-GB", {
   day: "2-digit",
   month: "long",
   weekday: "long",
-}).format(today);
+}).formatToParts(today);
+
+const day = parts.find((p) => p.type === "day")?.value;
+const month = parts.find((p) => p.type === "month")?.value;
+const weekday = parts.find((p) => p.type === "weekday")?.value;
+
+const defaultDate = `${month} ${day}, ${weekday}`;
 
 const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
   const { insertData } = useBudget();
@@ -57,7 +63,7 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
       amount: Number(data.amount),
       description: data.description,
       categoryId: 0, //Temporary will be updated in function
-      createdDate: data.dateOfCreation ? data.dateOfCreation : formatted,
+      createdDate: data.dateOfCreation ? data.dateOfCreation : defaultDate,
     };
     const category = {
       name: data.category,
@@ -107,6 +113,7 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
           control={control}
           errors={errors}
           name="dateOfCreation"
+          defaultDate={defaultDate}
         />
 
         <View className="flex-row gap-8 mt-5">

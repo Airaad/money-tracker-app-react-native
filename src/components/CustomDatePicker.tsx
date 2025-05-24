@@ -11,6 +11,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 interface CustomDatePickerProps<T extends FieldValues> {
   labelText: string;
+  defaultDate: string;
   name: Path<T>;
   control: Control<T>;
   errors?: FieldErrors<T>;
@@ -18,18 +19,13 @@ interface CustomDatePickerProps<T extends FieldValues> {
 
 const CustomDatePicker = <T extends FieldValues>({
   labelText,
+  defaultDate,
   name,
   control,
   errors,
 }: CustomDatePickerProps<T>) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(
-    new Intl.DateTimeFormat("en-GB", {
-      day: "2-digit",
-      month: "long",
-      weekday: "long",
-    }).format(new Date())
-  );
+  const [selectedDate, setSelectedDate] = useState(defaultDate);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -61,11 +57,20 @@ const CustomDatePicker = <T extends FieldValues>({
                 display="default"
                 mode="date"
                 onConfirm={(date: Date) => {
-                  const formatted = new Intl.DateTimeFormat("en-GB", {
+                  const parts = new Intl.DateTimeFormat("en-GB", {
                     day: "2-digit",
                     month: "long",
                     weekday: "long",
-                  }).format(date);
+                  }).formatToParts(date);
+                  console.log(parts);
+
+                  const day = parts.find((p) => p.type === "day")?.value;
+                  const month = parts.find((p) => p.type === "month")?.value;
+                  const weekday = parts.find(
+                    (p) => p.type === "weekday"
+                  )?.value;
+
+                  const formatted = `${month} ${day}, ${weekday}`;
                   onChange(formatted);
                   setSelectedDate(formatted);
                   hideDatePicker();
