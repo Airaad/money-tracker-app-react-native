@@ -1,6 +1,6 @@
 import BottomSheet from "@gorhom/bottom-sheet";
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
 import CustomBottomSheet from "./CustomBottomSheet";
 import ItemComponent from "./ItemComponent";
@@ -37,44 +37,55 @@ const SliderList = () => {
   return (
     <View className="bg-white flex-1 mt-12 rounded-t-[1.8rem]">
       <View className="flex-1 mb-[75px]">
-        {groupedArray.length === 0 && (
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color="#3b82f6"
+            className="absolute top-[250px] left-48"
+          />
+        ) : error ? (
+          <Text className="text-xl text-red-500 absolute top-[300px] left-32">
+            {error}
+          </Text>
+        ) : groupedArray.length === 0 ? (
           <Text className="text-xl text-gray-500 absolute top-[300px] left-32">
             Start Tracking Your Money
           </Text>
-        )}
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={groupedArray}
-          keyExtractor={(item) => item.id.toString()}
-          ListHeaderComponent={
-            <View className="flex-row p-6 my-8 mx-5 rounded-full justify-around bg-gray-200">
-              <Text className="font-medium text-xl">Daily</Text>
-              <Text className="font-medium text-xl">Weekly</Text>
-              <Text className="font-medium text-xl">Monthly</Text>
-            </View>
-          }
-          renderItem={({ item }) => (
-            <View className="px-4 my-3">
-              <View className="mb-4 px-1">
-                <Text className="text-gray-400 font-semibold text-lg w-[150px]">
-                  {item.date}
-                </Text>
-                <View className="h-[1px] bg-gray-400 w-full" />
+        ) : (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={groupedArray}
+            keyExtractor={(item) => item.id.toString()}
+            ListHeaderComponent={
+              <View className="flex-row p-6 my-8 mx-5 rounded-full justify-around bg-gray-200">
+                <Text className="font-medium text-xl">Daily</Text>
+                <Text className="font-medium text-xl">Weekly</Text>
+                <Text className="font-medium text-xl">Monthly</Text>
               </View>
-              {item.data.map((item) => (
-                <ItemComponent
-                  key={item.id}
-                  category={item.category.type}
-                  icon={item.category.icon}
-                  name={item.category.name}
-                  description={item.description}
-                  amount={item.amount}
-                  handleClick={handleOpen}
-                />
-              ))}
-            </View>
-          )}
-        />
+            }
+            renderItem={({ item }) => (
+              <View className="px-4 my-3">
+                <View className="mb-4 px-1">
+                  <Text className="text-gray-400 font-semibold text-lg w-[150px]">
+                    {item.date}
+                  </Text>
+                  <View className="h-[1px] bg-gray-400 w-full" />
+                </View>
+                {item.data.map((item) => (
+                  <ItemComponent
+                    key={item.id}
+                    category={item.category.type}
+                    icon={item.category.icon}
+                    name={item.category.name}
+                    description={item.description}
+                    amount={item.amount}
+                    handleClick={handleOpen}
+                  />
+                ))}
+              </View>
+            )}
+          />
+        )}
       </View>
       <CustomBottomSheet
         ref={bottomSheetRef}

@@ -75,6 +75,7 @@ const CustomDatePicker = <T extends FieldValues>({
                   hideDatePicker();
                 }}
                 onCancel={hideDatePicker}
+                maximumDate={new Date()}
               />
             </>
           )}
