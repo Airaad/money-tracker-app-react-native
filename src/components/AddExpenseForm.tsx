@@ -15,11 +15,11 @@ interface ExpenseProps {
 }
 
 const formSchema = z.object({
-  description: z.string().max(50).optional(),
+  description: z.string().max(25).optional(),
   amount: z
     .string({ required_error: "Please enter some amount" })
     .min(1, "Amount is required")
-    .max(7, "Amount must contain at most 10 digits"),
+    .max(10, "Amount must contain at most 10 digits"),
   category: z.string({ required_error: "Please select the category" }),
   dateOfCreation: z.string().optional(),
   // icon: z.string(),
@@ -95,7 +95,7 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
           name="description"
           control={control}
           errors={errors}
-          props={{ maxLength: 50 }}
+          props={{ maxLength: 25 }}
         />
         <CustomInputController
           label="Amount"

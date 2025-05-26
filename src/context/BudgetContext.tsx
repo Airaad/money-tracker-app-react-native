@@ -1,4 +1,5 @@
 import { desc, eq } from "drizzle-orm";
+import { useRouter } from "expo-router";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { db } from "../db/dbConfig";
@@ -28,6 +29,7 @@ interface BudgetContextType {
 const BudgetContext = createContext<BudgetContextType | undefined>(undefined);
 
 export function BudgetProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const [itemsList, setItemsList] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -94,6 +96,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       });
       await fetchData();
       Alert.alert("Entry successfully entered");
+      router.back();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to insert data");
     } finally {
@@ -108,7 +111,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
 
       await db.delete(expenses).where(eq(expenses.id, id));
       await fetchData();
-      Alert.alert("Entry deleted entered");
+      Alert.alert("Entry deleted successfully");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to delete data");
     } finally {
