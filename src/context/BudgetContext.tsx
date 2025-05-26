@@ -20,6 +20,7 @@ interface BudgetContextType {
     expense: Omit<ExpenseItemType, "id">;
     category: Omit<CategoryType, "id">;
   }) => Promise<void>;
+  deleteData: (id: number) => Promise<void>;
   loading: boolean;
   error: string | null;
 }
@@ -100,6 +101,21 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const deleteData = async (id: number) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      await db.delete(expenses).where(eq(expenses.id, id));
+      await fetchData();
+      Alert.alert("Entry deleted entered");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to delete data");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -109,6 +125,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       value={{
         items: itemsList,
         insertData,
+        deleteData,
         loading,
         error,
       }}

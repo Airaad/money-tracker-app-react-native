@@ -3,23 +3,27 @@ import React, { useCallback } from "react";
 import { Pressable, Text, View } from "react-native";
 
 interface ItemComponentProps {
+  expenseId: number;
   icon: string;
   name: string;
   category: string;
   description: string;
   amount: number;
+  date: string;
   handleClick: (item: any) => void;
 }
 const ItemComponent = ({
+  expenseId,
   category,
   icon,
   name,
   amount,
   description,
+  date,
   handleClick,
 }: ItemComponentProps) => {
   const handlePress = useCallback(() => {
-    handleClick({ name, icon, description, amount });
+    handleClick({ expenseId, category, date, name, icon, description, amount });
   }, [name, icon, description, amount]);
 
   return (

@@ -28,7 +28,6 @@ const SliderList = () => {
   // console.log(JSON.stringify(groupedArray, null, 2));
 
   const bottomSheetRef = useRef<BottomSheet>(null);
-  // const handleClose = () => bottomSheetRef.current?.close();
   const handleOpen = useCallback((item: any) => {
     setBottomSheetItems(item);
     bottomSheetRef.current?.expand();
@@ -43,12 +42,8 @@ const SliderList = () => {
             color="#3b82f6"
             className="absolute top-[250px] left-48"
           />
-        ) : error ? (
-          <Text className="text-xl text-red-500 absolute top-[300px] left-32">
-            {error}
-          </Text>
         ) : groupedArray.length === 0 ? (
-          <Text className="text-xl text-gray-500 absolute top-[300px] left-32">
+          <Text className="text-xl text-gray-500 absolute top-[260px] left-[95px]">
             Start Tracking Your Money
           </Text>
         ) : (
@@ -74,11 +69,13 @@ const SliderList = () => {
                 {item.data.map((item) => (
                   <ItemComponent
                     key={item.id}
+                    expenseId={item.id}
                     category={item.category.type}
                     icon={item.category.icon}
                     name={item.category.name}
                     description={item.description}
                     amount={item.amount}
+                    date={item.createdDate}
                     handleClick={handleOpen}
                   />
                 ))}
@@ -89,10 +86,13 @@ const SliderList = () => {
       </View>
       <CustomBottomSheet
         ref={bottomSheetRef}
+        id={bottomSheetItems?.expenseId}
+        category={bottomSheetItems?.category}
         title={bottomSheetItems?.name}
         icon={bottomSheetItems?.icon}
         description={bottomSheetItems?.description}
         amount={bottomSheetItems?.amount}
+        date={bottomSheetItems?.date}
       />
     </View>
   );
