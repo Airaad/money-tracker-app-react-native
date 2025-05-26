@@ -1,12 +1,20 @@
 import BottomSheet from "@gorhom/bottom-sheet";
-import React, { useCallback, useMemo, useRef, useState } from "react";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
-import { useBudget } from "../context/BudgetContext";
+import React, { useMemo, useRef, useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
+import { ItemType, useBudget } from "../context/BudgetContext";
 import CustomBottomSheet from "./CustomBottomSheet";
 import ItemComponent from "./ItemComponent";
 
 const SliderList = () => {
-  const [bottomSheetItems, setBottomSheetItems] = useState<any>(null);
+  const [bottomSheetItems, setBottomSheetItems] = useState<ItemType | null>(
+    null
+  );
   const { items, loading, error } = useBudget();
   const groupedArray = useMemo(() => {
     // Groups the item by their creation date
@@ -25,13 +33,13 @@ const SliderList = () => {
       data,
     }));
   }, [items]);
-  // console.log(JSON.stringify(groupedArray, null, 2));
+  console.log(JSON.stringify(groupedArray, null, 2));
 
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const handleOpen = useCallback((item: any) => {
+  const handleOpen = (item: ItemType) => {
     setBottomSheetItems(item);
     bottomSheetRef.current?.expand();
-  }, []);
+  };
 
   return (
     <View className="bg-white flex-1 mt-12 rounded-t-[1.8rem]">
@@ -67,33 +75,33 @@ const SliderList = () => {
                   <View className="h-[1px] bg-gray-400 w-full" />
                 </View>
                 {item.data.map((item) => (
-                  <ItemComponent
-                    key={item.id}
-                    expenseId={item.id}
-                    category={item.category.type}
-                    icon={item.category.icon}
-                    name={item.category.name}
-                    description={item.description}
-                    amount={item.amount}
-                    date={item.createdDate}
-                    handleClick={handleOpen}
-                  />
+                  <Pressable key={item.id} onPress={() => handleOpen(item)}>
+                    <ItemComponent
+                      category={item.category.type}
+                      icon={item.category.icon}
+                      name={item.category.name}
+                      description={item.description}
+                      amount={item.amount}
+                    />
+                  </Pressable>
                 ))}
               </View>
             )}
           />
         )}
       </View>
-      <CustomBottomSheet
-        ref={bottomSheetRef}
-        id={bottomSheetItems?.expenseId}
-        category={bottomSheetItems?.category}
-        title={bottomSheetItems?.name}
-        icon={bottomSheetItems?.icon}
-        description={bottomSheetItems?.description}
-        amount={bottomSheetItems?.amount}
-        date={bottomSheetItems?.date}
-      />
+      {bottomSheetItems && (
+        <CustomBottomSheet
+          ref={bottomSheetRef}
+          id={bottomSheetItems.id}
+          category={bottomSheetItems.category.type}
+          title={bottomSheetItems.category.name}
+          icon={bottomSheetItems.category.icon}
+          description={bottomSheetItems.description}
+          amount={bottomSheetItems.amount}
+          date={bottomSheetItems.createdDate}
+        />
+      )}
     </View>
   );
 };

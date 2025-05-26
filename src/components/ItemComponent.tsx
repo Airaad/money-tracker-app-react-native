@@ -1,34 +1,24 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import React, { useCallback } from "react";
-import { Pressable, Text, View } from "react-native";
+import React from "react";
+import { Text, View } from "react-native";
 
 interface ItemComponentProps {
-  expenseId: number;
   icon: string;
   name: string;
   category: string;
   description: string;
   amount: number;
-  date: string;
-  handleClick: (item: any) => void;
 }
 const ItemComponent = ({
-  expenseId,
   category,
   icon,
   name,
   amount,
   description,
-  date,
-  handleClick,
 }: ItemComponentProps) => {
-  const handlePress = useCallback(() => {
-    handleClick({ expenseId, category, date, name, icon, description, amount });
-  }, [name, icon, description, amount]);
-
   return (
     <View className="flex-row justify-between items-center my-2">
-      <Pressable onPress={handlePress} className="flex-row gap-4 items-center ">
+      <View className="flex-row gap-4 items-center ">
         <View className="w-14 h-14 justify-center rounded-full items-center bg-black">
           <FontAwesome5 name={icon} size={25} color="#6DB6FE" />
         </View>
@@ -36,7 +26,7 @@ const ItemComponent = ({
           <Text className="text-xl font-semibold tracking-wider">{name}</Text>
           <Text className="font-semibold text-gray-500">{description}</Text>
         </View>
-      </Pressable>
+      </View>
       <View>
         <Text
           className={`text-xl ${
