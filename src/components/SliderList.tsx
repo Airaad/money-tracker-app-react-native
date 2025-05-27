@@ -13,9 +13,7 @@ import CustomBottomSheet from "./CustomBottomSheet";
 import ItemComponent from "./ItemComponent";
 
 const SliderList = () => {
-  const [bottomSheetItems, setBottomSheetItems] = useState<ItemType | null>(
-    null
-  );
+  const [bottomSheetItems, setBottomSheetItems] = useState<any>(null);
   const { items, loading, error } = useBudget();
   const groupedArray = useMemo(() => {
     // Groups the item by their creation date
@@ -97,18 +95,17 @@ const SliderList = () => {
           />
         )}
       </View>
-      {bottomSheetItems && (
-        <CustomBottomSheet
-          ref={bottomSheetRef}
-          id={bottomSheetItems.id}
-          category={bottomSheetItems.category.type}
-          title={bottomSheetItems.category.name}
-          icon={bottomSheetItems.category.icon}
-          description={bottomSheetItems.description}
-          amount={bottomSheetItems.amount}
-          date={bottomSheetItems.createdDate}
-        />
-      )}
+
+      <CustomBottomSheet
+        ref={bottomSheetRef}
+        id={bottomSheetItems?.id}
+        category={bottomSheetItems?.category?.type}
+        title={bottomSheetItems?.category?.name}
+        icon={bottomSheetItems?.category?.icon}
+        description={bottomSheetItems?.description}
+        amount={bottomSheetItems?.amount}
+        date={bottomSheetItems?.createdDate}
+      />
     </View>
   );
 };
