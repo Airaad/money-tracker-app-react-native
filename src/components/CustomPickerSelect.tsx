@@ -29,7 +29,7 @@ const CustomPickerSelect = <T extends FieldValues>({
   errors,
 }: CustomInputControllerProps<T>) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<string | null>(null);
+  const [pickerValue, setPickerValue] = useState<string | null>(null);
   const [expenseCategory, setExpenseCategory] = useState(expenseItems);
   const [incomeCategory, setIncomeCategory] = useState(incomeItems);
   return (
@@ -78,7 +78,7 @@ const CustomPickerSelect = <T extends FieldValues>({
               value={value}
               items={isExpense ? expenseCategory : incomeCategory}
               setOpen={setOpen}
-              setValue={setValue}
+              setValue={setPickerValue}
               setItems={isExpense ? setExpenseCategory : setIncomeCategory}
               placeholder={placeholder}
               renderListItem={({ item }) => (
@@ -92,7 +92,7 @@ const CustomPickerSelect = <T extends FieldValues>({
                   <Text
                     onPress={() => {
                       if (item.value !== undefined) {
-                        setValue(item.value);
+                        setPickerValue(item.value);
                         onChange(item.value);
                         setOpen(false);
                       }

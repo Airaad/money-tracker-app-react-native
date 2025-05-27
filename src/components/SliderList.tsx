@@ -33,7 +33,7 @@ const SliderList = () => {
       data,
     }));
   }, [items]);
-  console.log(JSON.stringify(groupedArray, null, 2));
+  // console.log(JSON.stringify(groupedArray, null, 2));
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const handleOpen = (item: ItemType) => {

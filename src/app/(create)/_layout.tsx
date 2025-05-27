@@ -9,6 +9,13 @@ export default function CreateLayout() {
           headerShown: false,
         }}
       />
+
+      <Stack.Screen
+        name="update"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

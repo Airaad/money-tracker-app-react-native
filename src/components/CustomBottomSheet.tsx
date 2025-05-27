@@ -3,6 +3,7 @@ import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
+import { useRouter } from "expo-router";
 import React, { forwardRef, useCallback, useMemo } from "react";
 import { Alert, Pressable, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
@@ -20,6 +21,7 @@ interface BottomSheetProps {
 export type Ref = BottomSheet;
 
 const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
+  const router = useRouter()
   const snapPoints = useMemo(() => ["70%"], []);
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -33,6 +35,15 @@ const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
   );
   // console.log(props);
   const { deleteData, loading, error } = useBudget();
+
+  const handleUpdate = async (item: BottomSheetProps) => {
+    router.push({
+  pathname: "/update",
+  params: {
+    id: item.id.toString(),
+  },
+});
+  };
 
   const handleDelete = async (id: number) => {
     try {
@@ -67,7 +78,9 @@ const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
             <Pressable onPress={() => handleDelete(props.id)}>
               <MaterialIcons name="delete" size={24} color="white" />
             </Pressable>
+            <Pressable onPress={() => handleUpdate(props)}>
             <MaterialIcons name="edit" size={24} color="white" />
+            </Pressable>
           </View>
         </View>
         <View className="justify-center items-center gap-5 mt-20">

@@ -25,8 +25,6 @@ const CustomDatePicker = <T extends FieldValues>({
   errors,
 }: CustomDatePickerProps<T>) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(defaultDate);
-
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -44,41 +42,45 @@ const CustomDatePicker = <T extends FieldValues>({
         <View className="w-[95%] h-[2px] bg-gray-500 absolute bottom-7 left-2 z-10" />
         <Controller
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <>
-              <Pressable
-                onPress={showDatePicker}
-                className="text-lg text-white h-[90px] rounded-2xl pt-7 mb-2 pl-3 bg-black shadow-md elevation-lg"
-              >
-                <Text className="text-white text-lg pt-4">{selectedDate}</Text>
-              </Pressable>
-              <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                display="default"
-                mode="date"
-                onConfirm={(date: Date) => {
-                  const parts = new Intl.DateTimeFormat("en-GB", {
-                    day: "2-digit",
-                    month: "long",
-                    weekday: "long",
-                  }).formatToParts(date);
+          render={({ field: { onChange, onBlur, value } }) => {
+            const displayedDate = value || defaultDate;
+            return (
+              <>
+                <Pressable
+                  onPress={showDatePicker}
+                  className="text-lg text-white h-[90px] rounded-2xl pt-7 mb-2 pl-3 bg-black shadow-md elevation-lg"
+                >
+                  <Text className="text-white text-lg pt-4">
+                    {displayedDate}
+                  </Text>
+                </Pressable>
+                <DateTimePickerModal
+                  isVisible={isDatePickerVisible}
+                  display="default"
+                  mode="date"
+                  onConfirm={(date: Date) => {
+                    const parts = new Intl.DateTimeFormat("en-GB", {
+                      day: "2-digit",
+                      month: "long",
+                      weekday: "long",
+                    }).formatToParts(date);
 
-                  const day = parts.find((p) => p.type === "day")?.value;
-                  const month = parts.find((p) => p.type === "month")?.value;
-                  const weekday = parts.find(
-                    (p) => p.type === "weekday"
-                  )?.value;
+                    const day = parts.find((p) => p.type === "day")?.value;
+                    const month = parts.find((p) => p.type === "month")?.value;
+                    const weekday = parts.find(
+                      (p) => p.type === "weekday"
+                    )?.value;
 
-                  const formatted = `${month} ${day}, ${weekday}`;
-                  onChange(formatted);
-                  setSelectedDate(formatted);
-                  hideDatePicker();
-                }}
-                onCancel={hideDatePicker}
-                maximumDate={new Date()}
-              />
-            </>
-          )}
+                    const formatted = `${month} ${day}, ${weekday}`;
+                    onChange(formatted);
+                    hideDatePicker();
+                  }}
+                  onCancel={hideDatePicker}
+                  maximumDate={new Date()}
+                />
+              </>
+            );
+          }}
           name={name}
         />
       </View>
