@@ -27,9 +27,10 @@ const Page = () => {
     <View className="flex-1 pt-20 bg-black">
       <UpdateExpenseHeader isExpense={itemToUpdate?.category?.type} />
       <UpdateExpenseForm
-        id={itemToUpdate?.id}
+        expenseId={itemToUpdate?.id}
+        categoryId={itemToUpdate?.category?.id}
         title={itemToUpdate?.category?.name}
-        category={itemToUpdate?.category?.type}
+        type={itemToUpdate?.category?.type}
         icon={itemToUpdate?.category?.icon}
         amount={itemToUpdate?.amount}
         description={itemToUpdate?.description}

@@ -1,5 +1,6 @@
 import BottomSheet from "@gorhom/bottom-sheet";
-import React, { useMemo, useRef, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -40,6 +41,12 @@ const SliderList = () => {
     setBottomSheetItems(item);
     bottomSheetRef.current?.expand();
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      bottomSheetRef.current?.close(); // Close the sheet when screen is focused
+    }, [])
+  );
 
   return (
     <View className="bg-white flex-1 mt-12 rounded-t-[1.8rem]">

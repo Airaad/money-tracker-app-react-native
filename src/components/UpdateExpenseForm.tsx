@@ -10,9 +10,10 @@ import CustomInputController from "./CustomInputController";
 import CustomPickerSelect from "./CustomPickerSelect";
 
 interface ExpenseProps {
-  id: number;
+  expenseId: number;
+  categoryId: number;
   title: string;
-  category: string;
+  type: string;
   icon: string;
   amount: string;
   description: string;
@@ -47,12 +48,15 @@ const weekday = parts.find((p) => p.type === "weekday")?.value;
 const defaultDate = `${month} ${day}, ${weekday}`;
 
 const UpdateExpenseForm = ({
-  id,
-  amount,
-  category,
-  description,
-  icon,
+  expenseId,
+  categoryId,
   title,
+
+  type,
+  icon,
+  amount,
+  description,
+
   createdDate,
 }: ExpenseProps) => {
   const { updateData } = useBudget();
@@ -80,34 +84,45 @@ const UpdateExpenseForm = ({
       category: title,
       dateOfCreation: createdDate || defaultDate,
     });
-  }, [description, amount, category, createdDate]);
+  }, [description, amount, title, createdDate]);
 
   // console.log(JSON.stringify(errors,null,1));
 
-  const onSubmit = async (data: any) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    Alert.alert(JSON.stringify(data));
-    console.log(JSON.stringify(data));
-    // const expense = {
-    //   amount: Number(data.amount),
-    //   description: data.description ? data.description : "",
-    //   categoryId: 0, //Temporary will be updated in function
-    //   createdDate: data.dateOfCreation ? data.dateOfCreation : defaultDate,
-    // };
-    // const category = {
-    //   name: data.category,
-    //   type: isExpense ? "expense" : "income",
-    //   icon: "shopping-basket",
-    // };
-    // await insertData({ expense, category });
+  const onSubmit = async (data: FormData) => {
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
+    // Alert.alert(JSON.stringify(data));
+    // console.log(JSON.stringify(data));
+    try {
+      const expense = {
+        id: expenseId,
+        amount: Number(data.amount),
+        description: data.description ?? "",
+        categoryId: 0, //Temporary will be updated in function
+        createdDate: data.dateOfCreation ?? defaultDate,
+      };
+      const category = {
+        id: categoryId,
+        name: data.category,
+        type: type === "expense" ? "expense" : "income",
+        icon: icon || "shopping-basket",
+      };
+      await updateData({ expense, category });
+      Alert.alert("Item updated successfully");
+      router.back();
+    } catch (err) {
+      Alert.alert(
+        "Update failed",
+        err instanceof Error ? err.message : "Unknown error"
+      );
+    }
   };
   return (
     <View className="bg-white flex-1 mt-14 rounded-t-[1.5rem]">
       <View className="flex-1 mt-10 items-center">
         <CustomPickerSelect
-          isExpense={category === "expense" ? true : false}
+          isExpense={type === "expense" ? true : false}
           labelText="Select a Category"
-          placeholder={category === "expense" ? "Ex. Shopping" : "Ex. Card"}
+          placeholder={type === "expense" ? "Ex. Shopping" : "Ex. Card"}
           control={control}
           errors={errors}
           name="category"
@@ -115,9 +130,7 @@ const UpdateExpenseForm = ({
         <CustomInputController
           label="Description"
           placeholder={
-            category === "expense"
-              ? "Ex. Weekly groceries"
-              : "Ex. Monthly Salary"
+            type === "expense" ? "Ex. Weekly groceries" : "Ex. Monthly Salary"
           }
           name="description"
           control={control}

@@ -22,38 +22,6 @@ const UpdateExpenseHeader = ({ isExpense }: ExpenseProps) => {
             <Ionicons name="notifications-circle" size={30} color="white" />
           </View>
         </View>
-
-        <View className="flex-row items-center mt-14 mx-auto w-[90%]">
-          {/* <Pressable
-            onPress={() => updateExpense(true)}
-            className={`${
-              isExpense ? "bg-blue-500" : "bg-white"
-            } px-12 py-1 rounded-l-full`}
-          >
-            <Text
-              className={`${
-                isExpense ? "text-white" : "text-blue-500"
-              } text-xl font-medium tracking-widest`}
-            >
-              Expense
-            </Text>
-          </Pressable> */}
-
-          {/* <Pressable
-            onPress={() => updateExpense(false)}
-            className={`${
-              !isExpense ? "bg-blue-500" : "bg-white"
-            } px-12 py-1 rounded-r-full`}
-          >
-            <Text
-              className={`${
-                !isExpense ? "text-white" : "text-blue-500"
-              } text-xl font-medium tracking-widest`}
-            >
-              Income
-            </Text>
-          </Pressable> */}
-        </View>
       </View>
     </View>
   );

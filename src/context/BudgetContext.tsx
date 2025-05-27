@@ -1,4 +1,4 @@
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { useRouter } from "expo-router";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
@@ -116,7 +116,12 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
           const existingCategory = await db
             .select()
             .from(categories)
-            .where(eq(categories.name, category.name))
+            .where(
+              and(
+                eq(categories.name, category.name),
+                eq(categories.type, category.type)
+              )
+            )
             .get();
           if (existingCategory) {
             expense.categoryId = existingCategory.id;
@@ -132,8 +137,6 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         await tx.insert(expenses).values(expense).run();
       });
       await fetchData();
-      Alert.alert("Entry successfully entered");
-      router.back();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to insert data");
     } finally {
@@ -167,32 +170,41 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       setError(null);
 
+      if (!expense.id) {
+        throw new Error("Missing expense ID for update.");
+      }
+
       await db.transaction(async (tx) => {
+        let updatedExpense = { ...expense };
+
         if (category) {
           const existingCategory = await db
             .select()
             .from(categories)
-            .where(eq(categories.name, category.name))
+            .where(eq(categories.id, category.id))
             .get();
+
           if (existingCategory) {
-            expense.categoryId = existingCategory.id;
+            updatedExpense.categoryId = existingCategory.id;
           } else {
             const newCategory = await tx
               .insert(categories)
               .values(category)
               .returning({ id: categories.id })
               .get();
-            expense.categoryId = newCategory.id;
+
+            updatedExpense.categoryId = newCategory.id;
           }
         }
+
         await tx
           .update(expenses)
-          .set(expense)
-          .where(eq(expenses.id, expense.id))
+          .set(updatedExpense)
+          .where(eq(expenses.id, updatedExpense.id))
           .run();
       });
+
       await fetchData();
-      Alert.alert("Entry updated successfully");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to update data");
     } finally {

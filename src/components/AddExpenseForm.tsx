@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Pressable, Text, View } from "react-native";
+import { Alert, Pressable, Text, View } from "react-native";
 import { z } from "zod";
 import { useBudget } from "../context/BudgetContext";
 import CustomDatePicker from "./CustomDatePicker";
@@ -55,26 +55,35 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
 
   // console.log(JSON.stringify(errors,null,1));
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FormData) => {
     // await new Promise((resolve) => setTimeout(resolve, 2000));
     // Alert.alert(JSON.stringify(data));
     // console.log(JSON.stringify(data));
-    const expense = {
-      amount: Number(data.amount),
-      description: data.description ? data.description : "",
-      categoryId: 0, //Temporary will be updated in function
-      createdDate: data.dateOfCreation ? data.dateOfCreation : defaultDate,
-    };
-    const category = {
-      name: data.category,
-      type: isExpense ? "expense" : "income",
-      icon: "shopping-basket",
-    };
-    await insertData({ expense, category });
-    resetField("amount");
-    resetField("description");
-    resetField("category");
-    resetField("dateOfCreation");
+    try {
+      const expense = {
+        amount: Number(data.amount),
+        description: data.description ? data.description : "",
+        categoryId: 0, //Temporary will be updated in function
+        createdDate: data.dateOfCreation ? data.dateOfCreation : defaultDate,
+      };
+      const category = {
+        name: data.category,
+        type: isExpense ? "expense" : "income",
+        icon: "shopping-basket",
+      };
+      await insertData({ expense, category });
+      resetField("amount");
+      resetField("description");
+      resetField("category");
+      resetField("dateOfCreation");
+      Alert.alert("Item successfully entered");
+      router.back();
+    } catch (err) {
+      Alert.alert(
+        "Update failed",
+        err instanceof Error ? err.message : "Unknown error"
+      );
+    }
   };
   return (
     <View className="bg-white flex-1 mt-14 rounded-t-[1.5rem]">
