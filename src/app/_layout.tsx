@@ -36,6 +36,7 @@ export default function RootLayout() {
             options={{
               headerShown: false,
               animation: "slide_from_right",
+              presentation: "transparentModal",
             }}
           />
         </Stack>

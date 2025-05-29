@@ -64,6 +64,7 @@ const UpdateExpenseForm = ({
   const {
     control,
     handleSubmit,
+    setError,
     resetField,
     reset,
     formState: { errors, isSubmitting },
@@ -89,6 +90,13 @@ const UpdateExpenseForm = ({
   // console.log(JSON.stringify(errors,null,1));
 
   const onSubmit = async (data: FormData) => {
+    if (isNaN(Number(data.amount))) {
+      setError("amount", {
+        type: "manual",
+        message: "Amount must be a valid number",
+      });
+      return;
+    }
     // await new Promise((resolve) => setTimeout(resolve, 2000));
     // Alert.alert(JSON.stringify(data));
     // console.log(JSON.stringify(data));
@@ -144,7 +152,7 @@ const UpdateExpenseForm = ({
           control={control}
           errors={errors}
           props={{
-            keyboardType: "number-pad",
+            inputMode: "numeric",
             maxLength: 10,
           }}
         />
