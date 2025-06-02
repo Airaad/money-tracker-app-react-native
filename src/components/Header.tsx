@@ -1,9 +1,21 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import { useBudget } from "../context/BudgetContext";
 
 const Header = () => {
+  const { items, getTotal } = useBudget();
+  const [sumOfData, setSumOfData] = useState<any>(null);
+
+  useEffect(() => {
+    const totalData = async () => {
+      const result = await getTotal();
+      setSumOfData(result);
+    };
+    totalData();
+  }, [items]);
+
   return (
     <View className="px-8">
       <View className="flex-row justify-between items-center">
@@ -23,10 +35,10 @@ const Header = () => {
           <View className="flex-row items-center gap-1">
             <MaterialIcons name="account-balance" size={20} color="white" />
             <Text className="text-xl text-white tracking-widest font-medium">
-              Total Balance
+              Total Income
             </Text>
           </View>
-          <Text className="text-2xl text-green-500">$778.30</Text>
+          <Text className="text-2xl text-green-500">{`$${sumOfData?.totalIncome}`}</Text>
         </View>
         <View className="w-[1px] h-10 bg-gray-700" />
         <View>
@@ -40,7 +52,7 @@ const Header = () => {
               Total Expense
             </Text>
           </View>
-          <Text className="text-2xl text-red-500">-$778.30</Text>
+          <Text className="text-2xl text-red-500">{`$${sumOfData?.totalExpense}`}</Text>
         </View>
       </View>
     </View>

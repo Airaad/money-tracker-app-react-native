@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, sum } from "drizzle-orm";
 import { useRouter } from "expo-router";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
@@ -30,6 +30,7 @@ interface BudgetContextType {
     expense: ExpenseItemType;
     category: CategoryType;
   }) => Promise<void>;
+  getTotal: () => Promise<any>;
   loading: boolean;
   error: string | null;
 }
@@ -212,6 +213,46 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const getTotal = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      //For total expense
+      const expenseResult = await db
+        .select({ total: sum(expenses.amount) })
+        .from(expenses)
+        .innerJoin(categories, eq(expenses.categoryId, categories.id))
+        .where(eq(categories.type, "expense"))
+        .get();
+
+      const totalExpense = Number(expenseResult?.total) || 0;
+
+      //for total income
+      const incomeResult = await db
+        .select({ total: sum(expenses.amount) })
+        .from(expenses)
+        .innerJoin(categories, eq(expenses.categoryId, categories.id))
+        .where(eq(categories.type, "income"))
+        .get();
+
+      const totalIncome = Number(incomeResult?.total) || 0;
+
+      const netBalance = totalIncome - totalExpense;
+
+      return {
+        totalIncome,
+        totalExpense,
+        netBalance,
+      };
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Failed to load total transactions"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -224,6 +265,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         insertData,
         deleteData,
         updateData,
+        getTotal,
         loading,
         error,
       }}
