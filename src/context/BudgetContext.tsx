@@ -28,7 +28,7 @@ interface BudgetContextType {
     category,
   }: {
     expense: ExpenseItemType;
-    category: CategoryType;
+    category: Omit<CategoryType, "id">;
   }) => Promise<void>;
   getTotal: () => Promise<any>;
   loading: boolean;
@@ -165,7 +165,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
     category,
   }: {
     expense: ExpenseItemType;
-    category: CategoryType;
+    category: Omit<CategoryType, "id">;
   }) => {
     try {
       setLoading(true);
@@ -182,7 +182,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
           const existingCategory = await db
             .select()
             .from(categories)
-            .where(eq(categories.id, category.id))
+            .where(eq(categories.name, category.name))
             .get();
 
           if (existingCategory) {

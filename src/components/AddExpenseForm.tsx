@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { Alert, Pressable, Text, View } from "react-native";
 import { z } from "zod";
 import { useBudget } from "../context/BudgetContext";
+import expenseItems from "../data/expenseCategory";
+import incomeItems from "../data/incomeCategory";
 import CustomDatePicker from "./CustomDatePicker";
 import CustomInputController from "./CustomInputController";
 import CustomPickerSelect from "./CustomPickerSelect";
@@ -64,6 +66,19 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
       });
       return;
     }
+
+    const selectedExpenseCategory = expenseItems.find(
+      (item) => item.value.title === data.category
+    );
+
+    const selectedIncomeCategory = incomeItems.find(
+      (item) => item.value.title === data.category
+    );
+
+    const categoryIcon = selectedExpenseCategory
+      ? selectedExpenseCategory?.value.icon
+      : selectedIncomeCategory?.value.icon;
+
     // await new Promise((resolve) => setTimeout(resolve, 2000));
     // Alert.alert(JSON.stringify(data));
     // console.log(JSON.stringify(data));
@@ -77,7 +92,7 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
       const category = {
         name: data.category,
         type: isExpense ? "expense" : "income",
-        icon: "shopping-basket",
+        icon: categoryIcon || "shopping-basket",
       };
       await insertData({ expense, category });
       resetField("amount");

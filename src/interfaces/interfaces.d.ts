@@ -9,10 +9,13 @@ interface ExpenseItem {
 interface Items {
   id: number;
   createdDate: string;
-  item: ExpenseItem[]
+  item: ExpenseItem[];
 }
 
 interface CategoryItems {
   label: string;
-  value: string;
+  value: {
+    title: string;
+    icon: string;
+  };
 }

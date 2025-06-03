@@ -20,7 +20,11 @@ const ItemComponent = ({
     <View className="flex-row justify-between items-center my-2">
       <View className="flex-row gap-4 items-center ">
         <View className="w-14 h-14 justify-center rounded-full items-center bg-black">
-          <FontAwesome5 name={icon} size={25} color="#6DB6FE" />
+          <FontAwesome5
+            name={icon}
+            size={25}
+            color={category === "expense" ? "#ef4444" : "#22c55e"}
+          />
         </View>
         <View>
           <Text className="text-xl font-semibold tracking-wider">{name}</Text>

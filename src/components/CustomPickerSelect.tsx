@@ -28,10 +28,19 @@ const CustomPickerSelect = <T extends FieldValues>({
   control,
   errors,
 }: CustomInputControllerProps<T>) => {
+  const dropdownExpenseItems = expenseItems.map((item) => ({
+    label: item.label,
+    value: item.value.title, // Only title goes to dropdown
+  }));
+
+  const dropdownIncomeItems = incomeItems.map((item) => ({
+    label: item.label,
+    value: item.value.title, // Only title goes to dropdown
+  }));
   const [open, setOpen] = useState(false);
   const [pickerValue, setPickerValue] = useState<string | null>(null);
-  const [expenseCategory, setExpenseCategory] = useState(expenseItems);
-  const [incomeCategory, setIncomeCategory] = useState(incomeItems);
+  const [expenseCategory, setExpenseCategory] = useState(dropdownExpenseItems);
+  const [incomeCategory, setIncomeCategory] = useState(dropdownIncomeItems);
   return (
     <>
       <View className="w-[78%] relative" style={{ zIndex: 1000 }}>

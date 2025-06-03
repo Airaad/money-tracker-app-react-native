@@ -38,7 +38,7 @@ const Header = () => {
               Total Income
             </Text>
           </View>
-          <Text className="text-2xl text-green-500">{`$${sumOfData?.totalIncome}`}</Text>
+          <Text className="text-2xl text-green-500">{`$${sumOfData?.totalIncome ?? 0}`}</Text>
         </View>
         <View className="w-[1px] h-10 bg-gray-700" />
         <View>
@@ -52,7 +52,7 @@ const Header = () => {
               Total Expense
             </Text>
           </View>
-          <Text className="text-2xl text-red-500">{`$${sumOfData?.totalExpense}`}</Text>
+          <Text className="text-2xl text-red-500">{`$${sumOfData?.totalExpense ?? 0}`}</Text>
         </View>
       </View>
     </View>
