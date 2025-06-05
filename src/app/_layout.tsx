@@ -22,7 +22,7 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView className="flex-1">
       <BudgetProvider>
-        <StatusBar />
+        <StatusBar translucent backgroundColor="transparent" />
         <Stack>
           <Stack.Screen
             name="(tabs)"

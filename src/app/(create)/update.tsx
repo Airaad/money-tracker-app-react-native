@@ -24,7 +24,7 @@ const Page = () => {
   // console.log("This is fetched",itemToUpdate);
 
   return (
-    <View className="flex-1 pt-20 bg-black">
+    <View className="flex-1 pt-20 bg-[#ffc727]">
       <UpdateExpenseHeader isExpense={itemToUpdate?.category?.type} />
       <UpdateExpenseForm
         expenseId={itemToUpdate?.id}

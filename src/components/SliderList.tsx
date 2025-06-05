@@ -47,7 +47,7 @@ const SliderList = () => {
   );
 
   return (
-    <View className="bg-white flex-1 mt-12 rounded-t-[1.8rem]">
+    <View className="bg-white flex-1 mt-5 rounded-t-[1.8rem]">
       <View className="flex-1 mb-[75px]">
         {loading ? (
           <ActivityIndicator

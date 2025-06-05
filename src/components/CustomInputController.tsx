@@ -31,7 +31,7 @@ const CustomInputController = <T extends FieldValues>({
   return (
     <>
       <View className="w-[78%] relative">
-        <Text className="absolute top-2 left-3 font-semibold text-lg text-blue-400 z-10">
+        <Text className="absolute top-2 left-3 font-semibold text-lg text-[#ffc727] z-10">
           {label}
         </Text>
         <View className="w-[95%] h-[2px] bg-gray-500 absolute bottom-7 left-2 z-10" />
@@ -52,9 +52,7 @@ const CustomInputController = <T extends FieldValues>({
         />
       </View>
       {errors && errors[name] && (
-        <Text className="text-red-500 mb-3">
-          {errors[name]?.message as string}
-        </Text>
+        <Text className="text-red-500">{errors[name]?.message as string}</Text>
       )}
     </>
   );

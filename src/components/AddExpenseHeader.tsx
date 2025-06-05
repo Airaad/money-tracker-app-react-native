@@ -28,12 +28,12 @@ const AddExpenseHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
           <Pressable
             onPress={() => updateExpense(true)}
             className={`${
-              isExpense ? "bg-blue-500" : "bg-white"
-            } px-12 py-1 rounded-l-full`}
+              isExpense ? "bg-[#37474f]" : "bg-white"
+            } px-12 py-2 rounded-l-full`}
           >
             <Text
               className={`${
-                isExpense ? "text-white" : "text-blue-500"
+                isExpense ? "text-[#ffc727]" : "text-[#ffc727]"
               } text-xl font-medium tracking-widest`}
             >
               Expense
@@ -43,12 +43,12 @@ const AddExpenseHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
           <Pressable
             onPress={() => updateExpense(false)}
             className={`${
-              !isExpense ? "bg-blue-500" : "bg-white"
-            } px-12 py-1 rounded-r-full`}
+              !isExpense ? "bg-[#37474f]" : "bg-white"
+            } px-12 py-2 rounded-r-full`}
           >
             <Text
               className={`${
-                !isExpense ? "text-white" : "text-blue-500"
+                !isExpense ? "text-[#ffc727]" : "text-[#ffc727]"
               } text-xl font-medium tracking-widest`}
             >
               Income

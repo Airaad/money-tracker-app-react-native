@@ -45,7 +45,7 @@ const CustomPickerSelect = <T extends FieldValues>({
     <>
       <View className="w-[78%] relative" style={{ zIndex: 1000 }}>
         <Text
-          className="absolute top-2 left-3 font-semibold text-lg text-blue-400"
+          className="absolute top-2 left-3 font-semibold text-lg text-[#ffc727]"
           style={{ zIndex: 1001 }}
         >
           {labelText}
@@ -75,7 +75,7 @@ const CustomPickerSelect = <T extends FieldValues>({
               theme="DARK"
               modalTitleStyle={{ color: "white", fontSize: 18 }}
               modalContentContainerStyle={{
-                backgroundColor: "black",
+                backgroundColor: "#37474f",
                 paddingHorizontal: 15,
                 paddingTop: 20,
               }}
@@ -118,9 +118,7 @@ const CustomPickerSelect = <T extends FieldValues>({
         />
       </View>
       {errors && errors[name] && (
-        <Text className="text-red-500 mb-3">
-          {errors[name]?.message as string}
-        </Text>
+        <Text className="text-red-500">{errors[name]?.message as string}</Text>
       )}
     </>
   );

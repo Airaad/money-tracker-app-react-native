@@ -137,8 +137,8 @@ const UpdateExpenseForm = ({
     }
   };
   return (
-    <View className="bg-white flex-1 mt-14 rounded-t-[1.5rem]">
-      <View className="flex-1 mt-10 items-center">
+    <View className="bg-[#37474f] flex-1 mt-14 rounded-t-[2rem]">
+      <View className="flex-1 mt-24 gap-4 items-center">
         <CustomPickerSelect
           isExpense={type === "expense" ? true : false}
           labelText="Select a Category"
@@ -180,7 +180,7 @@ const UpdateExpenseForm = ({
           <Pressable
             disabled={isSubmitting}
             onPress={() => router.back()}
-            className="bg-blue-600 items-center w-[150px] py-3 rounded-full"
+            className="bg-[#ffc727] items-center w-[150px] py-3 rounded-full"
           >
             <Text className="text-white text-xl font-semibold tracking-widest">
               Cancel
@@ -190,7 +190,7 @@ const UpdateExpenseForm = ({
           <Pressable
             disabled={isSubmitting}
             onPress={handleSubmit(onSubmit)}
-            className="bg-blue-600 items-center w-[150px] py-3 rounded-full"
+            className="bg-[#ffc727] items-center w-[150px] py-3 rounded-full"
           >
             <Text className="text-white text-xl font-semibold tracking-widest">
               {isSubmitting ? "Updating..." : "Update"}

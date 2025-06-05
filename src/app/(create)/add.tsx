@@ -6,7 +6,7 @@ import { View } from "react-native";
 const Page = () => {
   const [isExpense, setIsExpense] = useState<boolean>(true);
   return (
-    <View className="flex-1 pt-16 bg-black">
+    <View className="flex-1 pt-16 bg-[#ffc727]">
       <AddExpenseHeader isExpense={isExpense} updateExpense={setIsExpense} />
       <AddExpenseForm isExpense={isExpense} updateExpense={setIsExpense} />
     </View>

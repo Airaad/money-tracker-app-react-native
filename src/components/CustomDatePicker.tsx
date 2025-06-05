@@ -36,7 +36,7 @@ const CustomDatePicker = <T extends FieldValues>({
   return (
     <>
       <View className="w-[78%] relative">
-        <Text className="absolute top-2 left-3 font-semibold text-lg text-blue-400 z-10">
+        <Text className="absolute top-2 left-3 font-semibold text-lg text-[#ffc727] z-10">
           {labelText}
         </Text>
         <View className="w-[95%] h-[2px] bg-gray-500 absolute bottom-7 left-2 z-10" />
@@ -55,6 +55,8 @@ const CustomDatePicker = <T extends FieldValues>({
                   </Text>
                 </Pressable>
                 <DateTimePickerModal
+                  buttonTextColorIOS="#ffc727"
+                  pickerContainerStyleIOS={{ backgroundColor: "#ffc727" }}
                   isVisible={isDatePickerVisible}
                   display="default"
                   mode="date"

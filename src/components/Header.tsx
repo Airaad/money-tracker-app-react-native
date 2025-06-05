@@ -1,5 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { Link } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
@@ -17,42 +18,60 @@ const Header = () => {
   }, [items]);
 
   return (
-    <View className="px-8">
-      <View className="flex-row justify-between items-center">
+    <View className="w-[95%] mx-auto">
+      <View className="flex-row justify-between items-center px-3">
         <View>
-          <Text className="text-2xl text-white tracking-wider font-bold">
+          <Text className="text-2xl text-black tracking-wider font-bold">
             Hi, Sheikh Airaad
           </Text>
-          <Text className="text-sm text-white font-normal">Welcome Back</Text>
+          <Text className="text-sm text-black font-normal">Welcome Back</Text>
         </View>
         <View>
-          <Ionicons name="notifications-circle" size={30} color="white" />
+          <Link href="/add">
+            <Ionicons name="add-circle" size={36} color="#00000" />
+          </Link>
         </View>
       </View>
 
-      <View className="flex-row mt-10 justify-between">
+      <View className="w-[341px] h-52 mx-auto bg-[#37474f] rounded-3xl my-5">
+        <View className="py-6">
+          <Text className="text-xl text-gray-400 font-medium px-6">
+            Available Balance
+          </Text>
+          <Text className="text-3xl text-white font-semibold px-6 mt-3">{`$${
+            sumOfData?.netBalance ?? 0
+          }`}</Text>
+          <Text className="text-white text-lg px-6 mt-16">See details</Text>
+        </View>
+      </View>
+
+      <View className="flex-row justify-between w-[341px] mx-auto bg-[#37474f] p-6 rounded-3xl">
         <View className="flex">
           <View className="flex-row items-center gap-1">
-            <MaterialIcons name="account-balance" size={20} color="white" />
-            <Text className="text-xl text-white tracking-widest font-medium">
+            <MaterialIcons name="account-balance" size={20} color="#9ca3af" />
+            <Text className="text-lg text-gray-400 tracking-widest font-medium">
               Total Income
             </Text>
           </View>
-          <Text className="text-2xl text-green-500">{`$${sumOfData?.totalIncome ?? 0}`}</Text>
+          <Text className="text-2xl font-semibold mx-auto mt-1 text-white">{`$${
+            sumOfData?.totalIncome ?? 0
+          }`}</Text>
         </View>
-        <View className="w-[1px] h-10 bg-gray-700" />
+        <View className="w-[1px] h-16 bg-white" />
         <View>
           <View className="flex-row items-center gap-1">
             <MaterialIcons
               name="account-balance-wallet"
               size={20}
-              color="white"
+              color="#9ca3af"
             />
-            <Text className="text-xl text-white tracking-widest font-medium">
+            <Text className="text-lg text-gray-400 tracking-widest font-medium">
               Total Expense
             </Text>
           </View>
-          <Text className="text-2xl text-red-500">{`$${sumOfData?.totalExpense ?? 0}`}</Text>
+          <Text className="text-2xl font-semibold mx-auto mt-1 text-white">{`$${
+            sumOfData?.totalExpense ?? 0
+          }`}</Text>
         </View>
       </View>
     </View>
