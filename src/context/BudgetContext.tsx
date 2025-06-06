@@ -86,8 +86,6 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         .orderBy(desc(expenses.createdDate))
         .execute();
 
-      console.log(result);
-
       setItemsList(result);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch data");

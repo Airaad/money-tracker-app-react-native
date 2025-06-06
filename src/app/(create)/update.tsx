@@ -25,17 +25,21 @@ const Page = () => {
 
   return (
     <View className="flex-1 pt-20 bg-[#ffc727]">
-      <UpdateExpenseHeader isExpense={itemToUpdate?.category?.type} />
-      <UpdateExpenseForm
-        expenseId={itemToUpdate?.id}
-        categoryId={itemToUpdate?.category?.id}
-        title={itemToUpdate?.category?.name}
-        type={itemToUpdate?.category?.type}
-        icon={itemToUpdate?.category?.icon}
-        amount={itemToUpdate?.amount}
-        description={itemToUpdate?.description}
-        createdDate={itemToUpdate?.createdDate}
-      />
+      {itemToUpdate ? (
+        <>
+          <UpdateExpenseHeader isExpense={itemToUpdate.category.type} />
+          <UpdateExpenseForm
+            expenseId={itemToUpdate.id}
+            categoryId={itemToUpdate.category.id}
+            title={itemToUpdate.category.name}
+            type={itemToUpdate.category.type}
+            icon={itemToUpdate.category.icon}
+            amount={itemToUpdate.amount}
+            description={itemToUpdate.description}
+            createdDate={itemToUpdate.createdDate}
+          />
+        </>
+      ) : null}
     </View>
   );
 };

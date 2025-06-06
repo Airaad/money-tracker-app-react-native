@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { format, parseISO } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -29,35 +30,18 @@ const formSchema = z.object({
     .min(1, "Amount is required")
     .max(10, "Amount must contain at most 10 digits"),
   category: z.string({ required_error: "Please select the category" }),
-  dateOfCreation: z.string().optional(),
-  // icon: z.string(),
+  dateOfCreation: z.date().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-const today = new Date();
-
-const parts = new Intl.DateTimeFormat("en-GB", {
-  day: "2-digit",
-  month: "long",
-  weekday: "long",
-}).formatToParts(today);
-
-const day = parts.find((p) => p.type === "day")?.value;
-const month = parts.find((p) => p.type === "month")?.value;
-const weekday = parts.find((p) => p.type === "weekday")?.value;
-
-const defaultDate = `${month} ${day}, ${weekday}`;
-
 const UpdateExpenseForm = ({
   expenseId,
-  categoryId,
   title,
   type,
   icon,
   amount,
   description,
-
   createdDate,
 }: ExpenseProps) => {
   const { updateData } = useBudget();
@@ -75,7 +59,7 @@ const UpdateExpenseForm = ({
       description: description,
       amount: amount?.toString(),
       category: title,
-      dateOfCreation: createdDate,
+      dateOfCreation: new Date(createdDate),
     },
   });
 
@@ -84,7 +68,7 @@ const UpdateExpenseForm = ({
       description: description,
       amount: amount?.toString(),
       category: title,
-      dateOfCreation: createdDate || defaultDate,
+      dateOfCreation: new Date(createdDate),
     });
   }, [description, amount, title, createdDate]);
 
@@ -119,7 +103,7 @@ const UpdateExpenseForm = ({
         amount: Number(data.amount),
         description: data.description ?? "",
         categoryId: 0, //Temporary will be updated in function
-        createdDate: data.dateOfCreation ?? defaultDate,
+        createdDate: data.dateOfCreation?.toISOString() ?? createdDate,
       };
       const category = {
         name: data.category,
@@ -173,7 +157,10 @@ const UpdateExpenseForm = ({
           control={control}
           errors={errors}
           name="dateOfCreation"
-          defaultDate={createdDate}
+          defaultDate={format(
+            parseISO(createdDate.split("T")[0]),
+            "MMMM dd, yyyy"
+          )}
         />
 
         <View className="flex-row gap-8 mt-5">
