@@ -43,7 +43,18 @@ const CustomDatePicker = <T extends FieldValues>({
         <Controller
           control={control}
           render={({ field: { onChange, onBlur, value } }) => {
-            const displayedDate = value || defaultDate;
+            const parts = new Intl.DateTimeFormat("en-GB", {
+              day: "2-digit",
+              month: "long",
+              weekday: "long",
+            }).formatToParts(value);
+
+            const day = parts.find((p) => p.type === "day")?.value;
+            const month = parts.find((p) => p.type === "month")?.value;
+            const weekday = parts.find((p) => p.type === "weekday")?.value;
+
+            const formatted = `${month} ${day}, ${weekday}`;
+            const displayedDate = formatted || defaultDate;
             return (
               <>
                 <Pressable
@@ -61,20 +72,7 @@ const CustomDatePicker = <T extends FieldValues>({
                   display="default"
                   mode="date"
                   onConfirm={(date: Date) => {
-                    const parts = new Intl.DateTimeFormat("en-GB", {
-                      day: "2-digit",
-                      month: "long",
-                      weekday: "long",
-                    }).formatToParts(date);
-
-                    const day = parts.find((p) => p.type === "day")?.value;
-                    const month = parts.find((p) => p.type === "month")?.value;
-                    const weekday = parts.find(
-                      (p) => p.type === "weekday"
-                    )?.value;
-
-                    const formatted = `${month} ${day}, ${weekday}`;
-                    onChange(formatted);
+                    onChange(date);
                     hideDatePicker();
                   }}
                   onCancel={hideDatePicker}

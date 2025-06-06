@@ -11,7 +11,7 @@ CREATE TABLE `expenses` (
 	`category_id` integer NOT NULL,
 	`amount` real NOT NULL,
 	`description` text NOT NULL,
-	`created_date` text DEFAULT (CURRENT_DATE) NOT NULL,
+	`created_date` text DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
 	FOREIGN KEY (`category_id`) REFERENCES `categories`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint

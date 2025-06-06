@@ -17,7 +17,7 @@ export const expenses = sqliteTable("expenses", {
   description: text("description").notNull(),
   createdDate: text("created_date")
     .notNull()
-    .default(sql`(CURRENT_DATE)`), // e.g., "2025-05-20"
+    .default(sql`(CURRENT_TIMESTAMP)`), // e.g., "2025-05-20"
 });
 
 export type CategoryType = typeof categories.$inferSelect;

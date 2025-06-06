@@ -1,4 +1,5 @@
-import { and, desc, eq, sum } from "drizzle-orm";
+import { endOfMonth, startOfDay, startOfMonth, subDays } from "date-fns";
+import { and, desc, eq, gte, lte, sum } from "drizzle-orm";
 import { useRouter } from "expo-router";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
@@ -43,10 +44,28 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = async () => {
+  const fetchData = async (filterType: "daily" | "weekly" | "monthly") => {
     try {
       setLoading(true);
       setError(null);
+
+      const now = new Date();
+      let whereCondition;
+
+      if (filterType === "daily") {
+        const start = startOfDay(now);
+        whereCondition = gte(expenses.createdDate, start.toISOString());
+      } else if (filterType === "weekly") {
+        const start = subDays(now, 7);
+        whereCondition = gte(expenses.createdDate, start.toISOString());
+      } else if (filterType === "monthly") {
+        const start = startOfMonth(now);
+        const end = endOfMonth(now);
+        whereCondition = and(
+          gte(expenses.createdDate, start.toISOString()),
+          lte(expenses.createdDate, end.toISOString())
+        );
+      }
 
       const result = await db
         .select({
@@ -63,8 +82,12 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         })
         .from(expenses)
         .leftJoin(categories, eq(expenses.categoryId, categories.id))
+        .where(whereCondition)
         .orderBy(desc(expenses.createdDate))
         .execute();
+
+      console.log(result);
+
       setItemsList(result);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch data");
@@ -137,7 +160,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         }
         await tx.insert(expenses).values(expense).run();
       });
-      await fetchData();
+      await fetchData("monthly");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to insert data");
     } finally {
@@ -151,7 +174,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       setError(null);
 
       await db.delete(expenses).where(eq(expenses.id, id));
-      await fetchData();
+      await fetchData("monthly");
       Alert.alert("Entry deleted successfully");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to delete data");
@@ -205,7 +228,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
           .run();
       });
 
-      await fetchData();
+      await fetchData("monthly");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to update data");
     } finally {
@@ -254,7 +277,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData("monthly");
   }, []);
 
   return (

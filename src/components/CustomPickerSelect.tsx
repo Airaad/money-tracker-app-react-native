@@ -68,12 +68,12 @@ const CustomPickerSelect = <T extends FieldValues>({
                 paddingLeft: 10,
               }}
               containerStyle={{ zIndex: 999 }}
+              modalTitleStyle={{ color: "#ffc727", fontSize: 20 }}
+              labelStyle={{ color: "white", fontSize: 16 }}
               placeholderStyle={{ color: "gray", fontSize: 16 }}
-              textStyle={{ color: "white", fontSize: 16 }} //styling of the selected item
               listMode="MODAL"
-              modalTitle="Choose a Category"
+              modalTitle="Select a Category"
               theme="DARK"
-              modalTitleStyle={{ color: "white", fontSize: 18 }}
               modalContentContainerStyle={{
                 backgroundColor: "#37474f",
                 paddingHorizontal: 15,
@@ -91,13 +91,7 @@ const CustomPickerSelect = <T extends FieldValues>({
               setItems={isExpense ? setExpenseCategory : setIncomeCategory}
               placeholder={placeholder}
               renderListItem={({ item }) => (
-                <View
-                  style={{
-                    padding: 16,
-                    borderBottomColor: "#333",
-                    borderBottomWidth: 1,
-                  }}
-                >
+                <View className="p-4 border-b-[#333] border-b-[1px]">
                   <Text
                     onPress={() => {
                       if (item.value !== undefined) {
@@ -106,7 +100,7 @@ const CustomPickerSelect = <T extends FieldValues>({
                         setOpen(false);
                       }
                     }}
-                    style={{ color: "white", fontSize: 16 }}
+                    className="text-white text-xl font-semibold py-2"
                   >
                     {item.label}
                   </Text>

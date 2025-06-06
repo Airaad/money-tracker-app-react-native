@@ -23,8 +23,7 @@ const formSchema = z.object({
     .min(1, "Amount is required")
     .max(10, "Amount must contain at most 10 digits"),
   category: z.string({ required_error: "Please select the category" }),
-  dateOfCreation: z.string().optional(),
-  // icon: z.string(),
+  dateOfCreation: z.date().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -80,14 +79,15 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
       : selectedIncomeCategory?.value.icon;
 
     // await new Promise((resolve) => setTimeout(resolve, 2000));
-    // Alert.alert(JSON.stringify(data));
     // console.log(JSON.stringify(data));
     try {
       const expense = {
         amount: Number(data.amount),
         description: data.description ? data.description : "",
         categoryId: 0, //Temporary will be updated in function
-        createdDate: data.dateOfCreation ? data.dateOfCreation : defaultDate,
+        createdDate: data.dateOfCreation
+          ? data.dateOfCreation.toISOString()
+          : today.toISOString(),
       };
       const category = {
         name: data.category,

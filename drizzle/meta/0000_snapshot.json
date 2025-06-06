@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "69ad8def-1e65-4bfd-974f-74d4891efadd",
+  "id": "0b28ed8e-d24a-40f9-b6e7-09b24bf38b75",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "categories": {
@@ -87,7 +87,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(CURRENT_DATE)"
+          "default": "(CURRENT_TIMESTAMP)"
         }
       },
       "indexes": {

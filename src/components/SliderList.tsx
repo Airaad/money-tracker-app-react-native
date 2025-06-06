@@ -1,4 +1,5 @@
 import BottomSheet from "@gorhom/bottom-sheet";
+import { format, parseISO } from "date-fns";
 import { useFocusEffect } from "expo-router";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
@@ -14,11 +15,16 @@ import ItemComponent from "./ItemComponent";
 
 const SliderList = () => {
   const [bottomSheetItems, setBottomSheetItems] = useState<any>(null);
+  const [fetchDate, setFetchDate] = useState({
+    daily: false,
+    weekly: false,
+    monthly: true,
+  });
   const { items, loading, error } = useBudget();
   const groupedArray = useMemo(() => {
     // Groups the item by their creation date
     const groupedByDate = items.reduce((acc, item) => {
-      const date = item.createdDate;
+      const date = item.createdDate.split("T")[0];
       if (!acc[date]) {
         acc[date] = [];
       }
@@ -65,17 +71,53 @@ const SliderList = () => {
             data={groupedArray}
             keyExtractor={(item) => item.id.toString()}
             ListHeaderComponent={
-              <View className="flex-row p-6 my-8 mx-5 rounded-full justify-around bg-gray-200">
-                <Text className="font-medium text-xl">Daily</Text>
-                <Text className="font-medium text-xl">Weekly</Text>
-                <Text className="font-medium text-xl">Monthly</Text>
+              <View className="flex-row p-4 my-8 mx-8 rounded-full justify-around bg-gray-200">
+                <Pressable
+                  onPress={() =>
+                    setFetchDate({ daily: true, weekly: false, monthly: false })
+                  }
+                >
+                  <Text
+                    className={`${
+                      fetchDate.daily ? "text-[#ffc727]" : "text-black"
+                    } font-medium text-xl`}
+                  >
+                    Daily
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={() =>
+                    setFetchDate({ daily: false, weekly: false, monthly: true })
+                  }
+                >
+                  <Text
+                    className={`${
+                      fetchDate.monthly ? "text-[#ffc727]" : "text-black"
+                    } font-medium text-xl`}
+                  >
+                    Monthly
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={() =>
+                    setFetchDate({ daily: false, weekly: true, monthly: false })
+                  }
+                >
+                  <Text
+                    className={`${
+                      fetchDate.weekly ? "text-[#ffc727]" : "text-black"
+                    } font-medium text-xl`}
+                  >
+                    Weekly
+                  </Text>
+                </Pressable>
               </View>
             }
             renderItem={({ item }) => (
               <View className="px-4 my-3">
                 <View className="mb-4 px-1">
                   <Text className="text-gray-400 font-semibold text-lg w-[150px]">
-                    {item.date}
+                    {format(parseISO(item.date), "MMMM dd, yyyy")}
                   </Text>
                   <View className="h-[1px] bg-gray-400 w-full" />
                 </View>
