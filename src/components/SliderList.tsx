@@ -15,12 +15,15 @@ import ItemComponent from "./ItemComponent";
 
 const SliderList = () => {
   const [bottomSheetItems, setBottomSheetItems] = useState<any>(null);
-  const [fetchDate, setFetchDate] = useState({
-    daily: false,
-    weekly: false,
-    monthly: true,
-  });
-  const { items, loading, error } = useBudget();
+
+  const { items, storeUserPreferenceData, userPreferenceType, loading, error } =
+    useBudget();
+
+  const handlePress = async (value: "daily" | "weekly" | "monthly") => {
+    await storeUserPreferenceData(value);
+  };
+
+  // Function for arranging database data
   const groupedArray = useMemo(() => {
     // Groups the item by their creation date
     const groupedByDate = items.reduce((acc, item) => {
@@ -55,87 +58,82 @@ const SliderList = () => {
   return (
     <View className="bg-white flex-1 mt-5 rounded-t-[1.8rem]">
       <View className="flex-1 mb-[75px]">
-        {loading ? (
-          <ActivityIndicator
-            size="large"
-            color="#3b82f6"
-            className="absolute top-[250px] left-48"
-          />
-        ) : groupedArray.length === 0 ? (
-          <Text className="text-xl text-gray-500 absolute top-[260px] left-[95px]">
-            Start Tracking Your Money
-          </Text>
-        ) : (
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={groupedArray}
-            keyExtractor={(item) => item.id.toString()}
-            ListHeaderComponent={
-              <View className="flex-row p-4 my-8 mx-8 rounded-full justify-around bg-gray-200">
-                <Pressable
-                  onPress={() =>
-                    setFetchDate({ daily: true, weekly: false, monthly: false })
-                  }
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={groupedArray}
+          keyExtractor={(item) => item.id.toString()}
+          ListEmptyComponent={
+            loading ? (
+              <ActivityIndicator
+                size="large"
+                color="#3b82f6"
+                className="mt-20"
+              />
+            ) : (
+              <Text className="text-xl text-gray-500 relative left-[95px] mt-20">
+                Start Tracking Your Money
+              </Text>
+            )
+          }
+          ListHeaderComponent={
+            <View className="flex-row p-4 my-8 mx-8 rounded-full justify-around bg-gray-200">
+              <Pressable onPress={() => handlePress("daily")}>
+                <Text
+                  className={`${
+                    userPreferenceType === "daily"
+                      ? "text-[#ffc727]"
+                      : "text-black"
+                  } font-medium text-xl`}
                 >
-                  <Text
-                    className={`${
-                      fetchDate.daily ? "text-[#ffc727]" : "text-black"
-                    } font-medium text-xl`}
-                  >
-                    Daily
-                  </Text>
-                </Pressable>
-                <Pressable
-                  onPress={() =>
-                    setFetchDate({ daily: false, weekly: false, monthly: true })
-                  }
+                  Daily
+                </Text>
+              </Pressable>
+              <Pressable onPress={() => handlePress("monthly")}>
+                <Text
+                  className={`${
+                    userPreferenceType === "monthly"
+                      ? "text-[#ffc727]"
+                      : "text-black"
+                  } font-medium text-xl`}
                 >
-                  <Text
-                    className={`${
-                      fetchDate.monthly ? "text-[#ffc727]" : "text-black"
-                    } font-medium text-xl`}
-                  >
-                    Monthly
-                  </Text>
-                </Pressable>
-                <Pressable
-                  onPress={() =>
-                    setFetchDate({ daily: false, weekly: true, monthly: false })
-                  }
+                  Monthly
+                </Text>
+              </Pressable>
+              <Pressable onPress={() => handlePress("weekly")}>
+                <Text
+                  className={`${
+                    userPreferenceType === "weekly"
+                      ? "text-[#ffc727]"
+                      : "text-black"
+                  } font-medium text-xl`}
                 >
-                  <Text
-                    className={`${
-                      fetchDate.weekly ? "text-[#ffc727]" : "text-black"
-                    } font-medium text-xl`}
-                  >
-                    Weekly
-                  </Text>
-                </Pressable>
+                  Weekly
+                </Text>
+              </Pressable>
+            </View>
+          }
+          renderItem={({ item }) => (
+            <View className="px-4 my-3">
+              <View className="mb-4 px-1">
+                <Text className="text-gray-400 font-semibold text-lg w-[150px]">
+                  {format(parseISO(item.date), "MMMM dd, yyyy")}
+                </Text>
+                <View className="h-[1px] bg-gray-400 w-full" />
               </View>
-            }
-            renderItem={({ item }) => (
-              <View className="px-4 my-3">
-                <View className="mb-4 px-1">
-                  <Text className="text-gray-400 font-semibold text-lg w-[150px]">
-                    {format(parseISO(item.date), "MMMM dd, yyyy")}
-                  </Text>
-                  <View className="h-[1px] bg-gray-400 w-full" />
-                </View>
-                {item.data.map((item) => (
-                  <Pressable key={item.id} onPress={() => handleOpen(item)}>
-                    <ItemComponent
-                      category={item.category.type}
-                      icon={item.category.icon}
-                      name={item.category.name}
-                      description={item.description}
-                      amount={item.amount}
-                    />
-                  </Pressable>
-                ))}
-              </View>
-            )}
-          />
-        )}
+              {item.data.map((item) => (
+                <Pressable key={item.id} onPress={() => handleOpen(item)}>
+                  <ItemComponent
+                    category={item.category.type}
+                    icon={item.category.icon}
+                    name={item.category.name}
+                    description={item.description}
+                    amount={item.amount}
+                  />
+                </Pressable>
+              ))}
+            </View>
+          )}
+        />
       </View>
 
       <CustomBottomSheet

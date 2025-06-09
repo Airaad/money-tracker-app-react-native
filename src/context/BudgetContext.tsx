@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { endOfMonth, startOfDay, startOfMonth, subDays } from "date-fns";
 import { and, desc, eq, gte, lte, sum } from "drizzle-orm";
 import { useRouter } from "expo-router";
@@ -15,6 +16,10 @@ export type ItemType = ExpenseItemType & { category: CategoryType };
 
 interface BudgetContextType {
   items: ItemType[];
+  userPreferenceType: "daily" | "weekly" | "monthly";
+  storeUserPreferenceData: (
+    value: "daily" | "weekly" | "monthly"
+  ) => Promise<void>;
   getData: (id: number) => Promise<any>;
   insertData: ({
     expense,
@@ -43,6 +48,37 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
   const [itemsList, setItemsList] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [userPreference, setUserPreference] = useState<
+    "daily" | "weekly" | "monthly"
+  >("monthly");
+
+  // Using async storage to store the user preference
+  const storeUserPreferenceData = async (
+    value: "daily" | "monthly" | "weekly"
+  ) => {
+    try {
+      setUserPreference(value);
+      await AsyncStorage.setItem("userPreferenceFetchType", value);
+      await fetchData(value);
+    } catch (e) {
+      console.log("Something went wrong while storing user preference");
+    }
+  };
+
+  // Using async storage to get the user preference
+  const getUserPreferenceData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("userPreferenceFetchType");
+      if (value === "daily" || value === "weekly" || value === "monthly") {
+        setUserPreference(value);
+      } else {
+        setUserPreference("monthly");
+      }
+    } catch (e) {
+      console.log("Something went wrong while getting user preference");
+      setUserPreference("monthly");
+    }
+  };
 
   const fetchData = async (filterType: "daily" | "weekly" | "monthly") => {
     try {
@@ -158,7 +194,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         }
         await tx.insert(expenses).values(expense).run();
       });
-      await fetchData("monthly");
+      await fetchData(userPreference);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to insert data");
     } finally {
@@ -172,7 +208,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       setError(null);
 
       await db.delete(expenses).where(eq(expenses.id, id));
-      await fetchData("monthly");
+      await fetchData(userPreference);
       Alert.alert("Entry deleted successfully");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to delete data");
@@ -226,7 +262,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
           .run();
       });
 
-      await fetchData("monthly");
+      await fetchData(userPreference);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to update data");
     } finally {
@@ -275,12 +311,15 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    fetchData("monthly");
+    getUserPreferenceData();
+    fetchData(userPreference);
   }, []);
 
   return (
     <BudgetContext.Provider
       value={{
+        storeUserPreferenceData,
+        userPreferenceType: userPreference,
         items: itemsList,
         getData,
         insertData,
