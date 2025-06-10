@@ -71,8 +71,10 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       const value = await AsyncStorage.getItem("userPreferenceFetchType");
       if (value === "daily" || value === "weekly" || value === "monthly") {
         setUserPreference(value);
+        await fetchData(value);
       } else {
         setUserPreference("monthly");
+        fetchData("monthly");
       }
     } catch (e) {
       console.log("Something went wrong while getting user preference");
@@ -312,7 +314,6 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     getUserPreferenceData();
-    fetchData(userPreference);
   }, []);
 
   return (
