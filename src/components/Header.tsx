@@ -33,7 +33,7 @@ const Header = () => {
         </View>
       </View>
 
-      <View className="w-[341px] h-52 mx-auto bg-[#37474f] rounded-3xl my-5">
+      <View className="w-[341px] h-40 mx-auto bg-[#37474f] rounded-3xl my-5">
         <View className="py-6">
           <Text className="text-xl text-gray-400 font-medium px-6">
             Available Balance
@@ -41,7 +41,7 @@ const Header = () => {
           <Text className="text-3xl text-white font-semibold px-6 mt-3">{`$${
             sumOfData?.netBalance ?? 0
           }`}</Text>
-          <Text className="text-white text-lg px-6 mt-16">See details</Text>
+          <Text className="text-white text-base px-6 mt-5">See details</Text>
         </View>
       </View>
 

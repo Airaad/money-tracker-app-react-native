@@ -1,3 +1,4 @@
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { format, parseISO } from "date-fns";
 import { useFocusEffect } from "expo-router";
@@ -16,8 +17,15 @@ import ItemComponent from "./ItemComponent";
 const SliderList = () => {
   const [bottomSheetItems, setBottomSheetItems] = useState<any>(null);
 
-  const { items, storeUserPreferenceData, userPreferenceType, loading, error } =
-    useBudget();
+  const {
+    items,
+    setTargetDate,
+    targetDate,
+    storeUserPreferenceData,
+    userPreferenceType,
+    loading,
+    error,
+  } = useBudget();
 
   const handlePress = async (value: "daily" | "weekly" | "monthly") => {
     await storeUserPreferenceData(value);
@@ -76,41 +84,56 @@ const SliderList = () => {
             )
           }
           ListHeaderComponent={
-            <View className="flex-row p-4 my-8 mx-8 rounded-full justify-around bg-gray-200">
-              <Pressable onPress={() => handlePress("daily")}>
-                <Text
-                  className={`${
-                    userPreferenceType === "daily"
-                      ? "text-[#ffc727]"
-                      : "text-black"
-                  } font-medium text-xl`}
+            <>
+              <View className="flex-row p-4 mt-8 mx-8 rounded-full justify-around bg-gray-200">
+                <Pressable onPress={() => handlePress("daily")}>
+                  <Text
+                    className={`${
+                      userPreferenceType === "daily"
+                        ? "text-[#ffc727]"
+                        : "text-black"
+                    } font-medium text-xl`}
+                  >
+                    Daily
+                  </Text>
+                </Pressable>
+                <Pressable onPress={() => handlePress("monthly")}>
+                  <Text
+                    className={`${
+                      userPreferenceType === "monthly"
+                        ? "text-[#ffc727]"
+                        : "text-black"
+                    } font-medium text-xl`}
+                  >
+                    Monthly
+                  </Text>
+                </Pressable>
+                <Pressable onPress={() => handlePress("weekly")}>
+                  <Text
+                    className={`${
+                      userPreferenceType === "weekly"
+                        ? "text-[#ffc727]"
+                        : "text-black"
+                    } font-medium text-xl`}
+                  >
+                    Weekly
+                  </Text>
+                </Pressable>
+              </View>
+              <View className="bg-gray-500 flex-row items-center justify-around w-[50%] mx-auto my-5 p-4 rounded-full">
+                <Pressable
+                  onPress={() => setTargetDate(new Date("2025-05-11"))}
                 >
-                  Daily
-                </Text>
-              </Pressable>
-              <Pressable onPress={() => handlePress("monthly")}>
-                <Text
-                  className={`${
-                    userPreferenceType === "monthly"
-                      ? "text-[#ffc727]"
-                      : "text-black"
-                  } font-medium text-xl`}
+                  <FontAwesome name="angle-left" size={24} color="white" />
+                </Pressable>
+                <Text className="text-lg text-white">{format(targetDate, "MMMM yyyy")}</Text>
+                <Pressable
+                  onPress={() => setTargetDate(new Date("2025-06-11"))}
                 >
-                  Monthly
-                </Text>
-              </Pressable>
-              <Pressable onPress={() => handlePress("weekly")}>
-                <Text
-                  className={`${
-                    userPreferenceType === "weekly"
-                      ? "text-[#ffc727]"
-                      : "text-black"
-                  } font-medium text-xl`}
-                >
-                  Weekly
-                </Text>
-              </Pressable>
-            </View>
+                  <FontAwesome name="angle-right" size={24} color="white" />
+                </Pressable>
+              </View>
+            </>
           }
           renderItem={({ item }) => (
             <View className="px-4 my-3">
