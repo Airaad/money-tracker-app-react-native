@@ -21,7 +21,7 @@ const formSchema = z.object({
   amount: z
     .string({ required_error: "Please enter some amount" })
     .min(1, "Amount is required")
-    .max(10, "Amount must contain at most 10 digits"),
+    .max(9, "Amount must contain at most 9 digits"),
   category: z.string({ required_error: "Please select the category" }),
   dateOfCreation: z.date().optional(),
 });
@@ -78,6 +78,14 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
       ? selectedExpenseCategory?.value.icon
       : selectedIncomeCategory?.value.icon;
 
+    const categoryIconColor = selectedExpenseCategory
+      ? selectedExpenseCategory?.value.color
+      : selectedIncomeCategory?.value.color;
+
+    const categoryIconBgColor = selectedExpenseCategory
+      ? selectedExpenseCategory?.value.bgColor
+      : selectedIncomeCategory?.value.bgColor;
+
     // await new Promise((resolve) => setTimeout(resolve, 2000));
     // console.log(JSON.stringify(data));
     try {
@@ -93,6 +101,8 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
         name: data.category,
         type: isExpense ? "expense" : "income",
         icon: categoryIcon || "shopping-basket",
+        color: categoryIconColor || "#f3f4f6",
+        bgColor: categoryIconBgColor || "#37474f",
       };
       await insertData({ expense, category });
       resetField("amount");
@@ -137,7 +147,7 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
           errors={errors}
           props={{
             inputMode: "numeric",
-            maxLength: 10,
+            maxLength: 9,
           }}
         />
         <CustomDatePicker
@@ -152,9 +162,9 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
           <Pressable
             disabled={isSubmitting}
             onPress={() => router.back()}
-            className="bg-[#ffc727] items-center w-[150px] py-3 rounded-full"
+            className="bg-gray-400 items-center w-[130px] py-3 rounded-full"
           >
-            <Text className="text-white text-xl font-semibold tracking-widest">
+            <Text className="text-white text-lg font-semibold tracking-widest">
               Cancel
             </Text>
           </Pressable>
@@ -162,9 +172,9 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
           <Pressable
             disabled={isSubmitting}
             onPress={handleSubmit(onSubmit)}
-            className="bg-[#ffc727] items-center w-[150px] py-3 rounded-full"
+            className="bg-[#ffc727] items-center w-[130px] py-3 rounded-full"
           >
-            <Text className="text-white text-xl font-semibold tracking-widest">
+            <Text className="text-white text-lg font-semibold tracking-widest">
               {isSubmitting ? "Saving..." : "Save"}
             </Text>
           </Pressable>

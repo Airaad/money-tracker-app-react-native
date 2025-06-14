@@ -17,5 +17,7 @@ interface CategoryItems {
   value: {
     title: string;
     icon: string;
+    color: string;
+    bgColor: string;
   };
 }

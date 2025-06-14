@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "0b28ed8e-d24a-40f9-b6e7-09b24bf38b75",
+  "id": "02f1864c-0b65-411a-9df8-898873749db8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "categories": {
@@ -23,6 +23,20 @@
         },
         "icon": {
           "name": "icon",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "color": {
+          "name": "color",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "bgColor": {
+          "name": "bgColor",
           "type": "text",
           "primaryKey": false,
           "notNull": true,

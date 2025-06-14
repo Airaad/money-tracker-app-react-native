@@ -135,6 +135,8 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
             id: categories.id,
             name: categories.name,
             icon: categories.icon,
+            color: categories.color,
+            bgColor: categories.bgColor,
             type: categories.type,
           },
         })
@@ -164,6 +166,8 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
             id: categories.id,
             name: categories.name,
             icon: categories.icon,
+            color: categories.color,
+            bgColor: categories.bgColor,
             type: categories.type,
           },
         })

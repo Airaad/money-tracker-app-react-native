@@ -2,6 +2,8 @@ CREATE TABLE `categories` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text NOT NULL,
 	`icon` text NOT NULL,
+	`color` text NOT NULL,
+	`bgColor` text NOT NULL,
 	`type` text NOT NULL
 );
 --> statement-breakpoint

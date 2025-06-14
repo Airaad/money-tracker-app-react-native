@@ -5,6 +5,8 @@ import { Text, View } from "react-native";
 interface ItemComponentProps {
   icon: string;
   name: string;
+  color: string;
+  bgColor: string;
   category: string;
   description: string;
   amount: number;
@@ -12,6 +14,8 @@ interface ItemComponentProps {
 const ItemComponent = ({
   category,
   icon,
+  color,
+  bgColor,
   name,
   amount,
   description,
@@ -19,12 +23,17 @@ const ItemComponent = ({
   return (
     <View className="flex-row justify-between items-center my-2">
       <View className="flex-row gap-4 items-center ">
-        <View className="w-14 h-14 justify-center rounded-full items-center bg-[#37474f]">
-          <FontAwesome5 name={icon} size={25} color="#f3f4f6" />
+        <View
+          className="w-14 h-14 justify-center rounded-full items-center"
+          style={{ backgroundColor: bgColor }}
+        >
+          <FontAwesome5 name={icon} size={25} color={color} />
         </View>
         <View>
-          <Text className="text-xl font-semibold tracking-wider">{name}</Text>
-          <Text className="font-semibold text-gray-500">{description}</Text>
+          <Text className="text-xl text-[#37474f] font-semibold tracking-wider">
+            {name}
+          </Text>
+          <Text className="font-semibold text-gray-400">{description}</Text>
         </View>
       </View>
       <View>

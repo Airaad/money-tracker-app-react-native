@@ -94,6 +94,14 @@ const UpdateExpenseForm = ({
     const categoryIcon = selectedExpenseCategory
       ? selectedExpenseCategory?.value.icon
       : selectedIncomeCategory?.value.icon;
+
+    const categoryIconColor = selectedExpenseCategory
+      ? selectedExpenseCategory?.value.color
+      : selectedIncomeCategory?.value.color;
+
+    const categoryIconBgColor = selectedExpenseCategory
+      ? selectedExpenseCategory?.value.bgColor
+      : selectedIncomeCategory?.value.bgColor;
     // await new Promise((resolve) => setTimeout(resolve, 2000));
     // Alert.alert(JSON.stringify(data));
     // console.log(JSON.stringify(data));
@@ -109,6 +117,8 @@ const UpdateExpenseForm = ({
         name: data.category,
         type: type === "expense" ? "expense" : "income",
         icon: categoryIcon || "shopping-basket",
+        color: categoryIconColor || "#f3f4f6",
+        bgColor: categoryIconBgColor || "#37474f",
       };
       await updateData({ expense, category });
       Alert.alert("Item updated successfully");
@@ -167,9 +177,9 @@ const UpdateExpenseForm = ({
           <Pressable
             disabled={isSubmitting}
             onPress={() => router.back()}
-            className="bg-[#ffc727] items-center w-[150px] py-3 rounded-full"
+            className="bg-gray-400 items-center w-[130px] py-3 rounded-full"
           >
-            <Text className="text-white text-xl font-semibold tracking-widest">
+            <Text className="text-white text-lg font-semibold tracking-widest">
               Cancel
             </Text>
           </Pressable>
@@ -177,9 +187,9 @@ const UpdateExpenseForm = ({
           <Pressable
             disabled={isSubmitting}
             onPress={handleSubmit(onSubmit)}
-            className="bg-[#ffc727] items-center w-[150px] py-3 rounded-full"
+            className="bg-[#ffc727] items-center w-[130px] py-3 rounded-full"
           >
-            <Text className="text-white text-xl font-semibold tracking-widest">
+            <Text className="text-white text-lg font-semibold tracking-widest">
               {isSubmitting ? "Updating..." : "Update"}
             </Text>
           </Pressable>

@@ -1,4 +1,4 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import BottomSheet from "@gorhom/bottom-sheet";
 import {
   addDays,
@@ -116,7 +116,7 @@ const SliderList = () => {
     <View className="bg-white flex-1 mt-5 rounded-t-[1.8rem]">
       <View className="flex-1 mb-[75px]">
         <FlatList
-          initialNumToRender={5}
+          initialNumToRender={7}
           maxToRenderPerBatch={5}
           windowSize={7}
           showsVerticalScrollIndicator={false}
@@ -143,7 +143,7 @@ const SliderList = () => {
                     className={`${
                       userPreferenceType === "daily"
                         ? "text-[#ffc727]"
-                        : "text-black"
+                        : "text-[#37474f]"
                     } font-medium text-xl`}
                   >
                     Daily
@@ -154,7 +154,7 @@ const SliderList = () => {
                     className={`${
                       userPreferenceType === "monthly"
                         ? "text-[#ffc727]"
-                        : "text-black"
+                        : "text-[#37474f]"
                     } font-medium text-xl`}
                   >
                     Monthly
@@ -165,18 +165,18 @@ const SliderList = () => {
                     className={`${
                       userPreferenceType === "weekly"
                         ? "text-[#ffc727]"
-                        : "text-black"
+                        : "text-[#37474f]"
                     } font-medium text-xl`}
                   >
                     Weekly
                   </Text>
                 </Pressable>
               </View>
-              <View className="bg-gray-500 flex-row items-center justify-around w-[50%] mx-auto my-5 p-4 rounded-full">
+              <View className="flex-row items-center justify-around w-full mx-auto my-5 p-4 rounded-full">
                 <Pressable onPress={handlePrev}>
-                  <FontAwesome name="angle-left" size={24} color="white" />
+                  <AntDesign name="caretleft" size={24} color="#37474f" />
                 </Pressable>
-                <Text className="text-lg text-white">
+                <Text className="text-lg font-medium text-[#37474f]">
                   {userPreferenceType === "monthly"
                     ? format(targetDate, "MMMM yyyy")
                     : userPreferenceType === "daily"
@@ -187,7 +187,7 @@ const SliderList = () => {
                       )}`}
                 </Text>
                 <Pressable onPress={handleNext}>
-                  <FontAwesome name="angle-right" size={24} color="white" />
+                  <AntDesign name="caretright" size={24} color="#37474f" />
                 </Pressable>
               </View>
             </>
@@ -195,7 +195,7 @@ const SliderList = () => {
           renderItem={({ item }) => (
             <View className="px-4 my-3">
               <View className="mb-4 px-1">
-                <Text className="text-gray-400 font-semibold text-lg w-[150px]">
+                <Text className="text-gray-500 font-semibold text-lg w-[150px]">
                   {format(parseISO(item.date), "MMMM dd, yyyy")}
                 </Text>
                 <View className="h-[1px] bg-gray-400 w-full" />
@@ -205,6 +205,8 @@ const SliderList = () => {
                   <ItemComponent
                     category={item.category.type}
                     icon={item.category.icon}
+                    color={item.category.color}
+                    bgColor={item.category.bgColor}
                     name={item.category.name}
                     description={item.description}
                     amount={item.amount}
@@ -222,6 +224,8 @@ const SliderList = () => {
         category={bottomSheetItems?.category?.type}
         title={bottomSheetItems?.category?.name}
         icon={bottomSheetItems?.category?.icon}
+        color={bottomSheetItems?.category?.color}
+        bgColor={bottomSheetItems?.category?.bgColor}
         description={bottomSheetItems?.description}
         amount={bottomSheetItems?.amount}
         date={bottomSheetItems?.createdDate}

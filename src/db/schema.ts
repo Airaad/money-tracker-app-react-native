@@ -5,6 +5,8 @@ export const categories = sqliteTable("categories", {
   id: int("id").unique().primaryKey({ autoIncrement: true }),
   name: text("name").notNull(), // e.g., "Food", "Salary"
   icon: text("icon").notNull(), // e.g., "🍕"
+  color: text("color").notNull(),
+  bgColor: text("bgColor").notNull(),
   type: text("type").notNull(), // "income" or "expense"
 });
 

@@ -1,3 +1,4 @@
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { format, parseISO } from "date-fns";
@@ -11,6 +12,8 @@ interface BottomSheetProps {
   title: string;
   category: string;
   icon: string;
+  color: string;
+  bgColor: string;
   description: string;
   amount: number;
   date: string;
@@ -85,7 +88,8 @@ const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
             </Pressable>
           </View>
         </View>
-        <View className="justify-center items-center gap-5 mt-20">
+        <View className="justify-center items-center gap-5 mt-10">
+          <FontAwesome5 name={props.icon} size={25} color={props.color} />
           <Text className="text-[#ffc727] text-2xl font-medium">
             {props.category?.toUpperCase()}
           </Text>
