@@ -1,6 +1,13 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { format, parseISO } from "date-fns";
+import {
+  addDays,
+  addMonths,
+  format,
+  parseISO,
+  subDays,
+  subMonths,
+} from "date-fns";
 import { useFocusEffect } from "expo-router";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
@@ -30,6 +37,48 @@ const SliderList = () => {
   const handlePress = async (value: "daily" | "weekly" | "monthly") => {
     await storeUserPreferenceData(value);
   };
+
+  // Move to next day
+  const handleNextDay = () => {
+    setTargetDate((prev) => addDays(prev, 1));
+  };
+
+  // Move to previous day
+  const handlePrevDay = () => {
+    setTargetDate((prev) => subDays(prev, 1));
+  };
+
+  // Move to next month
+  const handleNextMonth = () => {
+    setTargetDate((prev) => addMonths(prev, 1));
+  };
+
+  // Move to previous month
+  const handlePrevMonth = () => {
+    setTargetDate((prev) => subMonths(prev, 1));
+  };
+
+  // Move to next week
+  const handleNextWeek = () => {
+    setTargetDate((prev) => addDays(prev, 7));
+  };
+
+  // Move to previous week
+  const handlePrevWeek = () => {
+    setTargetDate((prev) => subDays(prev, 7));
+  };
+
+  const handlePrev = useCallback(() => {
+    if (userPreferenceType === "daily") handlePrevDay();
+    else if (userPreferenceType === "monthly") handlePrevMonth();
+    else handlePrevWeek();
+  }, [userPreferenceType]);
+
+  const handleNext = useCallback(() => {
+    if (userPreferenceType === "daily") handleNextDay();
+    else if (userPreferenceType === "monthly") handleNextMonth();
+    else handleNextWeek();
+  }, [userPreferenceType]);
 
   // Function for arranging database data
   const groupedArray = useMemo(() => {
@@ -67,6 +116,9 @@ const SliderList = () => {
     <View className="bg-white flex-1 mt-5 rounded-t-[1.8rem]">
       <View className="flex-1 mb-[75px]">
         <FlatList
+          initialNumToRender={5}
+          maxToRenderPerBatch={5}
+          windowSize={7}
           showsVerticalScrollIndicator={false}
           data={groupedArray}
           keyExtractor={(item) => item.id.toString()}
@@ -121,15 +173,20 @@ const SliderList = () => {
                 </Pressable>
               </View>
               <View className="bg-gray-500 flex-row items-center justify-around w-[50%] mx-auto my-5 p-4 rounded-full">
-                <Pressable
-                  onPress={() => setTargetDate(new Date("2025-05-11"))}
-                >
+                <Pressable onPress={handlePrev}>
                   <FontAwesome name="angle-left" size={24} color="white" />
                 </Pressable>
-                <Text className="text-lg text-white">{format(targetDate, "MMMM yyyy")}</Text>
-                <Pressable
-                  onPress={() => setTargetDate(new Date("2025-06-11"))}
-                >
+                <Text className="text-lg text-white">
+                  {userPreferenceType === "monthly"
+                    ? format(targetDate, "MMMM yyyy")
+                    : userPreferenceType === "daily"
+                    ? format(targetDate, "d MMMM yyyy")
+                    : `${format(subDays(targetDate, 6), "d MMMM")} - ${format(
+                        targetDate,
+                        "d MMMM yyyy"
+                      )}`}
+                </Text>
+                <Pressable onPress={handleNext}>
                   <FontAwesome name="angle-right" size={24} color="white" />
                 </Pressable>
               </View>
