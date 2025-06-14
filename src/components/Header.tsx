@@ -6,12 +6,12 @@ import { Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
 
 const Header = () => {
-  const { items, getTotal } = useBudget();
+  const { items, getTotal, userPreferenceType, targetDate } = useBudget();
   const [sumOfData, setSumOfData] = useState<any>(null);
 
   useEffect(() => {
     const totalData = async () => {
-      const result = await getTotal();
+      const result = await getTotal(userPreferenceType, targetDate);
       setSumOfData(result);
     };
     totalData();

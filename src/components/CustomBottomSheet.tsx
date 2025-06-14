@@ -1,5 +1,6 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import { format, parseISO } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { forwardRef, useMemo } from "react";
 import { Alert, Pressable, Text, View } from "react-native";
@@ -71,7 +72,9 @@ const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
       <BottomSheetView className="flex-1">
         <View className="p-5 flex-row justify-between items-center">
           <Text className="text-lg text-[#ffc727] text-medium">
-            {props.date}
+            {props.date
+              ? format(parseISO(props.date), "MMMM dd, yyyy")
+              : "Invalid Date"}
           </Text>
           <View className="flex-row gap-10">
             <Pressable onPress={() => handleDelete(props.id)}>

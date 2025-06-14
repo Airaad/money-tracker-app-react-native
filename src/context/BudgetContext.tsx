@@ -43,7 +43,10 @@ interface BudgetContextType {
     expense: ExpenseItemType;
     category: Omit<CategoryType, "id">;
   }) => Promise<void>;
-  getTotal: () => Promise<any>;
+  getTotal: (
+    filterType: "daily" | "weekly" | "monthly",
+    targetDate: Date
+  ) => Promise<any>;
   loading: boolean;
   error: string | null;
 }
@@ -289,16 +292,45 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const getTotal = async () => {
+  const getTotal = async (
+    filterType: "daily" | "weekly" | "monthly",
+    targetDate: Date = new Date(),
+    carryOver = false
+  ) => {
     try {
       setLoading(true);
       setError(null);
+
+      let whereCondition;
+
+      if (filterType === "daily") {
+        const start = startOfDay(targetDate);
+        const end = endOfDay(targetDate);
+        whereCondition = and(
+          gte(expenses.createdDate, start.toISOString()),
+          lte(expenses.createdDate, end.toISOString())
+        );
+      } else if (filterType === "weekly") {
+        const start = startOfDay(subDays(targetDate, 6));
+        const end = endOfDay(targetDate);
+        whereCondition = and(
+          gte(expenses.createdDate, start.toISOString()),
+          lte(expenses.createdDate, end.toISOString())
+        );
+      } else if (filterType === "monthly") {
+        const start = startOfMonth(targetDate);
+        const end = endOfMonth(targetDate);
+        whereCondition = and(
+          gte(expenses.createdDate, start.toISOString()),
+          lte(expenses.createdDate, end.toISOString())
+        );
+      }
       //For total expense
       const expenseResult = await db
         .select({ total: sum(expenses.amount) })
         .from(expenses)
         .innerJoin(categories, eq(expenses.categoryId, categories.id))
-        .where(eq(categories.type, "expense"))
+        .where(and(eq(categories.type, "expense"), whereCondition))
         .get();
 
       const totalExpense = Number(expenseResult?.total) || 0;
@@ -308,7 +340,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         .select({ total: sum(expenses.amount) })
         .from(expenses)
         .innerJoin(categories, eq(expenses.categoryId, categories.id))
-        .where(eq(categories.type, "income"))
+        .where(and(eq(categories.type, "income"), whereCondition))
         .get();
 
       const totalIncome = Number(incomeResult?.total) || 0;
