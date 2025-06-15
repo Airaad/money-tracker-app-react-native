@@ -84,7 +84,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         await fetchData(value, targetDateForFetch);
       } else {
         setUserPreference("monthly");
-        fetchData("monthly");
+        fetchData("monthly", targetDateForFetch);
       }
     } catch (e) {
       console.log("Something went wrong while getting user preference");
