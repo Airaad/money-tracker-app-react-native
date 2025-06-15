@@ -1,11 +1,12 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
 
 const Header = () => {
+  const router = useRouter();
   const { items, getTotal, userPreferenceType, targetDate } = useBudget();
   const [sumOfData, setSumOfData] = useState<any>(null);
 
@@ -41,7 +42,9 @@ const Header = () => {
           <Text className="text-3xl text-white font-semibold px-6 mt-3">{`$${
             sumOfData?.netBalance ?? 0
           }`}</Text>
-          <Text className="text-white text-base px-6 mt-5">See details</Text>
+          <Pressable onPress={() => router.push("/analysis")}>
+            <Text className="text-white text-base px-6 mt-5">See details</Text>
+          </Pressable>
         </View>
       </View>
 

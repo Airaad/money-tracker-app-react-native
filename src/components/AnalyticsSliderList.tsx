@@ -1,56 +1,19 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { useBudget } from "../context/BudgetContext";
+import AnalyticsGraph from "./AnalyticsGraph";
 
-const analysisData = [
-  {
-    name: "Housing",
-    amount: 1200,
-    color: "#5D9CEC", // Soft blue
-    icon: "home",
-    bgColor: "#E7F0FD",
-  },
-  {
-    name: "Transport",
-    amount: 350,
-    color: "#FC5C65", // Red
-    icon: "car",
-    bgColor: "#FFEEEF",
-  },
-  {
-    name: "Food",
-    amount: 600,
-    color: "#FD9644", // Orange
-    icon: "utensils",
-    bgColor: "#FFF3E9",
-  },
-  {
-    name: "Utilities",
-    amount: 250,
-    color: "#26DE81", // Green
-    icon: "lightbulb",
-    bgColor: "#E8F9F0",
-  },
-  {
-    name: "Entertainment",
-    amount: 200,
-    color: "#778CA3", // Blue-gray
-    icon: "film",
-    bgColor: "#F1F4F7",
-  },
-  {
-    name: "Healthcare",
-    amount: 150,
-    color: "#A55EEA", // Purple
-    icon: "heartbeat",
-    bgColor: "#F4EEFF",
-  },
-];
+type props = {
+  data: AnalyticsDataItem[];
+  isExpense: boolean;
+};
 
-const AnalyticsSliderList = () => {
-  const totalAmount = analysisData.reduce((sum, item) => sum + item.amount, 0);
+const AnalyticsSliderList = ({ data, isExpense }: props) => {
+  const { userPreferenceType } = useBudget();
+  const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
 
-  const renderItem = ({ item }: any) => (
+  const renderItem = ({ item }: { item: AnalyticsDataItem }) => (
     <View style={styles.itemContainer}>
       <View style={[styles.iconContainer, { backgroundColor: item.bgColor }]}>
         <FontAwesome5 name={item.icon} size={20} color={item.color} />
@@ -64,7 +27,14 @@ const AnalyticsSliderList = () => {
       </View>
 
       <View style={styles.amountContainer}>
-        <Text style={styles.amountText}>${item.amount}</Text>
+        <Text
+          style={[
+            styles.amountText,
+            { color: isExpense ? "#ef4444" : "#22c55e" },
+          ]}
+        >
+          ${item.amount}
+        </Text>
       </View>
     </View>
   );
@@ -72,13 +42,36 @@ const AnalyticsSliderList = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Monthly Expenses</Text>
-        <Text style={styles.headerAmount}>Total: ${totalAmount}</Text>
+        <Text style={styles.headerTitle}>
+          {userPreferenceType === "daily"
+            ? "Daily"
+            : userPreferenceType === "monthly"
+            ? "Monthly"
+            : "Weekly"}{" "}
+          {isExpense ? "Expenses" : "Incomes"}
+        </Text>
+        <Text
+          style={[
+            styles.headerAmount,
+            { color: isExpense ? "#ef4444" : "#22c55e" },
+          ]}
+        >
+          Total: ${totalAmount}
+        </Text>
       </View>
 
       <FlatList
-        data={analysisData}
-        keyExtractor={(item) => item.name}
+        initialNumToRender={7}
+        maxToRenderPerBatch={5}
+        windowSize={7}
+        data={data}
+        keyExtractor={(item) => item.id.toString()}
+        ListHeaderComponent={<AnalyticsGraph data={data} />}
+        ListEmptyComponent={
+          <Text className="text-2xl text-gray-400 text-center">
+            No Records Present
+          </Text>
+        }
         renderItem={renderItem}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
@@ -93,25 +86,26 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F9FAFB",
     padding: 20,
+    borderTopLeftRadius: 29,
+    borderTopRightRadius: 29,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
     paddingBottom: 15,
+    paddingHorizontal: 5,
     borderBottomWidth: 1,
-    borderBottomColor: "#E5E7EB",
+    borderBottomColor: "#9ca3af",
   },
   headerTitle: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: "600",
-    color: "#1F2937",
+    color: "#37474f",
   },
   headerAmount: {
     fontSize: 18,
-    fontWeight: "700",
-    color: "#3B82F6",
+    fontWeight: "500",
   },
   listContent: {
     paddingBottom: 60, //bottom padding for the flatlist
@@ -143,7 +137,7 @@ const styles = StyleSheet.create({
   categoryName: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#1F2937",
+    color: "#37474f",
     marginBottom: 3,
   },
   percentageText: {
@@ -157,10 +151,10 @@ const styles = StyleSheet.create({
   amountText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#1F2937",
+    color: "#37474f",
   },
   separator: {
-    height: 12,
+    height: 10,
   },
 });
 

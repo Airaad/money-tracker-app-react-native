@@ -21,3 +21,14 @@ interface CategoryItems {
     bgColor: string;
   };
 }
+
+interface AnalyticsDataItem {
+  id: number;
+  name: string;
+  amount: number;
+  color: string;
+  bgColor: string;
+  icon: string;
+  legendFontColor: string;
+  legendFontSize: number;
+}

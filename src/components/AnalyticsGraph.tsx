@@ -1,59 +1,12 @@
 import React from "react";
-import { Dimensions, View } from "react-native";
+import { Dimensions, Text, View } from "react-native";
 import { PieChart } from "react-native-chart-kit";
 
 const screenWidth = Dimensions.get("window").width;
 
-const data = [
-  {
-    name: "Housing",
-    amount: 1200,
-    color: "#5D9CEC", 
-    icon: "home",
-    legendFontColor: "#5D9CEC",
-    legendFontSize: 12,
-  },
-  {
-    name: "Transport",
-    amount: 350,
-    color: "#FC5C65", 
-    icon: "car",
-    legendFontColor: "#FC5C65",
-    legendFontSize: 12,
-  },
-  {
-    name: "Food",
-    amount: 600,
-    color: "#FD9644", 
-    icon: "utensils",
-    legendFontColor: "#FD9644",
-    legendFontSize: 12,
-  },
-  {
-    name: "Utilities",
-    amount: 250,
-    color: "#26DE81", 
-    icon: "lightbulb",
-    legendFontColor: "#26DE81",
-    legendFontSize: 12,
-  },
-  {
-    name: "Entertainment",
-    amount: 200,
-    color: "#778CA3", 
-    icon: "film",
-    legendFontColor: "#778CA3",
-    legendFontSize: 12,
-  },
-  {
-    name: "Healthcare",
-    amount: 150,
-    color: "#A55EEA", 
-    icon: "heartbeat",
-    legendFontColor: "#A55EEA",
-    legendFontSize: 12,
-  },
-];
+type AnalyticsGraphProps = {
+  data: AnalyticsDataItem[];
+};
 
 const chartConfig = {
   backgroundGradientFrom: "#1E2923",
@@ -68,22 +21,44 @@ const chartConfig = {
   },
 };
 
-const AnalyticsGraph = () => {
+const AnalyticsGraph = ({ data }: AnalyticsGraphProps) => {
   return (
-    <View className="bg-[#F9FAFB] mt-2 p-2 justify-center items-center rounded-t-[1.8rem]">
+    <View className="bg-[#F9FAFB] px-2">
       <PieChart
         data={data}
         width={screenWidth - 20}
-        height={240}
+        height={250}
         chartConfig={chartConfig}
         accessor={"amount"}
         backgroundColor={"transparent"}
         paddingLeft={"15"}
-        center={[0, 0]}
-        hasLegend={true}
+        center={[50, 0]}
+        hasLegend={false}
         avoidFalseZero={true}
-        style={{ marginVertical: 8 }}
       />
+      <View className="flex flex-wrap flex-row justify-center mb-4">
+        {data.map((item, index) => (
+          <View key={index} className="flex-row items-center mx-2 my-1">
+            <View
+              style={{
+                width: 12,
+                height: 12,
+                backgroundColor: item.color,
+                borderRadius: 6,
+                marginRight: 6,
+              }}
+            />
+            <Text
+              style={{
+                color: item.legendFontColor,
+                fontSize: item.legendFontSize,
+              }}
+            >
+              {item.name}
+            </Text>
+          </View>
+        ))}
+      </View>
     </View>
   );
 };
