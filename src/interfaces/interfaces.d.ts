@@ -32,3 +32,8 @@ interface AnalyticsDataItem {
   legendFontColor: string;
   legendFontSize: number;
 }
+
+interface CurrencyOptions {
+  label: string;
+  value: string;
+}

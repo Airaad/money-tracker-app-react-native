@@ -10,7 +10,7 @@ type props = {
 };
 
 const AnalyticsSliderList = ({ data, isExpense }: props) => {
-  const { userPreferenceType } = useBudget();
+  const { userPreferenceType, userCurrencyPreference } = useBudget();
   const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
 
   const renderItem = ({ item }: { item: AnalyticsDataItem }) => (
@@ -33,7 +33,8 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
             { color: isExpense ? "#ef4444" : "#22c55e" },
           ]}
         >
-          ${item.amount}
+          {userCurrencyPreference}
+          {item.amount}
         </Text>
       </View>
     </View>
@@ -56,7 +57,8 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
             { color: isExpense ? "#ef4444" : "#22c55e" },
           ]}
         >
-          Total: ${totalAmount}
+          Total: {userCurrencyPreference}
+          {totalAmount}
         </Text>
       </View>
 

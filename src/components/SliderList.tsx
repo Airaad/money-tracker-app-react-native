@@ -29,13 +29,19 @@ const SliderList = () => {
     setTargetDate,
     targetDate,
     storeUserPreferenceData,
+    userCurrencyPreference,
+    userCarryOverPreference,
     userPreferenceType,
     loading,
     error,
   } = useBudget();
 
   const handlePress = async (value: "daily" | "weekly" | "monthly") => {
-    await storeUserPreferenceData(value);
+    await storeUserPreferenceData(
+      value,
+      userCarryOverPreference,
+      userCurrencyPreference
+    );
   };
 
   // Move to next day

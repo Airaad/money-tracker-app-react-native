@@ -24,8 +24,12 @@ interface BudgetContextType {
   targetDate: Date;
   setTargetDate: React.Dispatch<React.SetStateAction<Date>>;
   userPreferenceType: "daily" | "weekly" | "monthly";
+  userCarryOverPreference: boolean;
+  userCurrencyPreference: string;
   storeUserPreferenceData: (
-    value: "daily" | "weekly" | "monthly"
+    value: "daily" | "weekly" | "monthly",
+    carryOverValue: boolean,
+    currencySymbolValue: string
   ) => Promise<void>;
   getData: (id: number) => Promise<any>;
   insertData: ({
@@ -45,7 +49,8 @@ interface BudgetContextType {
   }) => Promise<void>;
   getTotal: (
     filterType: "daily" | "weekly" | "monthly",
-    targetDate: Date
+    targetDate: Date,
+    carryOver: boolean
   ) => Promise<any>;
   loading: boolean;
   error: string | null;
@@ -61,34 +66,56 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
   const [userPreference, setUserPreference] = useState<
     "daily" | "weekly" | "monthly"
   >("monthly");
+  const [carryOverTotal, setCarryOverTotal] = useState(false);
+  const [currencySymbol, setCurrencySymbol] = useState("₹");
 
   // Using async storage to store the user preference
   const storeUserPreferenceData = async (
-    value: "daily" | "monthly" | "weekly"
+    value: "daily" | "monthly" | "weekly",
+    carryOverValue: boolean,
+    currencySymbolValue: string
   ) => {
+    const preferences = {
+      fetchType: value,
+      carryOver: carryOverValue,
+      currencySymbol: currencySymbolValue,
+    };
     try {
       setUserPreference(value);
-      await AsyncStorage.setItem("userPreferenceFetchType", value);
+      setCarryOverTotal(carryOverValue);
+      setCurrencySymbol(currencySymbolValue);
+      await AsyncStorage.setItem(
+        "userPreferences",
+        JSON.stringify(preferences)
+      );
       await fetchData(value, targetDateForFetch);
     } catch (e) {
-      console.log("Something went wrong while storing user preference");
+      console.log("Something went wrong while storing user preference", e);
     }
   };
 
   // Using async storage to get the user preference
   const getUserPreferenceData = async () => {
     try {
-      const value = await AsyncStorage.getItem("userPreferenceFetchType");
-      if (value === "daily" || value === "weekly" || value === "monthly") {
-        setUserPreference(value);
-        await fetchData(value, targetDateForFetch);
+      const stored = await AsyncStorage.getItem("userPreferences");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.fetchType) setUserPreference(parsed.fetchType);
+        if (typeof parsed.carryOver === "boolean")
+          setCarryOverTotal(parsed.carryOver);
+        if (parsed.currencySymbol) setCurrencySymbol(parsed.currencySymbol);
+        await fetchData(parsed.fetchType, targetDateForFetch);
       } else {
         setUserPreference("monthly");
-        fetchData("monthly", targetDateForFetch);
+        setCarryOverTotal(false);
+        setCurrencySymbol("₹");
+        await fetchData("monthly", targetDateForFetch);
       }
     } catch (e) {
-      console.log("Something went wrong while getting user preference");
-      setUserPreference("monthly");
+      console.log("Something went wrong while getting user preference", e);
+      // setUserPreference("monthly");
+      // setCarryOverTotal(false);
+      // setCurrencySymbol("$");
     }
   };
 
@@ -376,6 +403,8 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         setTargetDate: setTargetDateForFetch,
         storeUserPreferenceData,
         userPreferenceType: userPreference,
+        userCarryOverPreference: carryOverTotal,
+        userCurrencyPreference: currencySymbol,
         items: itemsList,
         getData,
         insertData,

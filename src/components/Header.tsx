@@ -7,12 +7,23 @@ import { useBudget } from "../context/BudgetContext";
 
 const Header = () => {
   const router = useRouter();
-  const { items, getTotal, userPreferenceType, targetDate } = useBudget();
+  const {
+    items,
+    getTotal,
+    userPreferenceType,
+    userCarryOverPreference,
+    userCurrencyPreference,
+    targetDate,
+  } = useBudget();
   const [sumOfData, setSumOfData] = useState<any>(null);
 
   useEffect(() => {
     const totalData = async () => {
-      const result = await getTotal(userPreferenceType, targetDate);
+      const result = await getTotal(
+        userPreferenceType,
+        targetDate,
+        userCarryOverPreference
+      );
       setSumOfData(result);
     };
     totalData();
@@ -39,7 +50,7 @@ const Header = () => {
           <Text className="text-xl text-gray-400 font-medium px-6">
             Available Balance
           </Text>
-          <Text className="text-3xl text-white font-semibold px-6 mt-3">{`$${
+          <Text className="text-3xl text-white font-semibold px-6 mt-3">{`${userCurrencyPreference}${
             sumOfData?.netBalance ?? 0
           }`}</Text>
           <Pressable onPress={() => router.push("/analysis")}>
@@ -56,7 +67,7 @@ const Header = () => {
               Total Income
             </Text>
           </View>
-          <Text className="text-2xl font-semibold mx-auto mt-1 text-white">{`$${
+          <Text className="text-2xl font-semibold mx-auto mt-1 text-white">{`${userCurrencyPreference}${
             sumOfData?.totalIncome ?? 0
           }`}</Text>
         </View>
@@ -72,7 +83,7 @@ const Header = () => {
               Total Expense
             </Text>
           </View>
-          <Text className="text-2xl font-semibold mx-auto mt-1 text-white">{`$${
+          <Text className="text-2xl font-semibold mx-auto mt-1 text-white">{`${userCurrencyPreference}${
             sumOfData?.totalExpense ?? 0
           }`}</Text>
         </View>

@@ -22,6 +22,7 @@ const chartConfig = {
 };
 
 const AnalyticsGraph = ({ data }: AnalyticsGraphProps) => {
+  const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
   return (
     <View className="bg-[#F9FAFB] px-2">
       <PieChart
@@ -54,7 +55,7 @@ const AnalyticsGraph = ({ data }: AnalyticsGraphProps) => {
                 fontSize: item.legendFontSize,
               }}
             >
-              {item.name}
+              {Math.round((item.amount / totalAmount) * 100)}% {item.name}
             </Text>
           </View>
         ))}

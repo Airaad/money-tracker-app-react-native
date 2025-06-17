@@ -1,6 +1,7 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import React from "react";
 import { Text, View } from "react-native";
+import { useBudget } from "../context/BudgetContext";
 
 interface ItemComponentProps {
   icon: string;
@@ -20,6 +21,7 @@ const ItemComponent = ({
   amount,
   description,
 }: ItemComponentProps) => {
+  const { userCurrencyPreference } = useBudget();
   return (
     <View className="flex-row justify-between items-center my-2">
       <View className="flex-row gap-4 items-center ">
@@ -42,7 +44,11 @@ const ItemComponent = ({
             category === "expense" ? "text-red-500" : "text-green-500"
           } font-semibold tracking-wider`}
         >
-          {`${category === "expense" ? "-$" + amount : "+$" + amount}`}
+          {`${
+            category === "expense"
+              ? `-${userCurrencyPreference}` + amount
+              : `+${userCurrencyPreference}` + amount
+          }`}
         </Text>
       </View>
     </View>
