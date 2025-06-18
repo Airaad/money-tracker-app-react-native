@@ -1,5 +1,5 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import React from "react";
+import React, { useMemo } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
 import AnalyticsGraph from "./AnalyticsGraph";
@@ -11,7 +11,11 @@ type props = {
 
 const AnalyticsSliderList = ({ data, isExpense }: props) => {
   const { userPreferenceType, userCurrencyPreference } = useBudget();
-  const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
+
+  const totalAmount = useMemo(
+    () => data.reduce((sum, item) => sum + item.amount, 0),
+    [data]
+  );
 
   const renderItem = ({ item }: { item: AnalyticsDataItem }) => (
     <View style={styles.itemContainer}>

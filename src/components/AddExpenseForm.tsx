@@ -2,11 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Alert, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { z } from "zod";
 import { useBudget } from "../context/BudgetContext";
 import expenseItems from "../data/expenseCategory";
 import incomeItems from "../data/incomeCategory";
+import { useToast } from "../hooks/useToast";
 import CustomDatePicker from "./CustomDatePicker";
 import CustomInputController from "./CustomInputController";
 import CustomPickerSelect from "./CustomPickerSelect";
@@ -44,6 +45,7 @@ const defaultDate = `${month} ${day}, ${weekday}`;
 
 const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
   const { insertData } = useBudget();
+  const { showToast } = useToast();
   const router = useRouter();
   const {
     control,
@@ -109,13 +111,17 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
       resetField("description");
       resetField("category");
       resetField("dateOfCreation");
-      Alert.alert("Item successfully entered");
+      showToast({
+        type: "success",
+        text1: "Item added successfully !",
+      });
       router.back();
     } catch (err) {
-      Alert.alert(
-        "Update failed",
-        err instanceof Error ? err.message : "Unknown error"
-      );
+      showToast({
+        type: "error",
+        text1: "Failed to add item",
+        text2: err instanceof Error ? err.message : "Something went wrong.",
+      });
     }
   };
   return (

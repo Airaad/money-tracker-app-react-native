@@ -4,6 +4,7 @@ import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
 import { Stack } from "expo-router";
 import { StatusBar } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Toast from 'react-native-toast-message';
 import { BudgetProvider } from "../context/BudgetContext";
 import { db } from "../db/dbConfig";
 import "./global.css";
@@ -40,6 +41,7 @@ export default function RootLayout() {
             }}
           />
         </Stack>
+        <Toast />
       </BudgetProvider>
     </GestureHandlerRootView>
   );

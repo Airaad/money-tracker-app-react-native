@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Dimensions, Text, View } from "react-native";
 import { PieChart } from "react-native-chart-kit";
 
@@ -22,7 +22,10 @@ const chartConfig = {
 };
 
 const AnalyticsGraph = ({ data }: AnalyticsGraphProps) => {
-  const totalAmount = data.reduce((sum, item) => sum + item.amount, 0);
+  const totalAmount = useMemo(
+    () => data.reduce((sum, item) => sum + item.amount, 0),
+    [data]
+  );
   return (
     <View className="bg-[#F9FAFB] px-2">
       <PieChart

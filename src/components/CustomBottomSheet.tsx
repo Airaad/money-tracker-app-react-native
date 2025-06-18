@@ -4,8 +4,9 @@ import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { format, parseISO } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { forwardRef, useMemo } from "react";
-import { Alert, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
+import { useToast } from "../hooks/useToast";
 
 interface BottomSheetProps {
   id: number;
@@ -23,6 +24,7 @@ export type Ref = BottomSheet;
 
 const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
   const router = useRouter();
+  const { showToast } = useToast();
   const snapPoints = useMemo(() => ["90%"], []);
   // const renderBackdrop = useCallback(
   //   (props: any) => (
@@ -49,17 +51,18 @@ const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
   const handleDelete = async (id: number) => {
     try {
       await deleteData(id);
-
-      if (!error) {
-        // @ts-ignore
-        ref?.current?.close();
-      } else {
-        Alert.alert("Error", "Failed to delete the item. Please try again.");
-        console.error("Delete error:", error);
-      }
+      // @ts-ignore
+      ref?.current?.close();
+      showToast({
+        type: "success",
+        text1: "Item deleted successfully",
+      });
     } catch (err) {
-      Alert.alert("Unexpected Error", "Something went wrong.");
-      console.error("Unexpected error:", err);
+      showToast({
+        type: "error",
+        text1: "Failed to delete item",
+        text2: err instanceof Error ? err.message : "Something went wrong.",
+      });
     }
   };
   return (

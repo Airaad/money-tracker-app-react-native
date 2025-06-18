@@ -8,7 +8,6 @@ import {
 } from "date-fns";
 import { and, desc, eq, gte, lte, sum } from "drizzle-orm";
 import { createContext, useContext, useEffect, useState } from "react";
-import { Alert } from "react-native";
 import { db } from "../db/dbConfig";
 import {
   categories,
@@ -113,9 +112,6 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (e) {
       console.log("Something went wrong while getting user preference", e);
-      // setUserPreference("monthly");
-      // setCarryOverTotal(false);
-      // setCurrencySymbol("$");
     }
   };
 
@@ -262,7 +258,6 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
 
       await db.delete(expenses).where(eq(expenses.id, id));
       await fetchData(userPreference, targetDateForFetch);
-      Alert.alert("Entry deleted successfully");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to delete data");
     } finally {
