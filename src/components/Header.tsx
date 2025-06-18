@@ -4,9 +4,11 @@ import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
+import { useToast } from "../hooks/useToast";
 
 const Header = () => {
   const router = useRouter();
+  const { showToast } = useToast();
   const {
     items,
     getTotal,
@@ -19,12 +21,20 @@ const Header = () => {
 
   useEffect(() => {
     const totalData = async () => {
-      const result = await getTotal(
-        userPreferenceType,
-        targetDate,
-        userCarryOverPreference
-      );
-      setSumOfData(result);
+      try {
+        const result = await getTotal(
+          userPreferenceType,
+          targetDate,
+          userCarryOverPreference
+        );
+        setSumOfData(result);
+      } catch (err) {
+        showToast({
+          type: "error",
+          text1: "Failed to get total",
+          text2: err instanceof Error ? err.message : "Something went wrong.",
+        });
+      }
     };
     totalData();
   }, [items]);

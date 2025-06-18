@@ -89,7 +89,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       );
       await fetchData(value, targetDateForFetch);
     } catch (e) {
-      console.log("Something went wrong while storing user preference", e);
+      throw new Error("Something went wrong");
     }
   };
 
@@ -111,7 +111,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         await fetchData("monthly", targetDateForFetch);
       }
     } catch (e) {
-      console.log("Something went wrong while getting user preference", e);
+      throw new Error("Something went wrong");
     }
   };
 
@@ -171,7 +171,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
 
       setItemsList(result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch data");
+      throw new Error("Failed to fetch data from the database");
     } finally {
       setLoading(false);
     }
@@ -204,7 +204,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       }
       return result;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to get data");
+      throw new Error("Failed to fetch the item from the database");
     }
   };
 
@@ -245,7 +245,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       });
       await fetchData(userPreference, targetDateForFetch);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to insert data");
+      throw new Error("Failed to insert data in database");
     } finally {
       setLoading(false);
     }
@@ -255,11 +255,10 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-
       await db.delete(expenses).where(eq(expenses.id, id));
       await fetchData(userPreference, targetDateForFetch);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to delete data");
+      throw new Error("Failed to delete data from the database");
     } finally {
       setLoading(false);
     }
@@ -312,7 +311,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
 
       await fetchData(userPreference, targetDateForFetch);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to update data");
+      throw new Error("Failed to update the item in the database");
     } finally {
       setLoading(false);
     }
@@ -379,9 +378,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         netBalance,
       };
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to load total transactions"
-      );
+      throw new Error("Failed to fetch the information");
     } finally {
       setLoading(false);
     }

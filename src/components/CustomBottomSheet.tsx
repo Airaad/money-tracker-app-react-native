@@ -37,7 +37,7 @@ const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
   //   []
   // );
   // console.log(props);
-  const { deleteData, loading, error } = useBudget();
+  const { deleteData, loading } = useBudget();
 
   const handleUpdate = async (item: BottomSheetProps) => {
     router.push({

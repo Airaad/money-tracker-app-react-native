@@ -18,12 +18,13 @@ import {
   View,
 } from "react-native";
 import { ItemType, useBudget } from "../context/BudgetContext";
+import { useToast } from "../hooks/useToast";
 import CustomBottomSheet from "./CustomBottomSheet";
 import ItemComponent from "./ItemComponent";
 
 const SliderList = () => {
   const [bottomSheetItems, setBottomSheetItems] = useState<any>(null);
-
+  const { showToast } = useToast();
   const {
     items,
     setTargetDate,
@@ -33,15 +34,22 @@ const SliderList = () => {
     userCarryOverPreference,
     userPreferenceType,
     loading,
-    error,
   } = useBudget();
 
   const handlePress = async (value: "daily" | "weekly" | "monthly") => {
-    await storeUserPreferenceData(
-      value,
-      userCarryOverPreference,
-      userCurrencyPreference
-    );
+    try {
+      await storeUserPreferenceData(
+        value,
+        userCarryOverPreference,
+        userCurrencyPreference
+      );
+    } catch (err) {
+      showToast({
+        type: "error",
+        text1: "Failed to update preferences",
+        text2: err instanceof Error ? err.message : "Something went wrong.",
+      });
+    }
   };
 
   // Move to next day
