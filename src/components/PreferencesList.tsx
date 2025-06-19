@@ -42,7 +42,6 @@ const PreferencesList = () => {
             <Text className="text-lg text-gray-800">Carry Over</Text>
             <Switch
               thumbColor={userCarryOverPreference ? "#ffc727" : "#f4f3f4"}
-              trackColor={{ false: "#767577", true: "#767577" }}
               value={userCarryOverPreference}
               onValueChange={(value) =>
                 storeUserPreferenceData(

@@ -6,7 +6,7 @@ import {
   startOfMonth,
   subDays,
 } from "date-fns";
-import { and, desc, eq, gte, lte, sum } from "drizzle-orm";
+import { and, desc, eq, gte, lt, lte, sum } from "drizzle-orm";
 import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "../db/dbConfig";
 import {
@@ -326,30 +326,24 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       setError(null);
 
-      let whereCondition;
+      let start: Date;
+      let end: Date;
 
       if (filterType === "daily") {
-        const start = startOfDay(targetDate);
-        const end = endOfDay(targetDate);
-        whereCondition = and(
-          gte(expenses.createdDate, start.toISOString()),
-          lte(expenses.createdDate, end.toISOString())
-        );
+        start = startOfDay(targetDate);
+        end = endOfDay(targetDate);
       } else if (filterType === "weekly") {
-        const start = startOfDay(subDays(targetDate, 6));
-        const end = endOfDay(targetDate);
-        whereCondition = and(
-          gte(expenses.createdDate, start.toISOString()),
-          lte(expenses.createdDate, end.toISOString())
-        );
-      } else if (filterType === "monthly") {
-        const start = startOfMonth(targetDate);
-        const end = endOfMonth(targetDate);
-        whereCondition = and(
-          gte(expenses.createdDate, start.toISOString()),
-          lte(expenses.createdDate, end.toISOString())
-        );
+        start = startOfDay(subDays(targetDate, 6));
+        end = endOfDay(targetDate);
+      } else {
+        start = startOfMonth(targetDate);
+        end = endOfMonth(targetDate);
       }
+
+      const whereCondition = and(
+        gte(expenses.createdDate, start.toISOString()),
+        lte(expenses.createdDate, end.toISOString())
+      );
       //For total expense
       const expenseResult = await db
         .select({ total: sum(expenses.amount) })
@@ -370,8 +364,38 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
 
       const totalIncome = Number(incomeResult?.total) || 0;
 
-      const netBalance = totalIncome - totalExpense;
+      let netBalance = totalIncome - totalExpense;
 
+      if (carryOver) {
+        const carryOverWhereCondition = lt(
+          expenses.createdDate,
+          start.toISOString()
+        );
+
+        // For total expense before the current selected(target) date
+        const prevExpenseResult = await db
+          .select({ total: sum(expenses.amount) })
+          .from(expenses)
+          .innerJoin(categories, eq(expenses.categoryId, categories.id))
+          .where(and(eq(categories.type, "expense"), carryOverWhereCondition))
+          .get();
+
+        const totalPrevExpense = Number(prevExpenseResult?.total) || 0;
+
+        // For total income before the current selected(target) date
+        const prevIncomeResult = await db
+          .select({ total: sum(expenses.amount) })
+          .from(expenses)
+          .innerJoin(categories, eq(expenses.categoryId, categories.id))
+          .where(and(eq(categories.type, "income"), carryOverWhereCondition))
+          .get();
+
+        const totalPrevIncome = Number(prevIncomeResult?.total) || 0;
+
+        // Total available balance before the selected(target) date
+        const prevNetBalance = totalPrevIncome - totalPrevExpense;
+        netBalance += prevNetBalance;
+      }
       return {
         totalIncome,
         totalExpense,

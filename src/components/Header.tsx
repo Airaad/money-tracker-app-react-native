@@ -37,7 +37,7 @@ const Header = () => {
       }
     };
     totalData();
-  }, [items]);
+  }, [items, userCarryOverPreference]);
 
   return (
     <View className="w-[95%] mx-auto">
