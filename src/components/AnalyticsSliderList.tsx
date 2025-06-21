@@ -1,4 +1,5 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { format, subDays } from "date-fns";
 import React, { useMemo } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
@@ -10,7 +11,8 @@ type props = {
 };
 
 const AnalyticsSliderList = ({ data, isExpense }: props) => {
-  const { userPreferenceType, userCurrencyPreference } = useBudget();
+  const { targetDate, userPreferenceType, userCurrencyPreference } =
+    useBudget();
 
   const totalAmount = useMemo(
     () => data.reduce((sum, item) => sum + item.amount, 0),
@@ -55,6 +57,7 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
             : "Weekly"}{" "}
           {isExpense ? "Expenses" : "Incomes"}
         </Text>
+
         <Text
           style={[
             styles.headerAmount,
@@ -72,7 +75,21 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
         windowSize={7}
         data={data}
         keyExtractor={(item) => item.id.toString()}
-        ListHeaderComponent={<AnalyticsGraph data={data} />}
+        ListHeaderComponent={
+          <View>
+            <Text style={styles.headerDate}>
+              {userPreferenceType === "monthly"
+                ? format(targetDate, "MMMM yyyy")
+                : userPreferenceType === "daily"
+                ? format(targetDate, "d MMMM yyyy")
+                : `${format(subDays(targetDate, 6), "d MMMM")} - ${format(
+                    targetDate,
+                    "d MMMM yyyy"
+                  )}`}
+            </Text>
+            <AnalyticsGraph data={data} />
+          </View>
+        }
         ListEmptyComponent={
           <Text className="text-2xl text-gray-400 text-center">
             No Records Present
@@ -111,7 +128,14 @@ const styles = StyleSheet.create({
   },
   headerAmount: {
     fontSize: 18,
-    fontWeight: "500",
+    fontWeight: "600",
+  },
+  headerDate: {
+    fontSize: 17,
+    fontWeight: 600,
+    color: "#37474f",
+    marginHorizontal: "auto",
+    marginTop: 10,
   },
   listContent: {
     paddingBottom: 60, //bottom padding for the flatlist

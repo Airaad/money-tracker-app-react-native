@@ -2,7 +2,7 @@ import migrations from "@/drizzle/migrations";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
 import { Stack } from "expo-router";
-import { ActivityIndicator, StatusBar, Text, View } from "react-native";
+import { StatusBar, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import { BudgetProvider } from "../context/BudgetContext";
@@ -15,10 +15,7 @@ export default function RootLayout() {
   // Handle loading state
   if (!success && !migrationError) {
     return (
-      <GestureHandlerRootView className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" />
-        <Text className="mt-4">Loading database...</Text>
-      </GestureHandlerRootView>
+      <GestureHandlerRootView className="flex-1 items-center justify-center"></GestureHandlerRootView>
     );
   }
 

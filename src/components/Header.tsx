@@ -41,16 +41,16 @@ const Header = () => {
 
   return (
     <View className="w-[95%] mx-auto">
-      <View className="flex-row justify-between items-center px-3">
+      <View className="flex-row justify-between items-center px-6">
         <View>
-          <Text className="text-2xl text-black tracking-wider font-bold">
-            Hi, Sheikh Airaad
+          <Text className="text-2xl text-white tracking-widest font-bold">
+            Expensy
           </Text>
-          <Text className="text-sm text-black font-normal">Welcome Back</Text>
+          <Text className="text-sm text-white font-normal">Welcome Back</Text>
         </View>
         <View>
           <Link href="/add">
-            <Ionicons name="add-circle" size={36} color="#00000" />
+            <Ionicons name="add-circle" size={36} color="#ffffff" />
           </Link>
         </View>
       </View>

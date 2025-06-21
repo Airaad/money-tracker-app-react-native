@@ -38,10 +38,11 @@ const PreferencesList = () => {
             <Text className="text-lg text-gray-800">Dark Mode</Text>
             <Switch />
           </View>
-          <View className="flex-row justify-between items-center">
+          <View className="flex-row justify-between items-center my-4">
             <Text className="text-lg text-gray-800">Carry Over</Text>
             <Switch
-              thumbColor={userCarryOverPreference ? "#ffc727" : "#f4f3f4"}
+              thumbColor={userCarryOverPreference ? "#ffffff" : "#f4f3f4"}
+              trackColor={{ false: "#d3d3d3", true: "#ffc727" }}
               value={userCarryOverPreference}
               onValueChange={(value) =>
                 storeUserPreferenceData(
@@ -126,7 +127,9 @@ const PreferencesList = () => {
             <Text className="text-lg text-[#ffc727]">Privacy Policy</Text>
           </Pressable>
           <Pressable>
-            <Text className="text-lg text-[#ffc727]">Terms & Conditions</Text>
+            <Text className="text-lg text-[#ffc727] my-3">
+              Terms & Conditions
+            </Text>
           </Pressable>
           <Text className="text-sm text-gray-500 mt-2">App version: 1.0.0</Text>
         </Section>

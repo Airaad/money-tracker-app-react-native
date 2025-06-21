@@ -36,7 +36,7 @@ const AnalyticsGraph = ({ data }: AnalyticsGraphProps) => {
         accessor={"amount"}
         backgroundColor={"transparent"}
         paddingLeft={"15"}
-        center={[50, 0]}
+        center={[70, 0]}
         hasLegend={false}
         avoidFalseZero={true}
       />
