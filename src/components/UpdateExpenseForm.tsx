@@ -137,7 +137,7 @@ const UpdateExpenseForm = ({
     }
   };
   return (
-    <View className="bg-[#37474f] flex-1 mt-14 rounded-t-[2rem]">
+    <View className="bg-white flex-1 mt-14 rounded-t-[2rem]">
       <View className="flex-1 mt-24 gap-4 items-center">
         <CustomPickerSelect
           isExpense={type === "expense" ? true : false}
@@ -183,7 +183,7 @@ const UpdateExpenseForm = ({
           <Pressable
             disabled={isSubmitting}
             onPress={() => router.back()}
-            className="bg-gray-400 items-center w-[130px] py-3 rounded-full"
+            className="bg-[#37474f] items-center w-[130px] py-3 rounded-full"
           >
             <Text className="text-white text-lg font-semibold tracking-widest">
               Cancel

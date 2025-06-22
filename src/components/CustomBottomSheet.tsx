@@ -1,6 +1,8 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetView
+} from "@gorhom/bottom-sheet";
 import { format, parseISO } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { forwardRef, useMemo } from "react";
@@ -36,7 +38,6 @@ const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
   //   ),
   //   []
   // );
-  // console.log(props);
   const { deleteData, loading } = useBudget();
 
   const handleUpdate = async (item: BottomSheetProps) => {
@@ -77,17 +78,17 @@ const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
     >
       <BottomSheetView className="flex-1">
         <View className="p-5 flex-row justify-between items-center">
-          <Text className="text-lg text-[#ffc727] text-medium">
+          <Text className="text-xl text-[#ffc727] text-medium">
             {props.date
               ? format(parseISO(props.date), "MMMM dd, yyyy")
               : "Invalid Date"}
           </Text>
-          <View className="flex-row gap-10">
+          <View className="flex-row gap-7">
             <Pressable onPress={() => handleDelete(props.id)}>
-              <MaterialIcons name="delete" size={24} color="#ffc727" />
+              <MaterialIcons name="delete" size={30} color="#ffc727" />
             </Pressable>
             <Pressable onPress={() => handleUpdate(props)}>
-              <MaterialIcons name="edit" size={24} color="#ffc727" />
+              <MaterialIcons name="edit" size={30} color="#ffc727" />
             </Pressable>
           </View>
         </View>

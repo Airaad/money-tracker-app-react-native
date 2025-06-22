@@ -1,6 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
@@ -41,18 +41,18 @@ const Header = () => {
 
   return (
     <View className="w-[95%] mx-auto">
-      <View className="flex-row justify-between items-center px-6">
+      <View className="flex-row justify-center items-center px-7">
         <View>
           <Text className="text-2xl text-white tracking-widest font-bold">
             Expensy
           </Text>
-          <Text className="text-sm text-white font-normal">Welcome Back</Text>
+          {/* <Text className="text-sm text-white font-normal">Track your money</Text> */}
         </View>
-        <View>
+        {/* <View>
           <Link href="/add">
-            <Ionicons name="add-circle" size={36} color="#ffffff" />
+            <Ionicons name="add-circle" size={36} color="#000000" />
           </Link>
-        </View>
+        </View> */}
       </View>
 
       <View className="w-[341px] h-40 mx-auto bg-[#37474f] rounded-3xl my-5">
@@ -64,7 +64,10 @@ const Header = () => {
             sumOfData?.netBalance ?? 0
           }`}</Text>
           <Pressable onPress={() => router.push("/analysis")}>
-            <Text className="text-white text-base px-6 mt-5">See details</Text>
+            <View className="flex-row items-center px-6 mt-5 gap-2">
+              <Text className="text-white text-base ">See details</Text>
+              <Ionicons name="chevron-forward" size={16} color="white" />
+            </View>
           </Pressable>
         </View>
       </View>

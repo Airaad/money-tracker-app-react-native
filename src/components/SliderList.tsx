@@ -1,4 +1,5 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import BottomSheet from "@gorhom/bottom-sheet";
 import {
   addDays,
@@ -8,10 +9,11 @@ import {
   subDays,
   subMonths,
 } from "date-fns";
-import { useFocusEffect } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  Animated,
   FlatList,
   Pressable,
   Text,
@@ -35,6 +37,8 @@ const SliderList = () => {
     userPreferenceType,
     loading,
   } = useBudget();
+
+  const router = useRouter();
 
   const handlePress = async (value: "daily" | "weekly" | "monthly") => {
     try {
@@ -126,10 +130,40 @@ const SliderList = () => {
     }, [])
   );
 
+  const translateY = useRef(new Animated.Value(0)).current;
+  const scrollOffset = useRef(0);
+  const scrollDirection = useRef<"up" | "down" | null>(null);
+
+  const handleScroll = (event: any) => {
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    const delta = currentOffset - scrollOffset.current;
+
+    // Ignore small scrolls (jitter)
+    if (Math.abs(delta) < 9) {
+      return;
+    }
+
+    const newDirection = delta > 0 ? "down" : "up";
+
+    if (scrollDirection.current !== newDirection) {
+      scrollDirection.current = newDirection;
+
+      Animated.timing(translateY, {
+        toValue: newDirection === "down" ? 100 : 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    scrollOffset.current = currentOffset;
+  };
+
   return (
     <View className="bg-white flex-1 mt-5 rounded-t-[1.8rem]">
       <View className="flex-1 mb-[75px]">
         <FlatList
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
           initialNumToRender={7}
           maxToRenderPerBatch={5}
           windowSize={7}
@@ -231,6 +265,21 @@ const SliderList = () => {
           )}
         />
       </View>
+      <Animated.View
+        style={{
+          position: "absolute",
+          bottom: 85,
+          right: 15,
+          transform: [{ translateY }],
+        }}
+      >
+        <Pressable
+          className="bg-black h-14 w-14 justify-center items-center border-2 border-black rounded-full"
+          onPress={() => router.push("/add")}
+        >
+          <FontAwesome6 name="plus" size={30} color="#ffc727" />
+        </Pressable>
+      </Animated.View>
 
       <CustomBottomSheet
         ref={bottomSheetRef}

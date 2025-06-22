@@ -15,13 +15,13 @@ const AddExpenseHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
       <View className="px-8">
         <View className="flex-row justify-between items-center">
           <Pressable onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={24} color="#ffffff" />
+            <Ionicons name="arrow-back" size={26} color="#ffffff" />
           </Pressable>
           <Text className="text-2xl text-white tracking-wider font-semibold">
             {isExpense ? "Add New Expense" : "Add New Income"}
           </Text>
           <View>
-            <Ionicons name="notifications-circle" size={30} color="white" />
+            {/* <Ionicons name="notifications-circle" size={30} color="white" /> */}
           </View>
         </View>
 

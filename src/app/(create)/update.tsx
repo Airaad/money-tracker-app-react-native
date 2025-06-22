@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 
 const Page = () => {
-  const [isExpense, setIsExpense] = useState<boolean>(true);
   const [itemToUpdate, setItemToUpdate] = useState<any>(null);
   const params = useLocalSearchParams();
   const itemId = Number(params.id);
@@ -20,8 +19,6 @@ const Page = () => {
     };
     getItem();
   }, [itemId]);
-
-  // console.log("This is fetched",itemToUpdate);
 
   return (
     <View className="flex-1 pt-20 bg-[#ffc727]">
