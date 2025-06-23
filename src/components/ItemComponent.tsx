@@ -32,10 +32,12 @@ const ItemComponent = ({
           <FontAwesome5 name={icon} size={25} color={color} />
         </View>
         <View>
-          <Text className="text-xl text-[#37474f] font-semibold tracking-wider">
+          <Text className="text-xl text-[#37474f] font-semibold tracking-wider dark:text-white">
             {name}
           </Text>
-          <Text className="font-semibold text-gray-400">{description}</Text>
+          <Text className="font-semibold text-gray-400 dark:text-gray-300">
+            {description}
+          </Text>
         </View>
       </View>
       <View>

@@ -3,6 +3,7 @@ import { format, subDays } from "date-fns";
 import React, { useMemo } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
+import { useTheme } from "../context/ThemeContext";
 import AnalyticsGraph from "./AnalyticsGraph";
 
 type props = {
@@ -14,20 +15,42 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
   const { targetDate, userPreferenceType, userCurrencyPreference } =
     useBudget();
 
+  const { themeMode } = useTheme();
+
   const totalAmount = useMemo(
     () => data.reduce((sum, item) => sum + item.amount, 0),
     [data]
   );
 
   const renderItem = ({ item }: { item: AnalyticsDataItem }) => (
-    <View style={styles.itemContainer}>
+    <View
+      style={[
+        styles.itemContainer,
+        {
+          backgroundColor: themeMode === "dark" ? "#37474f" : "white",
+          shadowColor: themeMode === "dark" ? "transparent" : "#000",
+        },
+      ]}
+    >
       <View style={[styles.iconContainer, { backgroundColor: item.bgColor }]}>
         <FontAwesome5 name={item.icon} size={20} color={item.color} />
       </View>
 
       <View style={styles.textContainer}>
-        <Text style={styles.categoryName}>{item.name}</Text>
-        <Text style={styles.percentageText}>
+        <Text
+          style={[
+            styles.categoryName,
+            { color: themeMode === "dark" ? "#e5e7eb" : "#37474f" },
+          ]}
+        >
+          {item.name}
+        </Text>
+        <Text
+          style={[
+            styles.percentageText,
+            { color: themeMode === "dark" ? "#9ca3af" : "#6B7280" },
+          ]}
+        >
           {Math.round((item.amount / totalAmount) * 100)}% of total
         </Text>
       </View>
@@ -47,9 +70,24 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: themeMode === "dark" ? "black" : "#F9FAFB" },
+      ]}
+    >
+      <View
+        style={[
+          styles.header,
+          { borderBottomColor: themeMode === "dark" ? "#d1d5db" : "#9ca3af" },
+        ]}
+      >
+        <Text
+          style={[
+            styles.headerTitle,
+            { color: themeMode === "dark" ? "white" : "#37474f" },
+          ]}
+        >
           {userPreferenceType === "daily"
             ? "Daily"
             : userPreferenceType === "monthly"
@@ -77,7 +115,12 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
         keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={
           <View>
-            <Text style={styles.headerDate}>
+            <Text
+              style={[
+                styles.headerDate,
+                { color: themeMode === "dark" ? "white" : "#37474f" },
+              ]}
+            >
               {userPreferenceType === "monthly"
                 ? format(targetDate, "MMMM yyyy")
                 : userPreferenceType === "daily"
@@ -91,7 +134,7 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
           </View>
         }
         ListEmptyComponent={
-          <Text className="text-2xl text-gray-400 text-center">
+          <Text className="text-2xl text-gray-400 text-center dark:text-gray-200">
             No Records Present
           </Text>
         }
@@ -107,7 +150,6 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F9FAFB",
     padding: 20,
     borderTopLeftRadius: 29,
     borderTopRightRadius: 29,
@@ -119,12 +161,10 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     paddingHorizontal: 5,
     borderBottomWidth: 1,
-    borderBottomColor: "#9ca3af",
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#37474f",
   },
   headerAmount: {
     fontSize: 18,
@@ -133,7 +173,6 @@ const styles = StyleSheet.create({
   headerDate: {
     fontSize: 17,
     fontWeight: 600,
-    color: "#37474f",
     marginHorizontal: "auto",
     marginTop: 10,
   },
@@ -145,7 +184,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 12,
     paddingHorizontal: 10,
-    backgroundColor: "white",
     borderRadius: 12,
     elevation: 1,
     shadowColor: "#000",
@@ -167,12 +205,10 @@ const styles = StyleSheet.create({
   categoryName: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#37474f",
     marginBottom: 3,
   },
   percentageText: {
     fontSize: 13,
-    color: "#6B7280",
   },
   amountContainer: {
     minWidth: 80,
@@ -181,7 +217,6 @@ const styles = StyleSheet.create({
   amountText: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#37474f",
   },
   separator: {
     height: 10,

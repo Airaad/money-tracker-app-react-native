@@ -20,6 +20,7 @@ import {
   View,
 } from "react-native";
 import { ItemType, useBudget } from "../context/BudgetContext";
+import { useTheme } from "../context/ThemeContext";
 import { useToast } from "../hooks/useToast";
 import CustomBottomSheet from "./CustomBottomSheet";
 import ItemComponent from "./ItemComponent";
@@ -37,6 +38,8 @@ const SliderList = () => {
     userPreferenceType,
     loading,
   } = useBudget();
+
+  const { themeMode } = useTheme();
 
   const router = useRouter();
 
@@ -159,7 +162,7 @@ const SliderList = () => {
   };
 
   return (
-    <View className="bg-white flex-1 mt-5 rounded-t-[1.8rem]">
+    <View className="bg-white flex-1 mt-5 rounded-t-[1.8rem] dark:bg-black">
       <View className="flex-1 mb-[75px]">
         <FlatList
           onScroll={handleScroll}
@@ -178,20 +181,20 @@ const SliderList = () => {
                 className="mt-20"
               />
             ) : (
-              <Text className="text-xl text-gray-500 relative left-[95px] mt-20">
+              <Text className="text-xl text-gray-500 relative left-[100px] mt-20 dark:text-gray-200">
                 Start Tracking Your Money
               </Text>
             )
           }
           ListHeaderComponent={
             <>
-              <View className="flex-row p-4 mt-8 mx-8 rounded-full justify-around bg-gray-200">
+              <View className="flex-row bg-gray-200 p-4 mt-8 mx-8 rounded-full justify-around dark:bg-[#37474f]">
                 <Pressable onPress={() => handlePress("daily")}>
                   <Text
                     className={`${
                       userPreferenceType === "daily"
                         ? "text-[#ffc727]"
-                        : "text-[#37474f]"
+                        : "text-[#37474f] dark:text-white"
                     } font-medium text-xl`}
                   >
                     Daily
@@ -202,7 +205,7 @@ const SliderList = () => {
                     className={`${
                       userPreferenceType === "monthly"
                         ? "text-[#ffc727]"
-                        : "text-[#37474f]"
+                        : "text-[#37474f] dark:text-white"
                     } font-medium text-xl`}
                   >
                     Monthly
@@ -213,7 +216,7 @@ const SliderList = () => {
                     className={`${
                       userPreferenceType === "weekly"
                         ? "text-[#ffc727]"
-                        : "text-[#37474f]"
+                        : "text-[#37474f] dark:text-white"
                     } font-medium text-xl`}
                   >
                     Weekly
@@ -222,9 +225,13 @@ const SliderList = () => {
               </View>
               <View className="flex-row items-center justify-around w-full mx-auto my-5 p-4 rounded-full">
                 <Pressable onPress={handlePrev}>
-                  <AntDesign name="caretleft" size={24} color="#37474f" />
+                  <AntDesign
+                    name="caretleft"
+                    size={24}
+                    color={themeMode === "light" ? "#37474f" : "white"}
+                  />
                 </Pressable>
-                <Text className="text-lg font-medium text-[#37474f]">
+                <Text className="text-lg font-medium text-[#37474f] dark:text-white">
                   {userPreferenceType === "monthly"
                     ? format(targetDate, "MMMM yyyy")
                     : userPreferenceType === "daily"
@@ -235,7 +242,11 @@ const SliderList = () => {
                       )}`}
                 </Text>
                 <Pressable onPress={handleNext}>
-                  <AntDesign name="caretright" size={24} color="#37474f" />
+                  <AntDesign
+                    name="caretright"
+                    size={24}
+                    color={themeMode === "light" ? "#37474f" : "white"}
+                  />
                 </Pressable>
               </View>
             </>
@@ -243,10 +254,10 @@ const SliderList = () => {
           renderItem={({ item }) => (
             <View className="px-4 my-3">
               <View className="mb-4 px-1">
-                <Text className="text-gray-500 font-semibold text-lg w-[150px]">
+                <Text className="text-gray-500 font-semibold text-lg w-[150px] dark:text-gray-300">
                   {format(parseISO(item.date), "MMMM dd, yyyy")}
                 </Text>
-                <View className="h-[1px] bg-gray-400 w-full" />
+                <View className="h-[1px] bg-gray-400 w-full dark:bg-gray-300" />
               </View>
               {item.data.map((item) => (
                 <Pressable key={item.id} onPress={() => handleOpen(item)}>
@@ -274,7 +285,7 @@ const SliderList = () => {
         }}
       >
         <Pressable
-          className="bg-black h-14 w-14 justify-center items-center border-2 border-black rounded-full"
+          className="bg-black h-14 w-14 justify-center items-center border-2 border-black rounded-full dark:bg-white dark:border-white"
           onPress={() => router.push("/add")}
         >
           <FontAwesome6 name="plus" size={30} color="#ffc727" />

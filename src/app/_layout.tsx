@@ -6,12 +6,15 @@ import { StatusBar, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import { BudgetProvider } from "../context/BudgetContext";
+import { ThemeProvider, useTheme } from "../context/ThemeContext";
 import { db } from "../db/dbConfig";
 import "./global.css";
 
 export default function RootLayout() {
   const { success, error: migrationError } = useMigrations(db, migrations);
   useDrizzleStudio(db);
+
+  const { themeMode } = useTheme();
   // Handle loading state
   if (!success && !migrationError) {
     return (
@@ -34,28 +37,32 @@ export default function RootLayout() {
     );
   }
   return (
-    <GestureHandlerRootView className="flex-1">
-      <BudgetProvider>
-        <StatusBar translucent backgroundColor="transparent" />
-        <Stack>
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: false,
-            }}
-          />
+    <ThemeProvider>
+      <GestureHandlerRootView
+        className={`flex-1 ${themeMode === "dark" ? "dark" : ""}`}
+      >
+        <BudgetProvider>
+          <StatusBar translucent backgroundColor="transparent" />
+          <Stack>
+            <Stack.Screen
+              name="(tabs)"
+              options={{
+                headerShown: false,
+              }}
+            />
 
-          <Stack.Screen
-            name="(create)"
-            options={{
-              headerShown: false,
-              animation: "slide_from_right",
-              presentation: "transparentModal",
-            }}
-          />
-        </Stack>
-        <Toast />
-      </BudgetProvider>
-    </GestureHandlerRootView>
+            <Stack.Screen
+              name="(create)"
+              options={{
+                headerShown: false,
+                animation: "slide_from_right",
+                presentation: "transparentModal",
+              }}
+            />
+          </Stack>
+          <Toast />
+        </BudgetProvider>
+      </GestureHandlerRootView>
+    </ThemeProvider>
   );
 }
