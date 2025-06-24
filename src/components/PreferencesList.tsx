@@ -77,14 +77,14 @@ const PreferencesList = () => {
             isVisible={isModalVisible}
             onBackdropPress={() => setIsModalVisible(false)}
           >
-            <View className="w-[80%] self-center bg-white rounded-lg p-5">
-              <Text className="text-xl font-semibold mb-4 text-center">
+            <View className="w-[80%] self-center bg-white rounded-lg p-5 dark:bg-black">
+              <Text className="text-xl font-semibold mb-4 text-center dark:text-white">
                 Select Theme
               </Text>
 
               <TouchableOpacity onPress={() => handleThemeSelect("system")}>
                 <View className="flex-row justify-between items-center">
-                  <Text className="text-xl py-3">System Default</Text>
+                  <Text className="text-xl py-3 dark:text-white">System Default</Text>
                   {themeName === "system" && (
                     <FontAwesome
                       name="dot-circle-o"
@@ -96,7 +96,7 @@ const PreferencesList = () => {
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleThemeSelect("light")}>
                 <View className="flex-row justify-between items-center">
-                  <Text className="text-xl py-3">Light</Text>
+                  <Text className="text-xl py-3 dark:text-white">Light</Text>
                   {themeName === "light" && (
                     <FontAwesome
                       name="dot-circle-o"
@@ -108,7 +108,7 @@ const PreferencesList = () => {
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleThemeSelect("dark")}>
                 <View className="flex-row justify-between items-center">
-                  <Text className="text-xl py-3">Dark</Text>
+                  <Text className="text-xl py-3 dark:text-white">Dark</Text>
                   {themeName === "dark" && (
                     <FontAwesome
                       name="dot-circle-o"

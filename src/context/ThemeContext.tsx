@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { colorScheme } from "nativewind";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
+import SplashScreen from "../components/SplashScreen";
 
 type ThemeContextType = {
   themeMode: "light" | "dark";
@@ -23,6 +24,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [themeName, setThemeName] = useState<"light" | "dark" | "system">(
     "system"
   );
+  const [isThemeLoaded, setIsThemeLoaded] = useState(false);
 
   useEffect(() => {
     const loadTheme = async () => {
@@ -42,6 +44,8 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         colorScheme.set("system");
         setColorTheme(systemColorTheme);
         setThemeName("system");
+      } finally {
+        setIsThemeLoaded(true);
       }
     };
 
@@ -68,6 +72,8 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
       throw new Error("Failed to change theme");
     }
   };
+
+  if (!isThemeLoaded) return <SplashScreen />;
 
   return (
     <ThemeContext.Provider

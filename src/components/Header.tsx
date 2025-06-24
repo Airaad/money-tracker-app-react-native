@@ -2,8 +2,9 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
+import { useTheme } from "../context/ThemeContext";
 import { useToast } from "../hooks/useToast";
 
 const Header = () => {
@@ -17,6 +18,7 @@ const Header = () => {
     userCurrencyPreference,
     targetDate,
   } = useBudget();
+  const { themeMode } = useTheme();
   const [sumOfData, setSumOfData] = useState<any>(null);
 
   useEffect(() => {
@@ -41,9 +43,14 @@ const Header = () => {
 
   return (
     <View className="w-[95%] mx-auto">
-      <View className="flex-row justify-center items-center px-7">
-        <View>
-          <Text className="text-2xl text-white tracking-widest font-bold">
+      <View className="flex-row items-center px-7 mb-2">
+        <View className="flex-row items-center gap-2">
+          <Image
+            source={require("../../assets/images/icon.png")}
+            className="w-10 h-10"
+            resizeMode="contain"
+          />
+          <Text className="text-2xl text-[#37474f] tracking-widest font-bold">
             Expensy
           </Text>
           {/* <Text className="text-sm text-white font-normal">Track your money</Text> */}
@@ -55,32 +62,32 @@ const Header = () => {
         </View> */}
       </View>
 
-      <View className="w-[341px] h-40 mx-auto bg-[#37474f] rounded-3xl my-5">
+      <View className="w-[341px] h-40 mx-auto bg-white rounded-3xl my-5 dark:bg-[#37474f]">
         <View className="py-6">
-          <Text className="text-xl text-gray-400 font-medium px-6">
+          <Text className="text-xl text[#37474f] font-medium px-6 dark:text-gray-400">
             Available Balance
           </Text>
-          <Text className="text-3xl text-white font-semibold px-6 mt-3">{`${userCurrencyPreference}${
+          <Text className="text-3xl text-black font-semibold px-6 mt-3 dark:text-white">{`${userCurrencyPreference}${
             sumOfData?.netBalance ?? 0
           }`}</Text>
           <Pressable onPress={() => router.push("/analysis")}>
             <View className="flex-row items-center px-6 mt-5 gap-2">
-              <Text className="text-white text-base ">See details</Text>
-              <Ionicons name="chevron-forward" size={16} color="white" />
+              <Text className="text-black text-base dark:text-white">See details</Text>
+              <Ionicons name="chevron-forward" size={16} color={themeMode === "dark" ? "white" : "black"} />
             </View>
           </Pressable>
         </View>
       </View>
 
-      <View className="flex-row justify-between w-[341px] mx-auto bg-[#37474f] p-6 rounded-3xl">
+      <View className="flex-row justify-between w-[341px] mx-auto bg-white dark:bg-[#37474f] p-6 rounded-3xl">
         <View className="flex">
           <View className="flex-row items-center gap-1">
-            <MaterialIcons name="account-balance" size={20} color="#9ca3af" />
-            <Text className="text-lg text-gray-400 tracking-widest font-medium">
+            <MaterialIcons name="account-balance" size={20} color={themeMode === "dark" ? "#9ca3af" : "#37474f"} />
+            <Text className="text-lg text-[#37474f] dark:text-gray-400 tracking-widest font-medium">
               Total Income
             </Text>
           </View>
-          <Text className="text-2xl font-semibold mx-auto mt-1 text-white">{`${userCurrencyPreference}${
+          <Text className="text-2xl font-semibold mx-auto mt-1 text-black dark:text-white">{`${userCurrencyPreference}${
             sumOfData?.totalIncome ?? 0
           }`}</Text>
         </View>
@@ -90,13 +97,13 @@ const Header = () => {
             <MaterialIcons
               name="account-balance-wallet"
               size={20}
-              color="#9ca3af"
+              color={themeMode === "dark" ? "#9ca3af" : "#37474f"}
             />
-            <Text className="text-lg text-gray-400 tracking-widest font-medium">
+            <Text className="text-lg text-[#37474f] dark:text-gray-400 tracking-widest font-medium">
               Total Expense
             </Text>
           </View>
-          <Text className="text-2xl font-semibold mx-auto mt-1 text-white">{`${userCurrencyPreference}${
+          <Text className="text-2xl font-semibold mx-auto mt-1 text-black dark:text-white">{`${userCurrencyPreference}${
             sumOfData?.totalExpense ?? 0
           }`}</Text>
         </View>

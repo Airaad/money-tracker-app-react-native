@@ -21,7 +21,7 @@ const AnalyticsHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
           {isExpense ? "Expense Analytics" : "Income Analytics"}
         </Text>
         <View>
-          <Ionicons name="notifications-circle" size={30} color="white" />
+          {/* <Ionicons name="notifications-circle" size={30} color="white" /> */}
         </View>
       </View>
       <View className="flex-row items-center justify-center mt-10 w-full">

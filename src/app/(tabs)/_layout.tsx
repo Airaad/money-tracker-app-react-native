@@ -1,6 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Octicons from "@expo/vector-icons/Octicons";
-import { PlatformPressable } from "@react-navigation/elements";
 import { Tabs, useRouter } from "expo-router";
 import { View } from "react-native";
 
@@ -10,13 +9,6 @@ export default function TabLayout() {
     <View className="flex-1">
       <Tabs
         screenOptions={{
-          tabBarButton: (props) => (
-            <PlatformPressable
-              {...props}
-              android_ripple={{ color: "transparent" }}
-              pressOpacity={0.3}
-            />
-          ),
           tabBarShowLabel: false,
           tabBarItemStyle: {
             paddingVertical: 8,
