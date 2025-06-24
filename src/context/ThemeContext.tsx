@@ -1,21 +1,27 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { colorScheme } from "nativewind";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 
-type themeContextType = {
+type ThemeContextType = {
   themeMode: "light" | "dark";
-  toggleThemeMode: (mode: "light" | "dark" | "default") => Promise<void>;
+  themeName: "light" | "dark" | "system";
+  toggleThemeMode: (mode: "light" | "dark" | "system") => Promise<void>;
 };
 
-const ThemeContext = createContext<themeContextType>({
+const ThemeContext = createContext<ThemeContextType>({
   themeMode: "light",
+  themeName: "system",
   toggleThemeMode: async () => {},
 });
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const systemColorTheme = useColorScheme();
+  const systemColorTheme = useColorScheme() ?? "light";
   const [colorTheme, setColorTheme] = useState<"light" | "dark">(
-    systemColorTheme ?? "light"
+    systemColorTheme
+  );
+  const [themeName, setThemeName] = useState<"light" | "dark" | "system">(
+    "system"
   );
 
   useEffect(() => {
@@ -23,29 +29,43 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const storedTheme = await AsyncStorage.getItem("themeType");
         if (storedTheme === "light" || storedTheme === "dark") {
+          colorScheme.set(storedTheme);
           setColorTheme(storedTheme);
+          setThemeName(storedTheme);
         } else {
-          setColorTheme(systemColorTheme ?? "light");
+          colorScheme.set("system");
+          setColorTheme(systemColorTheme);
+          setThemeName("system");
         }
       } catch (error) {
         console.error("Failed to load theme from storage", error);
+        colorScheme.set("system");
+        setColorTheme(systemColorTheme);
+        setThemeName("system");
       }
     };
 
     loadTheme();
   }, [systemColorTheme]);
 
-  const toggleThemeMode = async (mode: "light" | "dark" | "default") => {
+  const toggleThemeMode = async (mode: "light" | "dark" | "system") => {
     try {
       if (mode === "light" || mode === "dark") {
+        colorScheme.set(mode);
         setColorTheme(mode);
+        setThemeName(mode);
         await AsyncStorage.setItem("themeType", mode);
       } else {
+        colorScheme.set("system");
+        setColorTheme(systemColorTheme);
+        setThemeName("system");
         await AsyncStorage.removeItem("themeType");
-        setColorTheme(systemColorTheme ?? "light");
       }
     } catch (error) {
-      console.error("Failed to toggle theme", error);
+      colorScheme.set("system");
+      setColorTheme(systemColorTheme);
+      setThemeName("system");
+      throw new Error("Failed to change theme");
     }
   };
 
@@ -53,6 +73,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     <ThemeContext.Provider
       value={{
         themeMode: colorTheme,
+        themeName,
         toggleThemeMode,
       }}
     >
