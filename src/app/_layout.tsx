@@ -18,22 +18,26 @@ export default function RootLayout() {
   // Handle loading state
   if (!success && !migrationError) {
     return (
-      <GestureHandlerRootView className="flex-1 items-center justify-center"></GestureHandlerRootView>
+      <ThemeProvider>
+        <GestureHandlerRootView className="flex-1 items-center justify-center"></GestureHandlerRootView>
+      </ThemeProvider>
     );
   }
 
   // Handle error state
   if (migrationError) {
     return (
-      <GestureHandlerRootView className="flex-1 items-center justify-center p-4">
-        <View className="bg-red-100 p-4 rounded-lg">
-          <Text className="text-red-800 font-bold">Database Error</Text>
-          <Text className="text-red-600 mt-2">{migrationError.message}</Text>
-          <Text className="text-red-600 mt-4">
-            Please restart the app. If the problem persists, contact support.
-          </Text>
-        </View>
-      </GestureHandlerRootView>
+      <ThemeProvider>
+        <GestureHandlerRootView className="flex-1 items-center justify-center p-4">
+          <View className="bg-red-100 p-4 rounded-lg">
+            <Text className="text-red-800 font-bold">Database Error</Text>
+            <Text className="text-red-600 mt-2">{migrationError.message}</Text>
+            <Text className="text-red-600 mt-4">
+              Please restart the app. If the problem persists, contact support.
+            </Text>
+          </View>
+        </GestureHandlerRootView>
+      </ThemeProvider>
     );
   }
   return (
