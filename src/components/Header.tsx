@@ -62,7 +62,7 @@ const Header = () => {
         </View> */}
       </View>
 
-      <View className="w-[341px] h-40 mx-auto bg-white rounded-3xl my-5 dark:bg-[#37474f]">
+      <View className="w-[341px] h-40 mx-auto bg-[#F9FAFB] rounded-3xl my-5 dark:bg-[#37474f]">
         <View className="py-6">
           <Text className="text-xl text[#37474f] font-medium px-6 dark:text-gray-400">
             Available Balance
@@ -72,8 +72,14 @@ const Header = () => {
           }`}</Text>
           <Pressable onPress={() => router.push("/analysis")}>
             <View className="flex-row items-center px-6 mt-5 gap-2">
-              <Text className="text-black text-base dark:text-white">See details</Text>
-              <Ionicons name="chevron-forward" size={16} color={themeMode === "dark" ? "white" : "black"} />
+              <Text className="text-black text-base dark:text-white">
+                See details
+              </Text>
+              <Ionicons
+                name="chevron-forward"
+                size={16}
+                color={themeMode === "dark" ? "white" : "black"}
+              />
             </View>
           </Pressable>
         </View>
@@ -82,7 +88,11 @@ const Header = () => {
       <View className="flex-row justify-between w-[341px] mx-auto bg-white dark:bg-[#37474f] p-6 rounded-3xl">
         <View className="flex">
           <View className="flex-row items-center gap-1">
-            <MaterialIcons name="account-balance" size={20} color={themeMode === "dark" ? "#9ca3af" : "#37474f"} />
+            <MaterialIcons
+              name="account-balance"
+              size={20}
+              color={themeMode === "dark" ? "#9ca3af" : "#37474f"}
+            />
             <Text className="text-lg text-[#37474f] dark:text-gray-400 tracking-widest font-medium">
               Total Income
             </Text>
@@ -112,4 +122,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

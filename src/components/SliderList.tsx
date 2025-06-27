@@ -162,7 +162,7 @@ const SliderList = () => {
   };
 
   return (
-    <View className="bg-white flex-1 mt-5 rounded-t-[1.8rem] dark:bg-black">
+    <View className="bg-[#F9FAFB] flex-1 mt-5 rounded-t-[1.8rem] dark:bg-black">
       <View className="flex-1 mb-[75px]">
         <FlatList
           onScroll={handleScroll}
@@ -308,4 +308,4 @@ const SliderList = () => {
   );
 };
 
-export default SliderList;
+export default React.memo(SliderList);

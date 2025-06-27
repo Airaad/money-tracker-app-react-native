@@ -37,11 +37,11 @@ export default function RootLayout() {
     );
   }
   return (
-    <ThemeProvider>
-      <GestureHandlerRootView
-        className={`flex-1 ${themeMode === "dark" ? "dark" : ""}`}
-      >
-        <BudgetProvider>
+    <GestureHandlerRootView
+      className={`flex-1 ${themeMode === "dark" ? "dark" : ""}`}
+    >
+      <BudgetProvider>
+        <ThemeProvider>
           <StatusBar translucent backgroundColor="transparent" />
           <Stack>
             <Stack.Screen
@@ -61,8 +61,8 @@ export default function RootLayout() {
             />
           </Stack>
           <Toast />
-        </BudgetProvider>
-      </GestureHandlerRootView>
-    </ThemeProvider>
+        </ThemeProvider>
+      </BudgetProvider>
+    </GestureHandlerRootView>
   );
 }

@@ -18,7 +18,7 @@ const chartConfig = {
   strokeWidth: 2,
   barPercentage: 0.5,
   propsForLabels: {
-    dx: 10, // adjust legend label positioning
+    dx: 10,
   },
 };
 
@@ -69,4 +69,4 @@ const AnalyticsGraph = ({ data }: AnalyticsGraphProps) => {
   );
 };
 
-export default AnalyticsGraph;
+export default React.memo(AnalyticsGraph);

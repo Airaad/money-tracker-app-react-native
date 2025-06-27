@@ -223,4 +223,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AnalyticsSliderList;
+export default React.memo(AnalyticsSliderList);
