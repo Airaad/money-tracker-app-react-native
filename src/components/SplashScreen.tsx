@@ -13,9 +13,7 @@ const SplashScreen = () => {
         style={styles.logo}
         resizeMode="contain"
       />
-      <Text style={[styles.title, { color: isDark ? "#fff" : "#000" }]}>
-        Expensy
-      </Text>
+      <Text style={[styles.title, { color: "#ffc727" }]}>Expensy</Text>
       {/* <ActivityIndicator size="large" color={isDark ? "#fff" : "#4f46e5"} /> */}
     </View>
   );
@@ -30,13 +28,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    width: 120,
-    height: 120,
+    width: 130,
+    height: 130,
     marginBottom: 20,
   },
   title: {
-    fontSize: 32,
-    fontWeight: "bold",
+    fontSize: 36,
+    fontWeight: 600,
     marginBottom: 20,
+    letterSpacing: 1,
   },
 });
