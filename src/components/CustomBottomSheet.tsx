@@ -1,13 +1,12 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import BottomSheet, {
-  BottomSheetView
-} from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { format, parseISO } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { forwardRef, useMemo } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
+import { fontFamily } from "../dimensions/fontFamily";
 import { useToast } from "../hooks/useToast";
 
 interface BottomSheetProps {
@@ -38,7 +37,7 @@ const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
   //   ),
   //   []
   // );
-  const { deleteData, loading } = useBudget();
+  const { deleteData } = useBudget();
 
   const handleUpdate = async (item: BottomSheetProps) => {
     router.push({
@@ -78,7 +77,10 @@ const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
     >
       <BottomSheetView className="flex-1">
         <View className="p-5 flex-row justify-between items-center">
-          <Text className="text-xl text-[#ffc727] text-medium">
+          <Text
+            style={{ fontFamily: fontFamily.medium }}
+            className="text-xl text-[#ffc727]"
+          >
             {props.date
               ? format(parseISO(props.date), "MMMM dd, yyyy")
               : "Invalid Date"}
@@ -94,10 +96,14 @@ const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
         </View>
         <View className="justify-center items-center gap-5 mt-10">
           <FontAwesome5 name={props.icon} size={25} color={props.color} />
-          <Text className="text-[#ffc727] text-2xl font-medium">
+          <Text
+            style={{ fontFamily: fontFamily.medium }}
+            className="text-[#ffc727] text-2xl"
+          >
             {props.category?.toUpperCase()}
           </Text>
           <Text
+            style={{ fontFamily: fontFamily.semiBold }}
             className={`${
               props?.category === "expense" ? "text-red-500" : "text-green-500"
             } text-4xl font-semibold`}
@@ -107,10 +113,16 @@ const CustomBottomSheet = forwardRef<Ref, BottomSheetProps>((props, ref) => {
               : "+$" + props.amount
           }`}</Text>
           <View>
-            <Text className="text-white tracking-widest text-3xl font-semibold text-center">
+            <Text
+              style={{ fontFamily: fontFamily.semiBold }}
+              className="text-white text-3xl text-center"
+            >
               {props.title}
             </Text>
-            <Text className="text-gray-400 text-lg text-center">
+            <Text
+              style={{ fontFamily: fontFamily.medium }}
+              className="text-gray-400 text-lg text-center"
+            >
               {props.description}
             </Text>
           </View>

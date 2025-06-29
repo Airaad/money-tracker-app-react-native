@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
 import { useTheme } from "../context/ThemeContext";
+import { fontFamily } from "../dimensions/fontFamily";
 import { useToast } from "../hooks/useToast";
 
 const Header = () => {
@@ -43,14 +44,17 @@ const Header = () => {
 
   return (
     <View className="w-[95%] mx-auto">
-      <View className="flex-row items-center px-7 mb-2">
+      <View className="flex-row items-center px-5 mb-2 mt-1">
         <View className="flex-row items-center gap-2">
           <Image
             source={require("../../assets/images/icon.png")}
             className="w-10 h-10"
             resizeMode="contain"
           />
-          <Text className="text-2xl text-[#37474f] tracking-widest font-bold">
+          <Text
+            className="text-3xl text-[#37474f]"
+            style={{ fontFamily: fontFamily.bold }}
+          >
             Expensy
           </Text>
           {/* <Text className="text-sm text-white font-normal">Track your money</Text> */}
@@ -64,15 +68,22 @@ const Header = () => {
 
       <View className="w-[341px] h-40 mx-auto bg-[#F9FAFB] rounded-3xl my-5 dark:bg-[#37474f]">
         <View className="py-6">
-          <Text className="text-xl text[#37474f] font-medium px-6 dark:text-gray-400">
+          <Text
+            className="text-xl text-[#37474f] px-6 dark:text-gray-400"
+            style={{ fontFamily: fontFamily.medium }}
+          >
             Available Balance
           </Text>
-          <Text className="text-3xl text-black font-semibold px-6 mt-3 dark:text-white">{`${userCurrencyPreference}${
-            sumOfData?.netBalance ?? 0
-          }`}</Text>
+          <Text
+            style={{ fontFamily: fontFamily.semiBold }}
+            className="text-3xl text-black px-6 mt-3 dark:text-white"
+          >{`${userCurrencyPreference}${sumOfData?.netBalance ?? 0}`}</Text>
           <Pressable onPress={() => router.push("/analysis")}>
             <View className="flex-row items-center px-6 mt-5 gap-2">
-              <Text className="text-black text-base dark:text-white">
+              <Text
+                style={{ fontFamily: fontFamily.medium }}
+                className="text-black text-base dark:text-white"
+              >
                 See details
               </Text>
               <Ionicons
@@ -93,13 +104,17 @@ const Header = () => {
               size={20}
               color={themeMode === "dark" ? "#9ca3af" : "#37474f"}
             />
-            <Text className="text-lg text-[#37474f] dark:text-gray-400 tracking-widest font-medium">
+            <Text
+              style={{ fontFamily: fontFamily.medium }}
+              className="text-lg text-[#37474f] dark:text-gray-400"
+            >
               Total Income
             </Text>
           </View>
-          <Text className="text-2xl font-semibold mx-auto mt-1 text-black dark:text-white">{`${userCurrencyPreference}${
-            sumOfData?.totalIncome ?? 0
-          }`}</Text>
+          <Text
+            style={{ fontFamily: fontFamily.semiBold }}
+            className="text-2xl mx-auto mt-1 text-black dark:text-white"
+          >{`${userCurrencyPreference}${sumOfData?.totalIncome ?? 0}`}</Text>
         </View>
         <View className="w-[1px] h-16 bg-white" />
         <View>
@@ -109,13 +124,17 @@ const Header = () => {
               size={20}
               color={themeMode === "dark" ? "#9ca3af" : "#37474f"}
             />
-            <Text className="text-lg text-[#37474f] dark:text-gray-400 tracking-widest font-medium">
+            <Text
+              style={{ fontFamily: fontFamily.medium }}
+              className="text-lg text-[#37474f] dark:text-gray-400"
+            >
               Total Expense
             </Text>
           </View>
-          <Text className="text-2xl font-semibold mx-auto mt-1 text-black dark:text-white">{`${userCurrencyPreference}${
-            sumOfData?.totalExpense ?? 0
-          }`}</Text>
+          <Text
+            style={{ fontFamily: fontFamily.semiBold }}
+            className="text-2xl font-semibold mx-auto mt-1 text-black dark:text-white"
+          >{`${userCurrencyPreference}${sumOfData?.totalExpense ?? 0}`}</Text>
         </View>
       </View>
     </View>

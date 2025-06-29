@@ -21,6 +21,7 @@ import {
 } from "react-native";
 import { ItemType, useBudget } from "../context/BudgetContext";
 import { useTheme } from "../context/ThemeContext";
+import { fontFamily } from "../dimensions/fontFamily";
 import { useToast } from "../hooks/useToast";
 import CustomBottomSheet from "./CustomBottomSheet";
 import ItemComponent from "./ItemComponent";
@@ -181,7 +182,10 @@ const SliderList = () => {
                 className="mt-20"
               />
             ) : (
-              <Text className="text-xl text-gray-500 relative left-[100px] mt-20 dark:text-gray-200">
+              <Text
+                style={{ fontFamily: fontFamily.regular }}
+                className="text-xl text-gray-500 relative left-[100px] mt-20 dark:text-gray-200"
+              >
                 Start Tracking Your Money
               </Text>
             )
@@ -191,33 +195,36 @@ const SliderList = () => {
               <View className="flex-row bg-gray-200 p-4 mt-8 mx-8 rounded-full justify-around dark:bg-[#37474f]">
                 <Pressable onPress={() => handlePress("daily")}>
                   <Text
+                    style={{ fontFamily: fontFamily.medium }}
                     className={`${
                       userPreferenceType === "daily"
                         ? "text-[#ffc727]"
                         : "text-[#37474f] dark:text-white"
-                    } font-medium text-xl`}
+                    } text-xl`}
                   >
                     Daily
                   </Text>
                 </Pressable>
                 <Pressable onPress={() => handlePress("monthly")}>
                   <Text
+                    style={{ fontFamily: fontFamily.medium }}
                     className={`${
                       userPreferenceType === "monthly"
                         ? "text-[#ffc727]"
                         : "text-[#37474f] dark:text-white"
-                    } font-medium text-xl`}
+                    } text-xl`}
                   >
                     Monthly
                   </Text>
                 </Pressable>
                 <Pressable onPress={() => handlePress("weekly")}>
                   <Text
+                    style={{ fontFamily: fontFamily.medium }}
                     className={`${
                       userPreferenceType === "weekly"
                         ? "text-[#ffc727]"
                         : "text-[#37474f] dark:text-white"
-                    } font-medium text-xl`}
+                    } text-xl`}
                   >
                     Weekly
                   </Text>
@@ -231,7 +238,10 @@ const SliderList = () => {
                     color={themeMode === "light" ? "#37474f" : "white"}
                   />
                 </Pressable>
-                <Text className="text-lg font-medium text-[#37474f] dark:text-white">
+                <Text
+                  style={{ fontFamily: fontFamily.medium }}
+                  className="text-lg text-[#37474f] dark:text-white"
+                >
                   {userPreferenceType === "monthly"
                     ? format(targetDate, "MMMM yyyy")
                     : userPreferenceType === "daily"
@@ -254,7 +264,10 @@ const SliderList = () => {
           renderItem={({ item }) => (
             <View className="px-4 my-3">
               <View className="mb-4 px-1">
-                <Text className="text-gray-500 font-semibold text-lg w-[150px] dark:text-gray-300">
+                <Text
+                  style={{ fontFamily: fontFamily.semiBold }}
+                  className="text-gray-500 text-lg w-[150px] dark:text-gray-300"
+                >
                   {format(parseISO(item.date), "MMMM dd, yyyy")}
                 </Text>
                 <View className="h-[1px] bg-gray-400 w-full dark:bg-gray-300" />

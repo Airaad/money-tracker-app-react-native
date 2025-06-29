@@ -8,6 +8,7 @@ import { z } from "zod";
 import { useBudget } from "../context/BudgetContext";
 import expenseItems from "../data/expenseCategory";
 import incomeItems from "../data/incomeCategory";
+import { fontFamily } from "../dimensions/fontFamily";
 import { useToast } from "../hooks/useToast";
 import CustomDatePicker from "./CustomDatePicker";
 import CustomInputController from "./CustomInputController";
@@ -185,7 +186,10 @@ const UpdateExpenseForm = ({
             onPress={() => router.back()}
             className="bg-[#37474f] items-center w-[130px] py-3 rounded-full dark:bg-gray-400"
           >
-            <Text className="text-white text-lg font-semibold tracking-widest">
+            <Text
+              style={{ fontFamily: fontFamily.semiBold }}
+              className="text-white text-lg"
+            >
               Cancel
             </Text>
           </Pressable>
@@ -195,7 +199,10 @@ const UpdateExpenseForm = ({
             onPress={handleSubmit(onSubmit)}
             className="bg-[#ffc727] items-center w-[130px] py-3 rounded-full"
           >
-            <Text className="text-white text-lg font-semibold tracking-widest">
+            <Text
+              style={{ fontFamily: fontFamily.medium }}
+              className="text-white text-lg"
+            >
               {isSubmitting ? "Updating..." : "Update"}
             </Text>
           </Pressable>

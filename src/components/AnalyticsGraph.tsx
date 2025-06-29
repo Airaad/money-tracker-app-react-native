@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Dimensions, Text, View } from "react-native";
 import { PieChart } from "react-native-chart-kit";
-import { useTheme } from "../context/ThemeContext";
+import { fontFamily } from "../dimensions/fontFamily";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -23,7 +23,6 @@ const chartConfig = {
 };
 
 const AnalyticsGraph = ({ data }: AnalyticsGraphProps) => {
-  const { themeMode } = useTheme();
   const totalAmount = useMemo(
     () => data.reduce((sum, item) => sum + item.amount, 0),
     [data]
@@ -58,6 +57,7 @@ const AnalyticsGraph = ({ data }: AnalyticsGraphProps) => {
               style={{
                 color: item.legendFontColor,
                 fontSize: item.legendFontSize,
+                fontFamily: fontFamily.medium,
               }}
             >
               {Math.round((item.amount / totalAmount) * 100)}% {item.name}

@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
 import { useTheme } from "../context/ThemeContext";
+import { fontFamily } from "../dimensions/fontFamily";
 import AnalyticsGraph from "./AnalyticsGraph";
 
 type props = {
@@ -41,6 +42,7 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
           style={[
             styles.categoryName,
             { color: themeMode === "dark" ? "#e5e7eb" : "#37474f" },
+            { fontFamily: fontFamily.semiBold },
           ]}
         >
           {item.name}
@@ -49,6 +51,7 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
           style={[
             styles.percentageText,
             { color: themeMode === "dark" ? "#9ca3af" : "#6B7280" },
+            { fontFamily: fontFamily.medium },
           ]}
         >
           {Math.round((item.amount / totalAmount) * 100)}% of total
@@ -60,6 +63,7 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
           style={[
             styles.amountText,
             { color: isExpense ? "#ef4444" : "#22c55e" },
+            { fontFamily: fontFamily.semiBold },
           ]}
         >
           {userCurrencyPreference}
@@ -86,6 +90,7 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
           style={[
             styles.headerTitle,
             { color: themeMode === "dark" ? "white" : "#37474f" },
+            { fontFamily: fontFamily.semiBold },
           ]}
         >
           {userPreferenceType === "daily"
@@ -100,6 +105,7 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
           style={[
             styles.headerAmount,
             { color: isExpense ? "#ef4444" : "#22c55e" },
+            { fontFamily: fontFamily.semiBold },
           ]}
         >
           Total: {userCurrencyPreference}
@@ -119,6 +125,7 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
               style={[
                 styles.headerDate,
                 { color: themeMode === "dark" ? "white" : "#37474f" },
+                { fontFamily: fontFamily.medium },
               ]}
             >
               {userPreferenceType === "monthly"
@@ -134,7 +141,10 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
           </View>
         }
         ListEmptyComponent={
-          <Text className="text-2xl text-gray-400 text-center dark:text-gray-200">
+          <Text
+            style={{ fontFamily: fontFamily.light }}
+            className="text-2xl text-gray-400 text-center dark:text-gray-200"
+          >
             No Records Present
           </Text>
         }
@@ -164,15 +174,12 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 18,
-    fontWeight: "600",
   },
   headerAmount: {
     fontSize: 18,
-    fontWeight: "600",
   },
   headerDate: {
     fontSize: 17,
-    fontWeight: 600,
     marginHorizontal: "auto",
     marginTop: 10,
   },
@@ -216,7 +223,6 @@ const styles = StyleSheet.create({
   },
   amountText: {
     fontSize: 16,
-    fontWeight: "600",
   },
   separator: {
     height: 10,

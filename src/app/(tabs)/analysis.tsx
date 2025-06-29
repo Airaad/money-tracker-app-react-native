@@ -6,7 +6,7 @@ import { View } from "react-native";
 
 const Page = () => {
   const [isExpense, setIsExpense] = useState(true);
-  const { items, loading, error } = useBudget();
+  const { items } = useBudget();
 
   const analyticsData = useMemo(() => {
     const groupedMap = new Map<string, ReturnType<any> & { amount: number }>();

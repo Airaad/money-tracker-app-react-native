@@ -3,6 +3,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
+import { fontFamily } from "../dimensions/fontFamily";
 
 interface ExpenseProps {
   isExpense: boolean;
@@ -17,7 +18,10 @@ const AnalyticsHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
         <Pressable onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color="#ffffff" />
         </Pressable>
-        <Text className="text-2xl text-white tracking-wider font-semibold">
+        <Text
+          style={{ fontFamily: fontFamily.semiBold }}
+          className="text-2xl text-white"
+        >
           {isExpense ? "Expense Analytics" : "Income Analytics"}
         </Text>
         <View>
@@ -34,7 +38,8 @@ const AnalyticsHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
           <View className="flex-row gap-2 items-center">
             <FontAwesome name="shopping-cart" size={18} color="#ffc727" />
             <Text
-              className={`text-[#ffc727] text-xl font-medium tracking-widest`}
+              style={{ fontFamily: fontFamily.medium }}
+              className={`text-[#ffc727] text-xl`}
             >
               Expense
             </Text>
@@ -50,7 +55,8 @@ const AnalyticsHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
           <View className="flex-row gap-2 items-center">
             <FontAwesome name="dollar" size={18} color="#ffc727" />
             <Text
-              className={`text-[#ffc727] text-xl font-medium tracking-widest`}
+              style={{ fontFamily: fontFamily.medium }}
+              className={`text-[#ffc727] text-xl`}
             >
               Income
             </Text>

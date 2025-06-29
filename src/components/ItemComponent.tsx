@@ -2,6 +2,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import React from "react";
 import { Text, View } from "react-native";
 import { useBudget } from "../context/BudgetContext";
+import { fontFamily } from "../dimensions/fontFamily";
 
 interface ItemComponentProps {
   icon: string;
@@ -32,19 +33,26 @@ const ItemComponent = ({
           <FontAwesome5 name={icon} size={25} color={color} />
         </View>
         <View>
-          <Text className="text-xl text-[#37474f] font-semibold tracking-wider dark:text-white">
+          <Text
+            style={{ fontFamily: fontFamily.semiBold }}
+            className="text-xl text-[#37474f] tracking-wider dark:text-white"
+          >
             {name}
           </Text>
-          <Text className="font-semibold text-gray-400 dark:text-gray-300">
+          <Text
+            style={{ fontFamily: fontFamily.semiBold }}
+            className="text-gray-400 dark:text-gray-300"
+          >
             {description}
           </Text>
         </View>
       </View>
       <View>
         <Text
+          style={{ fontFamily: fontFamily.semiBold }}
           className={`text-xl ${
             category === "expense" ? "text-red-500" : "text-green-500"
-          } font-semibold tracking-wider`}
+          }`}
         >
           {`${
             category === "expense"

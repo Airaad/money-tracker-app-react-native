@@ -2,6 +2,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
+import { fontFamily } from "../dimensions/fontFamily";
 
 interface ExpenseProps {
   isExpense: string;
@@ -15,7 +16,10 @@ const UpdateExpenseHeader = ({ isExpense }: ExpenseProps) => {
           <Pressable onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={26} color="#ffffff" />
           </Pressable>
-          <Text className="text-2xl text-white tracking-wider font-semibold">
+          <Text
+            style={{ fontFamily: fontFamily.semiBold }}
+            className="text-2xl text-white"
+          >
             {isExpense === "expense" ? "Update Expense" : "Update Income"}
           </Text>
           <View>

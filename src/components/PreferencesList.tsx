@@ -5,6 +5,7 @@ import { Pressable } from "react-native-gesture-handler";
 import { useBudget } from "../context/BudgetContext";
 import { useTheme } from "../context/ThemeContext";
 
+import { fontFamily } from "../dimensions/fontFamily";
 import CurrencyPicker from "./CurrencyPicker";
 import NotificationSection from "./NotificationSection";
 import ThemeSelectorModal from "./ThemeSelectorModal";
@@ -17,7 +18,10 @@ const Section = ({ icon, title, themeMode, children }: any) => (
         size={24}
         color={themeMode === "dark" ? "white" : "#263238"}
       />
-      <Text className="text-xl font-bold text-[#263238] tracking-wide dark:text-white">
+      <Text
+        style={{ fontFamily: fontFamily.bold }}
+        className="text-xl text-[#263238] dark:text-white"
+      >
         {title}
       </Text>
     </View>
@@ -41,14 +45,20 @@ const PreferencesList = () => {
       <View>
         <Section icon="brush" title="Appearance" themeMode={themeMode}>
           <View className="flex-row justify-between items-center">
-            <Text className="text-lg text-gray-800 dark:text-white">
+            <Text
+              style={{ fontFamily: fontFamily.medium }}
+              className="text-lg text-gray-800 dark:text-white"
+            >
               Choose Theme
             </Text>
             <ThemeSelectorModal />
           </View>
 
           <View className="flex-row justify-between items-center my-4">
-            <Text className="text-lg text-gray-800 dark:text-white">
+            <Text
+              style={{ fontFamily: fontFamily.medium }}
+              className="text-lg text-gray-800 dark:text-white"
+            >
               Carry Over
             </Text>
             <Switch
@@ -77,14 +87,25 @@ const PreferencesList = () => {
 
         <Section icon="information-circle" title="About" themeMode={themeMode}>
           <Pressable>
-            <Text className="text-lg text-[#ffc727]">Privacy Policy</Text>
+            <Text
+              style={{ fontFamily: fontFamily.medium }}
+              className="text-lg text-[#ffc727]"
+            >
+              Privacy Policy
+            </Text>
           </Pressable>
           <Pressable>
-            <Text className="text-lg text-[#ffc727] my-3">
+            <Text
+              style={{ fontFamily: fontFamily.medium }}
+              className="text-lg text-[#ffc727] my-3"
+            >
               Terms & Conditions
             </Text>
           </Pressable>
-          <Text className="text-sm text-gray-500 mt-2 dark:text-gray-300">
+          <Text
+            style={{ fontFamily: fontFamily.regular }}
+            className="text-sm text-gray-500 mt-2 dark:text-gray-300"
+          >
             App version: 1.0.0
           </Text>
         </Section>

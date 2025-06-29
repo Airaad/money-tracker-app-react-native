@@ -1,6 +1,7 @@
 import migrations from "@/drizzle/migrations";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
+import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -8,14 +9,23 @@ import Toast from "react-native-toast-message";
 import { BudgetProvider } from "../context/BudgetContext";
 import { ThemeProvider } from "../context/ThemeContext";
 import { db } from "../db/dbConfig";
+import { fontFamily } from "../dimensions/fontFamily";
 import "./global.css";
 
 export default function RootLayout() {
   const { success, error: migrationError } = useMigrations(db, migrations);
   useDrizzleStudio(db);
 
+  const [loaded, error] = useFonts({
+    [fontFamily.light]: require("../../assets/fonts/Poppins-Light.ttf"),
+    [fontFamily.regular]: require("../../assets/fonts/Poppins-Regular.ttf"),
+    [fontFamily.medium]: require("../../assets/fonts/Poppins-Medium.ttf"),
+    [fontFamily.semiBold]: require("../../assets/fonts/Poppins-SemiBold.ttf"),
+    [fontFamily.bold]: require("../../assets/fonts/Poppins-Bold.ttf"),
+  });
+
   // Handle loading state
-  if (!success && !migrationError) {
+  if (!success && !migrationError && loaded) {
     return (
       <ThemeProvider>
         <GestureHandlerRootView className="flex-1 items-center justify-center"></GestureHandlerRootView>

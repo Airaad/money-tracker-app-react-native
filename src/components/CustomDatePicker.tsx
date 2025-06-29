@@ -8,6 +8,7 @@ import {
 } from "react-hook-form";
 import { Pressable, Text, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { fontFamily } from "../dimensions/fontFamily";
 
 interface CustomDatePickerProps<T extends FieldValues> {
   labelText: string;
@@ -36,10 +37,13 @@ const CustomDatePicker = <T extends FieldValues>({
   return (
     <>
       <View className="w-[78%] relative">
-        <Text className="absolute top-2 left-3 font-semibold text-lg text-[#ffc727] z-10">
+        <Text
+          style={{ fontFamily: fontFamily.semiBold }}
+          className="absolute top-2 left-3 text-lg text-[#ffc727] z-10"
+        >
           {labelText}
         </Text>
-        <View className="w-[95%] h-[2px] bg-gray-500 absolute bottom-7 left-2 z-10" />
+        <View className="w-[95%] h-[2px] bg-gray-500 absolute bottom-6 left-2 z-10" />
         <Controller
           control={control}
           render={({ field: { onChange, onBlur, value } }) => {
@@ -61,7 +65,10 @@ const CustomDatePicker = <T extends FieldValues>({
                   onPress={showDatePicker}
                   className="text-lg text-white h-[90px] rounded-2xl pt-7 mb-2 pl-3 bg-black shadow-md elevation-lg"
                 >
-                  <Text className="text-white text-lg pt-4">
+                  <Text
+                    style={{ fontFamily: fontFamily.regular }}
+                    className="text-white text-lg pt-4"
+                  >
                     {displayedDate}
                   </Text>
                 </Pressable>
@@ -85,7 +92,10 @@ const CustomDatePicker = <T extends FieldValues>({
         />
       </View>
       {errors && errors[name] && (
-        <Text className="text-red-500 mb-3">
+        <Text
+          style={{ fontFamily: fontFamily.medium }}
+          className="text-red-500 mb-3"
+        >
           {errors[name]?.message as string}
         </Text>
       )}

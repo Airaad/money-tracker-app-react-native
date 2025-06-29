@@ -5,6 +5,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { useBudget } from "../context/BudgetContext";
 import { useTheme } from "../context/ThemeContext";
 import currencyOptions from "../data/currencyOptions";
+import { fontFamily } from "../dimensions/fontFamily";
 
 const CurrencyPicker = () => {
   const [open, setOpen] = useState(false);
@@ -20,7 +21,12 @@ const CurrencyPicker = () => {
   return (
     <>
       <View>
-        <Text className="text-lg text-[#ffc727] mb-2">Change Currency</Text>
+        <Text
+          style={{ fontFamily: fontFamily.medium }}
+          className="text-lg text-[#ffc727] mb-2"
+        >
+          Change Currency
+        </Text>
         <DropDownPicker
           style={{
             height: 50,
@@ -32,10 +38,17 @@ const CurrencyPicker = () => {
           modalTitleStyle={{
             color: "#ffc727",
             fontSize: 20,
-            fontWeight: "bold",
+            fontFamily: fontFamily.bold,
           }}
-          labelStyle={{ fontSize: 16, color: "black" }}
-          placeholderStyle={{ color: "transparent" }}
+          labelStyle={{
+            fontSize: 16,
+            color: "black",
+            fontFamily: fontFamily.medium,
+          }}
+          placeholderStyle={{
+            color: "transparent",
+            fontFamily: fontFamily.light,
+          }}
           listMode="MODAL"
           modalTitle="Select your currency"
           modalContentContainerStyle={{
@@ -73,7 +86,8 @@ const CurrencyPicker = () => {
                     );
                   }
                 }}
-                className="text-[#F1F5F9] text-xl flex-1 font-semibold"
+                className="text-[#F1F5F9] text-xl flex-1"
+                style={{ fontFamily: fontFamily.semiBold }}
               >
                 {item.label}
               </Text>
@@ -84,8 +98,14 @@ const CurrencyPicker = () => {
           )}
         />
       </View>
-      <Text className="text-sm text-gray-600 mt-2 ml-2 dark:text-gray-300">
-        Selected: <Text className="font-medium">{userCurrencyPreference}</Text>
+      <Text
+        style={{ fontFamily: fontFamily.medium }}
+        className="text-sm text-gray-600 mt-2 ml-2 dark:text-gray-300"
+      >
+        Selected:{" "}
+        <Text style={{ fontFamily: fontFamily.medium }}>
+          {userCurrencyPreference}
+        </Text>
       </Text>
     </>
   );

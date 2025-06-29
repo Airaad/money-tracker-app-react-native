@@ -52,7 +52,6 @@ interface BudgetContextType {
     carryOver: boolean
   ) => Promise<any>;
   loading: boolean;
-  error: string | null;
 }
 
 const BudgetContext = createContext<BudgetContextType | undefined>(undefined);
@@ -60,7 +59,6 @@ const BudgetContext = createContext<BudgetContextType | undefined>(undefined);
 export function BudgetProvider({ children }: { children: React.ReactNode }) {
   const [itemsList, setItemsList] = useState<any>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [targetDateForFetch, setTargetDateForFetch] = useState(new Date());
   const [userPreference, setUserPreference] = useState<
     "daily" | "weekly" | "monthly"
@@ -121,7 +119,6 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
   ) => {
     try {
       setLoading(true);
-      setError(null);
 
       let whereCondition;
 
@@ -217,7 +214,6 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
   }) => {
     try {
       setLoading(true);
-      setError(null);
       await db.transaction(async (tx) => {
         if (category) {
           const existingCategory = await db
@@ -254,7 +250,6 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
   const deleteData = async (id: number) => {
     try {
       setLoading(true);
-      setError(null);
       await db.delete(expenses).where(eq(expenses.id, id));
       await fetchData(userPreference, targetDateForFetch);
     } catch (err) {
@@ -273,8 +268,6 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
   }) => {
     try {
       setLoading(true);
-      setError(null);
-
       if (!expense.id) {
         throw new Error("Missing expense ID for update.");
       }
@@ -324,8 +317,6 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
   ) => {
     try {
       setLoading(true);
-      setError(null);
-
       let start: Date;
       let end: Date;
 
@@ -428,7 +419,6 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         updateData,
         getTotal,
         loading,
-        error,
       }}
     >
       {children}

@@ -1,4 +1,5 @@
 import { Image, StyleSheet, Text, View } from "react-native";
+import { fontFamily } from "../dimensions/fontFamily";
 
 const SplashScreen = () => {
   return (
@@ -8,7 +9,14 @@ const SplashScreen = () => {
         style={styles.logo}
         resizeMode="contain"
       />
-      <Text style={[styles.title, { color: "#ffc727" }]}>Expensy</Text>
+      <Text
+        style={[
+          styles.title,
+          { color: "#ffc727", fontFamily: fontFamily.semiBold },
+        ]}
+      >
+        Expensy
+      </Text>
       {/* <ActivityIndicator size="large" color={isDark ? "#fff" : "#4f46e5"} /> */}
     </View>
   );
@@ -28,9 +36,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    fontSize: 36,
-    fontWeight: 600,
+    fontSize: 30,
     marginBottom: 20,
-    letterSpacing: 1,
   },
 });
