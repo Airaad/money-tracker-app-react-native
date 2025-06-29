@@ -9,7 +9,7 @@ import CurrencyPicker from "./CurrencyPicker";
 import NotificationSection from "./NotificationSection";
 import ThemeSelectorModal from "./ThemeSelectorModal";
 
-const Section = React.memo(({ icon, title, themeMode, children }: any) => (
+const Section = ({ icon, title, themeMode, children }: any) => (
   <View className="mb-10 dark:bg-black">
     <View className="flex-row items-center gap-2 mb-4">
       <Ionicons
@@ -25,7 +25,7 @@ const Section = React.memo(({ icon, title, themeMode, children }: any) => (
       {children}
     </View>
   </View>
-));
+);
 
 const PreferencesList = () => {
   const {
@@ -33,10 +33,8 @@ const PreferencesList = () => {
     userCurrencyPreference,
     userCarryOverPreference,
     userPreferenceType,
-    loading,
-    error,
   } = useBudget();
-  const { themeMode, themeName, toggleThemeMode } = useTheme();
+  const { themeMode } = useTheme();
 
   return (
     <View className="bg-white flex-1 mt-5 rounded-t-3xl px-5 py-10 dark:bg-black">

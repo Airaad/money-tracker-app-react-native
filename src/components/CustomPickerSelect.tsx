@@ -1,3 +1,4 @@
+import AntDesign from "@expo/vector-icons/AntDesign";
 import React, { useState } from "react";
 import {
   Control,
@@ -56,7 +57,7 @@ const CustomPickerSelect = <T extends FieldValues>({
         />
         <Controller
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
+          render={({ field: { onChange, value } }) => (
             <DropDownPicker
               style={{
                 backgroundColor: "black",
@@ -68,16 +69,21 @@ const CustomPickerSelect = <T extends FieldValues>({
                 paddingLeft: 10,
               }}
               containerStyle={{ zIndex: 999 }}
-              modalTitleStyle={{ color: "#ffc727", fontSize: 20 }}
+              modalTitleStyle={{
+                color: "#ffc727",
+                fontSize: 20,
+                fontWeight: "bold",
+              }}
               labelStyle={{ color: "white", fontSize: 16 }}
               placeholderStyle={{ color: "gray", fontSize: 16 }}
               listMode="MODAL"
               modalTitle="Select a Category"
               theme="DARK"
               modalContentContainerStyle={{
-                backgroundColor: "#37474f",
-                paddingHorizontal: 15,
-                paddingTop: 20,
+                backgroundColor: "#263647",
+                // borderTopLeftRadius: 20,
+                // borderTopRightRadius: 20,
+                padding: 10,
               }}
               modalProps={{
                 animationType: "slide",
@@ -90,8 +96,13 @@ const CustomPickerSelect = <T extends FieldValues>({
               setValue={setPickerValue}
               setItems={isExpense ? setExpenseCategory : setIncomeCategory}
               placeholder={placeholder}
-              renderListItem={({ item }) => (
-                <View className="p-4 border-b-[#333] border-b-[1px]">
+              renderListItem={({ item, isSelected }) => (
+                <View
+                  className="flex-row items-center py-6 px-5 mb-4 rounded-lg"
+                  style={{
+                    backgroundColor: isSelected ? "#334155" : "transparent",
+                  }}
+                >
                   <Text
                     onPress={() => {
                       if (item.value !== undefined) {
@@ -100,10 +111,13 @@ const CustomPickerSelect = <T extends FieldValues>({
                         setOpen(false);
                       }
                     }}
-                    className="text-white text-xl font-semibold py-2"
+                    className="text-[#F1F5F9] text-xl flex-1 font-semibold"
                   >
                     {item.label}
                   </Text>
+                  {isSelected && (
+                    <AntDesign name="checkcircle" size={20} color="#34D399" />
+                  )}
                 </View>
               )}
             />

@@ -1,3 +1,4 @@
+import AntDesign from "@expo/vector-icons/AntDesign";
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -15,7 +16,7 @@ const CurrencyPicker = () => {
     userCarryOverPreference,
     userPreferenceType,
   } = useBudget();
-  const { themeMode, themeName, toggleThemeMode } = useTheme();
+  const { themeMode } = useTheme();
   return (
     <>
       <View>
@@ -27,7 +28,7 @@ const CurrencyPicker = () => {
             borderRadius: 12,
             borderWidth: 0,
           }}
-          theme={themeMode === "dark" ? "DARK" : "LIGHT"}
+          theme="DARK"
           modalTitleStyle={{
             color: "#ffc727",
             fontSize: 20,
@@ -38,19 +39,28 @@ const CurrencyPicker = () => {
           listMode="MODAL"
           modalTitle="Select your currency"
           modalContentContainerStyle={{
-            paddingHorizontal: 15,
-            paddingTop: 20,
-            backgroundColor: themeMode === "dark" ? "#37474f" : "white",
+            backgroundColor: "#263647",
+            // borderTopLeftRadius: 20,
+            // borderTopRightRadius: 20,
+            padding: 10,
           }}
-          modalProps={{ animationType: "slide" }}
+          modalProps={{
+            animationType: "slide",
+            transparent: false,
+          }}
           open={open}
           value={pickerValue ?? userCurrencyPreference}
           items={curencyItems}
           setOpen={setOpen}
           setValue={setPickerValue}
           setItems={setCurrencyItems}
-          renderListItem={({ item }) => (
-            <View className="p-4 border-b-gray-300 border-b-[1px] dark:border-b-gray-600">
+          renderListItem={({ item, isSelected }) => (
+            <View
+              className="flex-row items-center py-6 px-5 mb-4 rounded-lg"
+              style={{
+                backgroundColor: isSelected ? "#334155" : "transparent",
+              }}
+            >
               <Text
                 onPress={() => {
                   if (item.value !== undefined) {
@@ -63,10 +73,13 @@ const CurrencyPicker = () => {
                     );
                   }
                 }}
-                className="text-black text-xl font-semibold py-2 dark:text-white"
+                className="text-[#F1F5F9] text-xl flex-1 font-semibold"
               >
                 {item.label}
               </Text>
+              {isSelected && (
+                <AntDesign name="checkcircle" size={20} color="#34D399" />
+              )}
             </View>
           )}
         />

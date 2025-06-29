@@ -7,8 +7,7 @@ export const useToast = () => {
     type = "success",
     text1,
     text2,
-    position = "bottom",
-    bottomOffset = 80,
+    position = "top",
   }: {
     type?: ToastType;
     text1: string;
@@ -21,7 +20,6 @@ export const useToast = () => {
       text1,
       text2,
       position,
-      bottomOffset,
     });
   };
 

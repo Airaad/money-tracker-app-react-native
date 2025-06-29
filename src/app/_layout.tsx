@@ -6,7 +6,7 @@ import { StatusBar, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
 import { BudgetProvider } from "../context/BudgetContext";
-import { ThemeProvider, useTheme } from "../context/ThemeContext";
+import { ThemeProvider } from "../context/ThemeContext";
 import { db } from "../db/dbConfig";
 import "./global.css";
 
@@ -14,7 +14,6 @@ export default function RootLayout() {
   const { success, error: migrationError } = useMigrations(db, migrations);
   useDrizzleStudio(db);
 
-  const { themeMode } = useTheme();
   // Handle loading state
   if (!success && !migrationError) {
     return (
@@ -41,9 +40,7 @@ export default function RootLayout() {
     );
   }
   return (
-    <GestureHandlerRootView
-      className={`flex-1 ${themeMode === "dark" ? "dark" : ""}`}
-    >
+    <GestureHandlerRootView className={`flex-1`}>
       <BudgetProvider>
         <ThemeProvider>
           <StatusBar translucent backgroundColor="transparent" />

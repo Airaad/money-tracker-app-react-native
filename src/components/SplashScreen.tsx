@@ -1,13 +1,8 @@
-import { Image, StyleSheet, Text, useColorScheme, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 const SplashScreen = () => {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === "dark";
-
   return (
-    <View
-      style={[styles.container, { backgroundColor: isDark ? "#000" : "#fff" }]}
-    >
+    <View style={[styles.container, { backgroundColor: "#000000" }]}>
       <Image
         source={require("../../assets/images/icon.png")}
         style={styles.logo}
