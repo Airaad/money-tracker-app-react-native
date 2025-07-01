@@ -52,7 +52,7 @@ const Header = () => {
             resizeMode="contain"
           />
           <Text
-            className="text-3xl text-[#37474f]"
+            className="text-2xl text-[#37474f]"
             style={{ fontFamily: fontFamily.bold }}
           >
             Expensy

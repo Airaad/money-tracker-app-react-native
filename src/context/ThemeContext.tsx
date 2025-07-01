@@ -29,7 +29,6 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const loadTheme = async () => {
       try {
-        await new Promise(r => setTimeout(r, 1000)); //delaying the app load for 1 sec to show the splash screen
         const storedTheme = await AsyncStorage.getItem("themeType");
         if (storedTheme === "light" || storedTheme === "dark") {
           colorScheme.set(storedTheme);
@@ -46,6 +45,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         setColorTheme(systemColorTheme);
         setThemeName("system");
       } finally {
+        await new Promise(r => setTimeout(r, 300));
         setIsThemeLoaded(true);
       }
     };
