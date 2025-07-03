@@ -25,7 +25,7 @@ const Section = ({ icon, title, themeMode, children }: any) => (
         {title}
       </Text>
     </View>
-    <View className="bg-gray-100 rounded-xl p-4 space-y-4 dark:bg-[#37474f]">
+    <View className="bg-gray-100 rounded-xl px-4 py-3 space-y-4 dark:bg-[#37474f]">
       {children}
     </View>
   </View>
@@ -41,7 +41,7 @@ const PreferencesList = () => {
   const { themeMode } = useTheme();
 
   return (
-    <View className="bg-white flex-1 mt-5 rounded-t-3xl px-5 py-10 dark:bg-black">
+    <View className="bg-white flex-1 mt-5 rounded-t-3xl px-5 py-8 dark:bg-black">
       <View>
         <Section icon="brush" title="Appearance" themeMode={themeMode}>
           <View className="flex-row justify-between items-center">
@@ -99,14 +99,26 @@ const PreferencesList = () => {
               style={{ fontFamily: fontFamily.medium }}
               className="text-lg text-[#ffc727] my-3"
             >
-              Terms & Conditions
+              Like Expensy
             </Text>
           </Pressable>
           <Text
             style={{ fontFamily: fontFamily.regular }}
             className="text-sm text-gray-500 mt-2 dark:text-gray-300"
           >
-            App version: 1.0.0
+            Expensy: 1.0.0
+          </Text>
+          <Text
+            style={{ fontFamily: fontFamily.regular }}
+            className="text-sm text-gray-500 dark:text-gray-300"
+          >
+            Developed by Sheikh Airaad
+          </Text>
+          <Text
+            style={{ fontFamily: fontFamily.regular }}
+            className="text-sm text-gray-500 dark:text-gray-300"
+          >
+            Contact: sheikhairaad@gmail.com
           </Text>
         </Section>
       </View>

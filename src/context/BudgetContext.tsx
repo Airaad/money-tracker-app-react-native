@@ -30,7 +30,7 @@ interface BudgetContextType {
     carryOverValue: boolean,
     currencySymbolValue: string
   ) => Promise<void>;
-  getData: (id: number) => Promise<any>;
+  getData: (id: number) => any;
   insertData: ({
     expense,
     category,
@@ -50,7 +50,7 @@ interface BudgetContextType {
     filterType: "daily" | "weekly" | "monthly",
     targetDate: Date,
     carryOver: boolean
-  ) => Promise<any>;
+  ) => {};
   loading: boolean;
 }
 
@@ -64,7 +64,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
     "daily" | "weekly" | "monthly"
   >("monthly");
   const [carryOverTotal, setCarryOverTotal] = useState(false);
-  const [currencySymbol, setCurrencySymbol] = useState("₹");
+  const [currencySymbol, setCurrencySymbol] = useState("$");
 
   // Using async storage to store the user preference
   const storeUserPreferenceData = async (
@@ -105,7 +105,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       } else {
         setUserPreference("monthly");
         setCarryOverTotal(false);
-        setCurrencySymbol("₹");
+        setCurrencySymbol("$");
         await fetchData("monthly", targetDateForFetch);
       }
     } catch (e) {
@@ -174,9 +174,9 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const getData = async (id: number) => {
+  const getData = (id: number) => {
     try {
-      const result = await db
+      const result = db
         .select({
           id: expenses.id,
           amount: expenses.amount,
@@ -216,7 +216,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       await db.transaction(async (tx) => {
         if (category) {
-          const existingCategory = await db
+          const existingCategory = db
             .select()
             .from(categories)
             .where(
@@ -229,7 +229,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
           if (existingCategory) {
             expense.categoryId = existingCategory.id;
           } else {
-            const newCategory = await tx
+            const newCategory = tx
               .insert(categories)
               .values(category)
               .returning({ id: categories.id })
@@ -237,7 +237,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
             expense.categoryId = newCategory.id;
           }
         }
-        await tx.insert(expenses).values(expense).run();
+        tx.insert(expenses).values(expense).run();
       });
       await fetchData(userPreference, targetDateForFetch);
     } catch (err) {
@@ -276,7 +276,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         let updatedExpense = { ...expense };
 
         if (category) {
-          const existingCategory = await db
+          const existingCategory = db
             .select()
             .from(categories)
             .where(eq(categories.name, category.name))
@@ -285,7 +285,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
           if (existingCategory) {
             updatedExpense.categoryId = existingCategory.id;
           } else {
-            const newCategory = await tx
+            const newCategory = tx
               .insert(categories)
               .values(category)
               .returning({ id: categories.id })
@@ -295,8 +295,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
           }
         }
 
-        await tx
-          .update(expenses)
+        tx.update(expenses)
           .set(updatedExpense)
           .where(eq(expenses.id, updatedExpense.id))
           .run();
@@ -310,7 +309,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const getTotal = async (
+  const getTotal = (
     filterType: "daily" | "weekly" | "monthly",
     targetDate: Date = new Date(),
     carryOver = false
@@ -336,7 +335,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         lte(expenses.createdDate, end.toISOString())
       );
       //For total expense
-      const expenseResult = await db
+      const expenseResult = db
         .select({ total: sum(expenses.amount) })
         .from(expenses)
         .innerJoin(categories, eq(expenses.categoryId, categories.id))
@@ -346,7 +345,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
       const totalExpense = Number(expenseResult?.total) || 0;
 
       //for total income
-      const incomeResult = await db
+      const incomeResult = db
         .select({ total: sum(expenses.amount) })
         .from(expenses)
         .innerJoin(categories, eq(expenses.categoryId, categories.id))
@@ -364,7 +363,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         );
 
         // For total expense before the current selected(target) date
-        const prevExpenseResult = await db
+        const prevExpenseResult = db
           .select({ total: sum(expenses.amount) })
           .from(expenses)
           .innerJoin(categories, eq(expenses.categoryId, categories.id))
@@ -374,7 +373,7 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
         const totalPrevExpense = Number(prevExpenseResult?.total) || 0;
 
         // For total income before the current selected(target) date
-        const prevIncomeResult = await db
+        const prevIncomeResult = db
           .select({ total: sum(expenses.amount) })
           .from(expenses)
           .innerJoin(categories, eq(expenses.categoryId, categories.id))
