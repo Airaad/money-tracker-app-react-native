@@ -8,18 +8,21 @@ export const useToast = () => {
     text1,
     text2,
     position = "top",
+    visibilityTime = 1500,
   }: {
     type?: ToastType;
     text1: string;
     text2?: string;
     position?: "top" | "bottom";
     bottomOffset?: number;
+    visibilityTime?: number;
   }) => {
     Toast.show({
       type,
       text1,
       text2,
       position,
+      visibilityTime,
     });
   };
 
