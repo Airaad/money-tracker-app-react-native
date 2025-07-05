@@ -13,8 +13,8 @@ const AddExpenseHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
   const router = useRouter();
   return (
     <View>
-      <View className="px-8">
-        <View className="flex-row justify-between items-center">
+      <View>
+        <View className="flex-row justify-between items-center px-6 mt-2">
           <Pressable onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={26} color="#ffffff" />
           </Pressable>
@@ -29,12 +29,12 @@ const AddExpenseHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
           </View>
         </View>
 
-        <View className="flex-row items-center mt-14 mx-auto">
+        <View className="flex-row justify-center mt-14">
           <Pressable
             onPress={() => updateExpense(true)}
             className={`${
               isExpense ? "bg-[#37474f]" : "bg-white"
-            } px-12 py-2 rounded-l-full`}
+            } px-10 py-2 rounded-l-full`}
           >
             <View className="flex-row gap-2 items-center">
               <FontAwesome name="shopping-cart" size={18} color="#ffc727" />
@@ -51,7 +51,7 @@ const AddExpenseHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
             onPress={() => updateExpense(false)}
             className={`${
               !isExpense ? "bg-[#37474f]" : "bg-white"
-            } px-12 py-2 rounded-r-full`}
+            } px-10 py-2 rounded-r-full`}
           >
             <View className="flex-row gap-2 items-center">
               <FontAwesome name="dollar" size={18} color="#ffc727" />

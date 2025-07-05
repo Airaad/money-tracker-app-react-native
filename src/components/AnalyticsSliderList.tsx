@@ -160,7 +160,7 @@ const AnalyticsSliderList = ({ data, isExpense }: props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
     borderTopLeftRadius: 29,
     borderTopRightRadius: 29,
   },
@@ -168,8 +168,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingBottom: 15,
+    paddingBottom: 8,
     paddingHorizontal: 5,
+    paddingVertical: 15,
     borderBottomWidth: 1,
   },
   headerTitle: {
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   listContent: {
-    paddingBottom: 60, //bottom padding for the flatlist
+    paddingBottom: 20, //bottom padding for the flatlist
   },
   itemContainer: {
     flexDirection: "row",
@@ -212,7 +213,6 @@ const styles = StyleSheet.create({
   categoryName: {
     fontSize: 16,
     fontWeight: "500",
-    marginBottom: 3,
   },
   percentageText: {
     fontSize: 13,

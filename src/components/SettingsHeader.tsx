@@ -7,22 +7,23 @@ import { fontFamily } from "../dimensions/fontFamily";
 const SettingsHeader = () => {
   const router = useRouter();
   return (
-    <View>
-      <View className="flex-row justify-around items-center mt-2">
-        <Pressable onPress={() => router.back()}>
+    <View className="mb-5">
+      <View className="flex-row items-center mt-2">
+        <Pressable className="pl-5" onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color="white" />
         </Pressable>
-        <Text
-          style={{ fontFamily: fontFamily.semiBold }}
-          className="text-2xl text-white"
-        >
-          Preferences
-        </Text>
+        <View className="flex-1 ml-24">
+          <Text
+            style={{ fontFamily: fontFamily.semiBold }}
+            className="text-2xl text-white"
+          >
+            Preferences
+          </Text>
+        </View>
         <View>
           {/* <Ionicons name="notifications-circle" size={30} color="#37474f" /> */}
         </View>
       </View>
-      <View className="flex-row items-center justify-center mt-10 w-full"></View>
     </View>
   );
 };

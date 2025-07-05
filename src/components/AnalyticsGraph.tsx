@@ -28,16 +28,17 @@ const AnalyticsGraph = ({ data }: AnalyticsGraphProps) => {
     [data]
   );
   return (
-    <View className="bg-[#F9FAFB] px-2 dark:bg-black">
+    <View className="bg-[#F9FAFB] dark:bg-black items-center">
       <PieChart
         data={data}
-        width={screenWidth - 20}
+        width={screenWidth}
         height={250}
         chartConfig={chartConfig}
         accessor={"amount"}
         backgroundColor={"transparent"}
         paddingLeft={"15"}
-        center={[70, 0]}
+        center={[80, 0]}
+        absolute
         hasLegend={false}
         avoidFalseZero={true}
       />
@@ -51,6 +52,7 @@ const AnalyticsGraph = ({ data }: AnalyticsGraphProps) => {
                 backgroundColor: item.color,
                 borderRadius: 6,
                 marginRight: 6,
+                marginBottom: 3,
               }}
             />
             <Text

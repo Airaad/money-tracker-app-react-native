@@ -45,7 +45,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         setColorTheme(systemColorTheme);
         setThemeName("system");
       } finally {
-        await new Promise(r => setTimeout(r, 300));
+        await new Promise(r => setTimeout(r, 1000));
         setIsThemeLoaded(true);
       }
     };

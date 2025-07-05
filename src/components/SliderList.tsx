@@ -164,7 +164,7 @@ const SliderList = () => {
 
   return (
     <View className="bg-[#F9FAFB] flex-1 mt-5 rounded-t-[1.8rem] dark:bg-black">
-      <View className="flex-1 mb-[75px]">
+      <View className="flex-1">
         <FlatList
           onScroll={handleScroll}
           scrollEventThrottle={16}
@@ -184,7 +184,7 @@ const SliderList = () => {
             ) : (
               <Text
                 style={{ fontFamily: fontFamily.regular }}
-                className="text-xl text-gray-500 relative left-[100px] mt-20 dark:text-gray-200"
+                className="text-xl text-gray-500 mx-auto  mt-20 dark:text-gray-200"
               >
                 Start Tracking Your Money
               </Text>
@@ -292,7 +292,7 @@ const SliderList = () => {
       <Animated.View
         style={{
           position: "absolute",
-          bottom: 85,
+          bottom: 10,
           right: 15,
           transform: [{ translateY }],
         }}

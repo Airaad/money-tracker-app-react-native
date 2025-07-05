@@ -43,8 +43,8 @@ const Header = () => {
   }, [items, userCarryOverPreference]);
 
   return (
-    <View className="w-[95%] mx-auto">
-      <View className="flex-row items-center px-5 mb-2 mt-1">
+    <View className="w-full mx-auto">
+      <View className="flex-row items-center px-9 mb-2 mt-1">
         <View className="flex-row items-center gap-2">
           <Image
             source={require("../../assets/images/icon.png")}
@@ -66,7 +66,7 @@ const Header = () => {
         </View> */}
       </View>
 
-      <View className="w-[341px] h-40 mx-auto bg-[#F9FAFB] rounded-3xl my-5 dark:bg-[#37474f]">
+      <View className="w-96 h-40 mx-auto bg-[#F9FAFB] rounded-3xl my-5 dark:bg-[#37474f]">
         <View className="py-6">
           <Text
             className="text-xl text-[#37474f] px-6 dark:text-gray-400"
@@ -96,7 +96,7 @@ const Header = () => {
         </View>
       </View>
 
-      <View className="flex-row justify-between w-[341px] mx-auto bg-white dark:bg-[#37474f] p-6 rounded-3xl">
+      <View className="flex-row justify-between w-96 mx-auto bg-white dark:bg-[#37474f] p-6 rounded-3xl">
         <View className="flex">
           <View className="flex-row items-center gap-1">
             <MaterialIcons

@@ -28,12 +28,12 @@ const AnalyticsHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
           {/* <Ionicons name="notifications-circle" size={30} color="white" /> */}
         </View>
       </View>
-      <View className="flex-row items-center justify-center mt-10 w-full">
+      <View className="flex-row justify-center mt-10">
         <Pressable
           onPress={() => updateExpense(true)}
           className={`${
             isExpense ? "bg-[#37474f]" : "bg-white"
-          } px-12 py-2 rounded-l-full`}
+          } px-10 py-2 rounded-l-full`}
         >
           <View className="flex-row gap-2 items-center">
             <FontAwesome name="shopping-cart" size={18} color="#ffc727" />
@@ -50,7 +50,7 @@ const AnalyticsHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
           onPress={() => updateExpense(false)}
           className={`${
             !isExpense ? "bg-[#37474f]" : "bg-white"
-          } px-12 py-2 rounded-r-full`}
+          } px-10 py-2 rounded-r-full`}
         >
           <View className="flex-row gap-2 items-center">
             <FontAwesome name="dollar" size={18} color="#ffc727" />

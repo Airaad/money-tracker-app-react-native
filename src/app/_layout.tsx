@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { BudgetProvider } from "../context/BudgetContext";
 import { ThemeProvider } from "../context/ThemeContext";
@@ -50,30 +51,34 @@ export default function RootLayout() {
     );
   }
   return (
-    <GestureHandlerRootView className={`flex-1`}>
-      <BudgetProvider>
-        <ThemeProvider>
-          <StatusBar translucent backgroundColor="transparent" />
-          <Stack>
-            <Stack.Screen
-              name="(tabs)"
-              options={{
-                headerShown: false,
-              }}
-            />
+    <SafeAreaProvider>
+      <GestureHandlerRootView className={`flex-1`}>
+        <BudgetProvider>
+          <ThemeProvider>
+            <StatusBar translucent backgroundColor="transparent" />
+            <SafeAreaView style={{ flex: 1 }} edges={["left", "right"]}>
+              <Stack>
+                <Stack.Screen
+                  name="(tabs)"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
 
-            <Stack.Screen
-              name="(create)"
-              options={{
-                headerShown: false,
-                animation: "slide_from_right",
-                presentation: "transparentModal",
-              }}
-            />
-          </Stack>
-          <Toast />
-        </ThemeProvider>
-      </BudgetProvider>
-    </GestureHandlerRootView>
+                <Stack.Screen
+                  name="(create)"
+                  options={{
+                    headerShown: false,
+                    animation: "slide_from_right",
+                    presentation: "transparentModal",
+                  }}
+                />
+              </Stack>
+              <Toast />
+            </SafeAreaView>
+          </ThemeProvider>
+        </BudgetProvider>
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
   );
 }

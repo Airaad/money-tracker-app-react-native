@@ -15,17 +15,17 @@ const Section = ({ icon, title, themeMode, children }: any) => (
     <View className="flex-row items-center gap-2 mb-4">
       <Ionicons
         name={icon}
-        size={24}
+        size={22}
         color={themeMode === "dark" ? "white" : "#263238"}
       />
       <Text
-        style={{ fontFamily: fontFamily.bold }}
-        className="text-xl text-[#263238] dark:text-white"
+        style={{ fontFamily: fontFamily.semiBold }}
+        className="text-lg text-[#263238] dark:text-white"
       >
         {title}
       </Text>
     </View>
-    <View className="bg-gray-100 rounded-xl px-4 py-3 space-y-4 dark:bg-[#37474f]">
+    <View className="bg-gray-100 rounded-xl px-4 py-2 dark:bg-[#37474f]">
       {children}
     </View>
   </View>
@@ -43,7 +43,11 @@ const PreferencesList = () => {
   return (
     <View className="bg-white flex-1 mt-5 rounded-t-3xl px-5 py-8 dark:bg-black">
       <View>
-        <Section icon="brush" title="Appearance" themeMode={themeMode}>
+        <Section
+          icon="color-palette-outline"
+          title="Appearance"
+          themeMode={themeMode}
+        >
           <View className="flex-row justify-between items-center">
             <Text
               style={{ fontFamily: fontFamily.medium }}
@@ -78,14 +82,18 @@ const PreferencesList = () => {
         </Section>
 
         <Section
-          icon="notifications"
+          icon="notifications-outline"
           title="Notification"
           themeMode={themeMode}
         >
           <NotificationSection />
         </Section>
 
-        <Section icon="information-circle" title="About" themeMode={themeMode}>
+        <Section
+          icon="information-circle-outline"
+          title="About"
+          themeMode={themeMode}
+        >
           <Pressable
             onPress={() =>
               Linking.openURL(

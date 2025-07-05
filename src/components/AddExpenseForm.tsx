@@ -68,7 +68,13 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
       });
       return;
     }
-
+    if (Number(data.amount) === 0) {
+      setError("amount", {
+        type: "manual",
+        message: "Amount cannot be 0",
+      });
+      return;
+    }
     const selectedExpenseCategory = expenseItems.find(
       (item) => item.value.title === data.category
     );
