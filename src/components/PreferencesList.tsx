@@ -1,6 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
-import { Switch, Text, View } from "react-native";
+import { Linking, Switch, Text, View } from "react-native";
 import { Pressable } from "react-native-gesture-handler";
 import { useBudget } from "../context/BudgetContext";
 import { useTheme } from "../context/ThemeContext";
@@ -86,7 +86,13 @@ const PreferencesList = () => {
         </Section>
 
         <Section icon="information-circle" title="About" themeMode={themeMode}>
-          <Pressable>
+          <Pressable
+            onPress={() =>
+              Linking.openURL(
+                "https://airaad.github.io/money-tracker-app-react-native/"
+              )
+            }
+          >
             <Text
               style={{ fontFamily: fontFamily.medium }}
               className="text-lg text-[#ffc727]"
