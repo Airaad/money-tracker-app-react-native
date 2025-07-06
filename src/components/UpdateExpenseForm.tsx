@@ -145,7 +145,7 @@ const UpdateExpenseForm = ({
     }
   };
   return (
-    <View className="bg-white flex-1 mt-14 rounded-t-[2rem] dark:bg-[#37474f]">
+    <View className="bg-white flex-1 mt-12 rounded-t-[2rem] dark:bg-[#37474f]">
       <View className="flex-1 mt-24 gap-4 items-center">
         <CustomPickerSelect
           isExpense={type === "expense" ? true : false}

@@ -29,7 +29,7 @@ const AddExpenseHeader = ({ isExpense, updateExpense }: ExpenseProps) => {
           </View>
         </View>
 
-        <View className="flex-row justify-center mt-14">
+        <View className="flex-row justify-center mt-12">
           <Pressable
             onPress={() => updateExpense(true)}
             className={`${

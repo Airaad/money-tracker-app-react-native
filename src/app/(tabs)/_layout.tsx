@@ -10,14 +10,18 @@ export default function TabLayout() {
         screenOptions={{
           tabBarShowLabel: false,
           tabBarItemStyle: {
-            paddingVertical: 4,
-            marginTop: 4,
+            paddingVertical: 8,
+            marginTop: 5,
           },
           tabBarActiveTintColor: "#ffc727",
           tabBarInactiveTintColor: "#ffffff",
           tabBarStyle: {
             backgroundColor: "#37474f",
             height: 63,
+            position: "absolute",
+            overflow: "hidden",
+            borderWidth: 1,
+            borderColor: "#0F0D23"
           },
         }}
       >

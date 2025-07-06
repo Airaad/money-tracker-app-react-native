@@ -132,7 +132,7 @@ const AddExpenseForm = ({ isExpense }: ExpenseProps) => {
     }
   };
   return (
-    <View className="bg-white flex-1 mt-14 rounded-t-[2rem] dark:bg-[#37474f]">
+    <View className="bg-white flex-1 mt-12 rounded-t-[2rem] dark:bg-[#37474f]">
       <View className="flex-1 mt-20 gap-2 items-center">
         <CustomPickerSelect
           isExpense={isExpense}

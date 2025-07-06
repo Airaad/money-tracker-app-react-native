@@ -123,6 +123,7 @@ const SliderList = () => {
   // console.log(JSON.stringify(groupedArray, null, 2));
 
   const bottomSheetRef = useRef<BottomSheet>(null);
+
   const handleOpen = (item: ItemType) => {
     setBottomSheetItems(item);
     bottomSheetRef.current?.expand();
@@ -164,7 +165,7 @@ const SliderList = () => {
 
   return (
     <View className="bg-[#F9FAFB] flex-1 mt-5 rounded-t-[1.8rem] dark:bg-black">
-      <View className="flex-1">
+      <View className="flex-1 mb-[70px]">
         <FlatList
           onScroll={handleScroll}
           scrollEventThrottle={16}
@@ -292,7 +293,7 @@ const SliderList = () => {
       <Animated.View
         style={{
           position: "absolute",
-          bottom: 10,
+          bottom: 85,
           right: 15,
           transform: [{ translateY }],
         }}
