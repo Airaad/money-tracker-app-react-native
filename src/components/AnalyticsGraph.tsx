@@ -28,7 +28,7 @@ const AnalyticsGraph = ({ data }: AnalyticsGraphProps) => {
     [data]
   );
   return (
-    <View className="bg-[#F9FAFB] dark:bg-black items-center">
+    <View className="bg-[#F9FAFB] px-2 dark:bg-black items-center">
       <PieChart
         data={data}
         width={screenWidth}
