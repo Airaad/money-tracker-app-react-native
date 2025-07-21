@@ -41,7 +41,7 @@ const PreferencesList = () => {
   const { themeMode } = useTheme();
 
   return (
-    <View className="bg-white flex-1 mt-5 rounded-t-3xl px-5 py-8 dark:bg-black">
+    <View className="bg-white flex-1 mt-5 rounded-t-3xl px-5 py-8 pb-16 dark:bg-black">
       <View>
         <Section
           icon="color-palette-outline"
