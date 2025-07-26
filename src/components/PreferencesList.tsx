@@ -97,7 +97,7 @@ const PreferencesList = () => {
           <Pressable
             onPress={() =>
               Linking.openURL(
-                "https://airaad.github.io/money-tracker-app-react-native/"
+                "https://airaad.github.io/expensy-react-native/"
               )
             }
           >
